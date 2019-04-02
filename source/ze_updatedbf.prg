@@ -782,16 +782,6 @@ STATIC FUNCTION JPITEMCreateDbf()
       { "IEOBS",     "C", 100 }, ;
       { "IEINFINC",  "C", 80 }, ;
       { "IEINFALT",  "C", 80 } }
-   IF AppVersaoDbfAnt() < 20180702
-      AAdd( mStruOk, { "IECODNCM",  "C", 8 } )
-   ENDIF
-   IF AppVersaoDbfAnt() < 20170620
-      AAdd( mStruOk, { "IEQTDANT",  "N", 14, 3 } )
-   ENDIF
-   IF AppVersaoDbfAnt() < 20180210
-      AAdd( mStruOk, { "IEQTDE",    "N", 14, 3 } )
-      AAdd( mStruOk, { "IERESERVA", "N", 14, 3 } )
-   ENDIF
    IF ! ValidaStru( "jpitem", mStruOk )
       MsgStop( "JPITEM nao disponivel!" )
       QUIT
@@ -799,27 +789,6 @@ STATIC FUNCTION JPITEMCreateDbf()
    IF AppVersaoDbfAnt() >= 20180702
       RETURN NIL
    ENDIF
-   IF ! UseSoDbf( "jpitem" )
-      QUIT
-   ENDIF
-   GOTO TOP
-   DO WHILE ! Eof()
-      IF Empty( jpitem->ieNcm ) .AND. FieldNum( "IECODNCM" ) != 0
-         RecLock()
-         REPLACE jpitem->ieNcm WITH jpitem->ieCodNcm
-      ENDIF
-      IF Empty( jpitem->ieQtd1 ) .AND. FieldNum( "IEQTDE" ) != 0
-         RecLock()
-         REPLACE jpitem->ieQtd1 WITH jpitem->ieQtde
-      ENDIF
-      IF Empty( jpitem->ieRes1 )
-         IF FieldNum( "IERESERVA" ) != 0 .AND. jpitem->ieReserva != 0
-            RecLock()
-            REPLACE jpitem->ieRes1 WITH jpitem->ieReserva
-         ENDIF
-      ENDIF
-      SKIP
-   ENDDO
    CLOSE DATABASES
 
    RETURN NIL
@@ -1159,6 +1128,8 @@ STATIC FUNCTION JPNOTACreateDbf()
       { "NFPEDIDO",  "C", 6 }, ;
       { "NFCTE",     "C", 44 }, ;
       { "NFNFE",     "C", 44 }, ;
+      { "NFAVENUM",  "C", 40 }, ;
+      { "NFAVEPRO",  "C", 40 }, ;
       { "NFINFINC",  "C", 80 }, ;
       { "NFINFALT",  "C", 80 } }
 

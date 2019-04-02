@@ -524,6 +524,7 @@ STATIC FUNCTION FmtList( nType )
          "DEFINE CHECKBOX", ;
          "DEFINE CHECKLIST", ;
          "DEFINE COMBOBOX", ;
+         "DEFINE COMBOBOXEX", ;
          "DEFINE COMBOSEARCH", ;
          "DEFINE COMBOSEARCHBOX", ;
          "DEFINE COMBOSEARCHGRID", ;
@@ -572,6 +573,7 @@ STATIC FUNCTION FmtList( nType )
          "END CASE", ;
          "END CHECKBOX", ;
          "END COMBOBOX", ;
+         "END COMBOBOXEX", ;
          "END COMBOSEARCH", ;
          "END COMBOSEARCHBOX", ;
          "END COMBOSEARCHGRID", ;
@@ -803,6 +805,7 @@ STATIC FUNCTION FmtList( nType )
          "DEFINE CHECKBUTTON", ;
          "DEFINE CHECKLIST", ;
          "DEFINE COMBOBOX", ;
+         "DEFINE COMBOBOXEX", ;
          "DEFINE COMBOSEARCHBOX", ;
          "DEFINE COMBOSEARCHGRID", ;
          "DEFINE CONTEXT", ;

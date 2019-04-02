@@ -148,6 +148,9 @@ FUNCTION ze_UpdateMysql()
    ENDIF
    IF AppVersaoDbfAnt() < 20180209
       WITH OBJECT cnMySql
+         IF ! :FieldExists( "IERES1", "JPITEM" )
+            :ExecuteCmd( "ALTER TABLE JPITEM ADD COLUMN IERES1 DOUBLE(14,3) NOT NULL DEFAULT '0'" )
+         ENDIF
          IF ! :FieldExists( "IERES2", "JPITEM" )
             :ExecuteCmd( "ALTER TABLE JPITEM ADD COLUMN IERES2 DOUBLE(14,3) NOT NULL DEFAULT '0'" )
          ENDIF
@@ -159,12 +162,6 @@ FUNCTION ze_UpdateMysql()
          ENDIF
          IF :FieldExists( "IERES5", "JPITEM" )
             :ExecuteCmd( "ALTER TABLE JPITEM DROP COLUMN IERES5" )
-         ENDIF
-         IF :FieldExists( "IEQTDE", "JPITEM" )
-            :ExecuteCmd( "ALTER TABLE JPITEM CHANGE COLUMN IEQTD IEQTD1 DOUBLE(14,3) NOT NULL DEFAULT '0'"  )
-         ENDIF
-         IF :FieldExists( "IERESERVA", "JPITEM" )
-            :ExecuteCmd( "ALTER TABLE JPITEM CHANGE COLUMN IERESERVA IERES1 DOUBLE(14,3) NOT NULL DEFAULT '0'" )
          ENDIF
       END WITH
    ENDIF
