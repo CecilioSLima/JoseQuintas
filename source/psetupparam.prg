@@ -226,7 +226,7 @@ FUNCTION GravaCnf( cParametro, cConteudo, lMySql )
 PROCEDURE pSetupParam( cTipoConfiguracao )
 
    LOCAL cCnpjErrado, cCnpjRepetido, cEndEntrega, cEndCobranca, cConsultaMySql, cConsultaSefaz
-   LOCAL cEstoCfop, cEstoContabil, cEstoCCusto
+   LOCAL cEstoCfop, cEstoContabil, cEstoCCusto, cBaixaDataAtual
    LOCAL cPedidoVendedor, cObsCliente, cFiscContabil, cFiscCCusto, cAbaixoCusto
    LOCAL GetList := {}
 
@@ -244,6 +244,7 @@ PROCEDURE pSetupParam( cTipoConfiguracao )
    cFiscContabil   := iif( LeCnf( "LFISCAL C/ CONTABIL" )     == "SIM", "SIM", "NAO" )
    cFiscCCusto     := iif( LeCnf( "LFISCAL C/ C.CUSTO" )      == "SIM", "SIM", "NAO" )
    cAbaixoCusto    := iif( LeCnf( "BLOQUEIA ABAIXO CUSTO" )   == "SIM", "SIM", "NAO" )
+   cBaixaDataAtual := iif( LeCnf( "PED BAIXA DATA ATUAL" )    == "SIM", "SIM", "NAO" )
 
    hb_Default( @cTipoConfiguracao, "GERAL" )
 
@@ -270,6 +271,7 @@ PROCEDURE pSetupParam( cTipoConfiguracao )
    IF cTipoConfiguracao == "PEDIDO" .OR. cTipoConfiguracao == "GERAL"
       @ Row() + 1, 5 SAY "No Pedido Vendedor=CadCli.:" GET cPedidoVendedor PICTURE "@!A" VALID cCnpjErrado $ "SIM~NAO"
       @ Row() + 1, 5 SAY "Bloqueia abaixo do custo..:" GET cAbaixoCusto    PICTURE "@!A" VALID cCnpjErrado $ "SIM~NAO"
+      @ Row() + 1, 5 SAY "Pedido Baixa c/ Data Atual:" GET cBaixaDataAtual PICTURE "@!A" VALID cBaixaDataAtual $ "SIM-NAO"
    ENDIF
    IF cTipoConfiguracao == "GERAL"
       @ Row() + 1, 5 SAY "Nota Obs. por Cliente.....:" GET cObsCliente     PICTURE "@!A" VALID cCnpjErrado $ "SIM~NAO"
@@ -304,6 +306,7 @@ PROCEDURE pSetupParam( cTipoConfiguracao )
    IF cTipoConfiguracao == "PEDIDO" .OR. cTipoConfiguracao == "GERAL"
       GravaCnf( "PEDIDO VENDEDOR=CLIENTE", cPedidoVendedor )
       GravaCnf( "BLOQUEIA ABAIXO CUSTO", cAbaixoCusto )
+      GravaCnf( "PED BAIXA DATA ATUAL", cBaixaDataAtual )
    ENDIF
    IF cTipoConfiguracao == "GERAL"
       GravaCnf( "NOTA OBS POR CLIENTE", cObsCliente )

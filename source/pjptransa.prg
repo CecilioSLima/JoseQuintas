@@ -64,8 +64,9 @@ METHOD TelaDados( lEdit ) CLASS JPTRANSAClass
    ::ShowTabs()
    @ Row() + 1, 1 SAY "Código.............:" GET mtrTransa PICTURE "@KR 999.999" WHEN .F.
    @ Row() + 2, 1 SAY "Descrição..........:" GET mtrDescri PICTURE "@!"
-   @ Row() + 2, 1 SAY "Reação pedido......:" GET mtrReacao PICTURE "@!"
-   @ Row() + 2, 1 SAY "TTT.RRR => TTT = Transação atual, sendo 001 a 499 para entradas, e 500 a 999 pra saídas"
+   @ Row() + 2, 1 SAY "Reação no pedido...:" GET mtrReacao PICTURE "@!"
+   @ Row() + 2, 1 SAY "Explicações:"
+   @ Row() + 1, 1 SAY "TTT.RRR => TTT = Transação atual, sendo 001 a 499 para entradas, e 500 a 999 pra saídas"
    @ Row() + 1, 1 SAY "           RRR = Transação que deve existir para baixa"
    @ Row() + 1, 1 SAY "C+R,C+1,C-1 => Confirmação afeta estoque, +R soma ao reservado, +1 soma ao estoque 1, -1 tira do estoque 1, +2 Soma ao estoque 2"
    @ Row() + 1, 1 SAY "N-1,N+2,N+3,N+4 => Emissão de nota afeta estoque, -R tira do reservado, -1 Tira do estoque 1, +2 soma ao estoque 2"
@@ -81,7 +82,7 @@ METHOD TelaDados( lEdit ) CLASS JPTRANSAClass
    @ Row() + 1, 1 SAY "ADMPEDLIBn => Somente usuário com acesso à ADMPEDLIBn pode liberar - n=1 a 9"
    @ Row() + 1, 1 SAY "+AJUSTE,-AJUSTE => Nota fiscal de ajuste, pra adicionar ou remover algo (*)"
    @ Row() + 1, 1 SAY "CONSUMIDOR => Nota pra consumidor, indica finalidade consumo e mostra impostos ref. venda a consumidor"
-   @ Row() + 2, 1 SAY "IMPOSTO => Deixou de ser usado"
+   //@ Row() + 2, 1 SAY "IMPOSTO => Deixou de ser usado"
    SEEK mtrTransa
    //SetPaintGetList( GetList )
    IF ! lEdit
