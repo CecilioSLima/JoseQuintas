@@ -460,12 +460,12 @@ METHOD WriteLog( xTable, xKey ) CLASS RecValuesClass
 
    cAlias := Lower( Alias() )
    DO CASE
-   CASE cAlias == "jpcadas"    ; cCodigo := StrZero( Val( jpcadas->cdCodigo ), 9 )
-   CASE cAlias == "jpestoq"    ; cCodigo := StrZero( Val( jpestoq->esNumLan ), 9 )
-   CASE cAlias == "jpfinan"    ; cCodigo := StrZero( Val( jpfinan->fiNumLan ), 9 )
-   CASE cAlias == "jpitem"     ; cCodigo := StrZero( Val( jpitem->ieItem ), 9 )
-   CASE cAlias == "jppedi"     ; cCodigo := StrZero( Val( jppedi->pdPedido ), 9 )
-   CASE cAlias == "jptransa"   ; cCodigo := StrZero( Val( jptransa->trTransa ), 9 )
+   CASE cAlias == "jpcadas"    ; cCodigo := jpcadas->cdCodigo
+   CASE cAlias == "jpestoq"    ; cCodigo := jpestoq->esNumLan
+   CASE cAlias == "jpfinan"    ; cCodigo := jpfinan->fiNumLan
+   CASE cAlias == "jpitem"     ; cCodigo := jpitem->ieItem
+   CASE cAlias == "jppedi"     ; cCodigo := jppedi->pdPedido
+   CASE cAlias == "jptransa"   ; cCodigo := jptransa->trTransa
    CASE cAlias == "jpuf"       ; cCodigo := jpuf->ufUf
    OTHERWISE
       cCodigo := ""
