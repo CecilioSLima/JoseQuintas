@@ -8,7 +8,7 @@ PEDIIMPANPLOC - IMPORTA T018 - LOCALIDADES
 PROCEDURE pEdiImpAnpLoc
 
    LOCAL mAnp, mIbge, mNome, mUf, nQtd, mFiles, mFileExcel, cSheetName, nQtdTotal, cnExcel
-   LOCAL cnJoseQuintas := ADOClass():New( AppcnJoseQuintas() )
+   LOCAL cnInternet := ADOClass():New( AppcnInternet() )
    LOCAL cTxt := "", lBegin := .T., mValDe, mValAte
 
    mFiles := Directory( "IMPORTA\T018*.XLS" )
@@ -27,7 +27,7 @@ PROCEDURE pEdiImpAnpLoc
 
    SayScroll( "Importando dados" )
 
-   cnJoseQuintas:Open()
+   cnInternet:Open()
    cnExcel := ADOClass():New( ExcelConnection( mFileExcel ) )
    cnExcel:Open()
 
@@ -39,7 +39,7 @@ PROCEDURE pEdiImpAnpLoc
    cnExcel:cSql := "select * from " + cSheetName
    cnExcel:Execute()
 
-   cnJoseQuintas:ExecuteCmd( "TRUNCATE TABLE JPTABANPLOC" )
+   cnInternet:ExecuteCmd( "TRUNCATE TABLE JPTABANPLOC" )
 
    nQtd := 0
    cnExcel:MoveFirst()
@@ -67,10 +67,10 @@ PROCEDURE pEdiImpAnpLoc
             cTxt += ", "
          ENDIF
          lBegin := .F.
-         cnJoseQuintas:cSql := "(" + StringSql( mIbge ) + "," + StringSql( mAnp ) + "," + StringSql( mNome ) + "," + StringSql( mUF ) + "," + StringSql( mValDe ) + "," + StringSql( mValAte ) + ")"
-         cTxt += cnJoseQuintas:cSql
+         cnInternet:cSql := "(" + StringSql( mIbge ) + "," + StringSql( mAnp ) + "," + StringSql( mNome ) + "," + StringSql( mUF ) + "," + StringSql( mValDe ) + "," + StringSql( mValAte ) + ")"
+         cTxt += cnInternet:cSql
          IF Len( cTxt ) > MYSQL_MAX_CMDINSERT
-            cnJoseQuintas:ExecuteCmd( cTxt )
+            cnInternet:ExecuteCmd( cTxt )
             cTxt := ""
          ENDIF
       ENDIF
@@ -78,9 +78,9 @@ PROCEDURE pEdiImpAnpLoc
    ENDDO
    cnExcel:CloseConnection()
    IF Len( cTxt ) > 0
-      cnJoseQuintas:ExecuteCmd( cTxt )
+      cnInternet:ExecuteCmd( cTxt )
    ENDIF
-   cnJoseQuintas:CloseConnection()
+   cnInternet:CloseConnection()
    MsgExclamation( "Fim da importação! Verificada(s) " + LTrim( Str( nQtd ) ) + " Localidade(s)" )
 
    RETURN

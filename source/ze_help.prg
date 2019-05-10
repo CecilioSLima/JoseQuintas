@@ -19,7 +19,7 @@ PROCEDURE HELP
 
 FUNCTION RotinaHelp( Param1 )
 
-   LOCAL mTexto, mTextoEdit, oSetKey, cnJoseQuintas := ADOClass():New( AppcnJoseQuintas() )
+   LOCAL mTexto, mTextoEdit, oSetKey, cnInternet := ADOClass():New( AppcnInternet() )
 
    PUBLIC m_Prog
 
@@ -34,22 +34,22 @@ FUNCTION RotinaHelp( Param1 )
    HB_GtInfo( HB_GTI_WINTITLE, "HELP " + m_Prog )
    oSetKey := SaveSetKey( -18, -19, -8, -9, 28 )
    Mensagem( "Aguarde... pesquisando arquivo de ajuda..." )
-   cnJoseQuintas:cSql := "SELECT * FROM WEBHELP WHERE HLOLD='N' AND HLMODULO=" + StringSql( m_Prog )
+   cnInternet:cSql := "SELECT * FROM WEBHELP WHERE HLOLD='N' AND HLMODULO=" + StringSql( m_Prog )
    mTexto := ""
-   cnJoseQuintas:Open()
+   cnInternet:Open()
    BEGIN SEQUENCE WITH __BreakBlock()
-      cnJoseQuintas:Execute()
-      IF ! cnJoseQuintas:Eof()
-         mTexto := cnJoseQuintas:StringSql( "HLTEXTO" )
+      cnInternet:Execute()
+      IF ! cnInternet:Eof()
+         mTexto := cnInternet:StringSql( "HLTEXTO" )
       ENDIF
-      cnJoseQuintas:CloseRecordset()
+      cnInternet:CloseRecordset()
    END SEQUENCE
    @ 0, 0 SAY Padc( "HELP " + m_Prog, MaxCol() + 1 ) COLOR SetColorFocus()
    Mensagem( "Utilize as setas para consulta, ESC retorna ao sistema" )
    mTextoEdit := MemoEdit( mTexto, 1, 0, MaxRow()-2, MaxCol(), AppUserLevel() == 0 )
    WClose()
    IF ! mTexto == mTextoEdit .AND. Lastkey() != K_ESC
-      WITH OBJECT cnJoseQuintas
+      WITH OBJECT cnInternet
          :cSql := "UPDATE WEBHELP SET HLOLD='S' WHERE HLMODULO=" + StringSql( m_Prog )
          :ExecuteCmd()
          IF ! Empty( mTextoEdit )
@@ -61,7 +61,7 @@ FUNCTION RotinaHelp( Param1 )
          ENDIF
       END WITH
    ENDIF
-   cnJoseQuintas:CloseConnection()
+   cnInternet:CloseConnection()
    KEYBOARD Chr( 205 )
    Inkey(0)
    RestoreSetKey( oSetKey )

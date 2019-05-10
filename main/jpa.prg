@@ -45,7 +45,7 @@ PROCEDURE Main
    hb_Default( @xParam, "" )
    Inkey(1)
    hb_ThreadStart( { || Sistema( xParam ) } )
-   Inkey(2)
+   Inkey(60) // pra dar tempo de se configurar
    //_hmge_Init()
    DO WHILE nThreads > 1
       __vmCountThreads( @nThreads, 0 )
@@ -57,10 +57,10 @@ PROCEDURE Main
       Inkey(2)
    ENDDO
    //hb_ThreadWaitForAll()
-   IF hb_IsObject( AppcnServerJPA() )
+   IF hb_IsObject( AppcnInternet() )
       BEGIN SEQUENCE WITH __BreakBlock()
-         IF AppcnServerJPA():State != AD_STATE_CLOSED
-            AppcnServerJPA():Close()
+         IF AppcnInternet():State != AD_STATE_CLOSED
+            AppcnInternet():Close()
          ENDIF
       END SEQUENCE
    ENDIF

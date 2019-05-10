@@ -7,19 +7,19 @@ José Quintas
 
 PROCEDURE ze_HelpPrint
 
-   LOCAL cText, cModulo, nTotal, nAtual := 0, cDescri, cnJoseQuintas := ADOClass():New( AppcnJoseQuintas() )
+   LOCAL cText, cModulo, nTotal, nAtual := 0, cDescri, cnInternet := ADOClass():New( AppcnInternet() )
    LOCAL oPDF := PDFClass():New(), nPos, aText, acMenu, oElement
 
    IF ! MsgYesNo( "Gera PDF?" )
       RETURN
    ENDIF
-   cnJoseQuintas:Open()
-   cnJoseQuintas:cSql := "UPDATE WEBHELP SET HLEXISTE = 'N' WHERE HLMODULO <> 'JPA'"
-   cnJoseQuintas:Execute()
+   cnInternet:Open()
+   cnInternet:cSql := "UPDATE WEBHELP SET HLEXISTE = 'N' WHERE HLMODULO <> 'JPA'"
+   cnInternet:Execute()
    oPDF:acHeader := { "HELP DO SISTEMA", "" }
    oPDF:nPrinterType := 2
    oPDF:Begin()
-   acMenu := OpcoesDoMenu( cnJoseQuintas )
+   acMenu := OpcoesDoMenu( cnInternet )
    oPDF:MaxRowTest()
    oPDF:DrawZebrado(2)
    oPDF:DrawText( oPDF:nRow, 0, "OPÇÕES DO MENU/ÍNDICE" )
@@ -29,20 +29,20 @@ PROCEDURE ze_HelpPrint
       oPDF:DrawText( oPDF:nRow++, 0, oElement )
    NEXT
    oPDF:MaxRowTest( 1000 )
-   cnJoseQuintas:cSql := "SELECT COUNT(*) AS QTD FROM WEBHELP WHERE HLOLD='N'"
-   cnJoseQuintas:Execute()
-   nTotal := cnJoseQuintas:NumberSql( "QTD" )
-   cnJoseQuintas:CloseRecordset()
-   cnJoseQuintas:cSql := "SELECT * FROM WEBHELP WHERE HLOLD='N' ORDER BY HLMODULO"
-   cnJoseQuintas:Execute()
+   cnInternet:cSql := "SELECT COUNT(*) AS QTD FROM WEBHELP WHERE HLOLD='N'"
+   cnInternet:Execute()
+   nTotal := cnInternet:NumberSql( "QTD" )
+   cnInternet:CloseRecordset()
+   cnInternet:cSql := "SELECT * FROM WEBHELP WHERE HLOLD='N' ORDER BY HLMODULO"
+   cnInternet:Execute()
    GrafTempo( "Gerando manual em PDF" )
-   DO WHILE ! cnJoseQuintas:Eof()
+   DO WHILE ! cnInternet:Eof()
       GrafTempo( nAtual++, nTotal )
-      cModulo := cnJoseQuintas:StringSql( "HLMODULO" )
-      cDescri := cnJoseQuintas:StringSql( "HLDESCRICAO" )
-      cText   := cnJoseQuintas:StringSql( "HLTEXTO" )
+      cModulo := cnInternet:StringSql( "HLMODULO" )
+      cDescri := cnInternet:StringSql( "HLDESCRICAO" )
+      cText   := cnInternet:StringSql( "HLTEXTO" )
       IF Empty( cText )
-         cnJoseQuintas:MoveNext()
+         cnInternet:MoveNext()
          LOOP
       ENDIF
       oPDF:nRow += 2
@@ -63,24 +63,24 @@ PROCEDURE ze_HelpPrint
             cText := Substr( cText, 3 )
          ENDIF
       ENDDO
-      cnJoseQuintas:MoveNext()
+      cnInternet:MoveNext()
    ENDDO
-   cnJoseQuintas:CloseRecordset()
-   cnJoseQuintas:CloseConnection()
+   cnInternet:CloseRecordset()
+   cnInternet:CloseConnection()
    oPDF:End()
 
    RETURN
 
-STATIC FUNCTION OpcoesDoMenu( cnJoseQuintas )
+STATIC FUNCTION OpcoesDoMenu( cnInternet )
 
    LOCAL mOpcoes, acMenu := {}
 
    mOpcoes := MenuCria()
-   ListaOpcoes( mOpcoes,,, acMenu, cnJoseQuintas )
+   ListaOpcoes( mOpcoes,,, acMenu, cnInternet )
 
    RETURN acMenu
 
-STATIC FUNCTION ListaOpcoes( mOpcoes, nLevel, cSelecao, acMenu, cnJoseQuintas )
+STATIC FUNCTION ListaOpcoes( mOpcoes, nLevel, cSelecao, acMenu, cnInternet )
 
    LOCAL cModule, cDescription, oElement, nNumOpcao
 
@@ -97,11 +97,11 @@ STATIC FUNCTION ListaOpcoes( mOpcoes, nLevel, cSelecao, acMenu, cnJoseQuintas )
       cDescription := oElement[ 1 ]
       Aadd( acMenu, Pad( cSelecao + StrZero( nNumOpcao, 2 ) + ".", 15 ) + Space( nLevel * 3 ) + cDescription + iif( Len( cModule ) !=  0, " (" + oElement[ 3 ] + ")", "" ) )
       IF ! Empty( cModule )
-         cnJoseQuintas:cSql := "UPDATE WEBHELP SET HLEXISTE='S', HLDESCRICAO=" + StringSql( cDescription ) + " WHERE HLMODULO=" + StringSql( AllTrim( cModule ) )
-         cnJoseQuintas:ExecuteCmd()
+         cnInternet:cSql := "UPDATE WEBHELP SET HLEXISTE='S', HLDESCRICAO=" + StringSql( cDescription ) + " WHERE HLMODULO=" + StringSql( AllTrim( cModule ) )
+         cnInternet:ExecuteCmd()
       ENDIF
       IF Len( oElement[ 2 ] ) != 0
-         ListaOpcoes( oElement[ 2 ], nLevel, cSelecao + StrZero( nNumOpcao, 2 ) + ".", acMenu, cnJoseQuintas )
+         ListaOpcoes( oElement[ 2 ], nLevel, cSelecao + StrZero( nNumOpcao, 2 ) + ".", acMenu, cnInternet )
       ENDIF
       nNumOpcao += 1
    NEXT

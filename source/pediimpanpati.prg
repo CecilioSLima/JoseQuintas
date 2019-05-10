@@ -8,7 +8,7 @@ PEDIIMPANPCNAE - IMPORTA T002 - ATIVIDADE ANP (CNAE)
 PROCEDURE pEdiImpAnpAti
 
    LOCAL matCnae, matDescri
-   LOCAL cnJoseQuintas := ADOClass():New( AppcnJoseQuintas() )
+   LOCAL cnInternet := ADOClass():New( AppcnInternet() )
    LOCAL cnExcel, nQtd, cSheetName, mFiles, mFileExcel, nQtdTotal, cTxt := "", lBegin := .T., mValDe, mValAte
 
    mFiles := Directory( "IMPORTA\T002*.XLS" )
@@ -25,13 +25,13 @@ PROCEDURE pEdiImpAnpAti
       RETURN
    ENDIF
 
-   cnJoseQuintas:Open()
+   cnInternet:Open()
    SayScroll( "Importando dados" )
 
    cnExcel := ADOClass():New( ExcelConnection( mFileExcel ) )
    cnExcel:Open()
 
-   cnJoseQuintas:ExecuteCmd( "TRUNCATE TABLE JPTABANPATI" )
+   cnInternet:ExecuteCmd( "TRUNCATE TABLE JPTABANPATI" )
 
    cSheetName := "[AtividadeEconomica$]"
 
@@ -70,10 +70,10 @@ PROCEDURE pEdiImpAnpAti
             cTxt += ", "
          ENDIF
          LBegin := .F.
-         cnJoseQuintas:cSql := "(" + StringSql( matCnae ) + "," + StringSql( TiraAcento( Pad( matDescri ), 100 ) ) + "," + StringSql( mValDe ) + "," + StringSql( mValAte ) + ")"
-         cTxt += cnJoseQuintas:cSql
+         cnInternet:cSql := "(" + StringSql( matCnae ) + "," + StringSql( TiraAcento( Pad( matDescri ), 100 ) ) + "," + StringSql( mValDe ) + "," + StringSql( mValAte ) + ")"
+         cTxt += cnInternet:cSql
          IF Len( cTxt ) > MYSQL_MAX_CMDINSERT
-            cnJoseQuintas:ExecuteCmd( cTxt )
+            cnInternet:ExecuteCmd( cTxt )
             cTxt := ""
          ENDIF
       ENDIF
@@ -82,9 +82,9 @@ PROCEDURE pEdiImpAnpAti
    cnExcel:CloseRecordset()
    cnExcel:CloseConnection()
    IF Len( cTxt ) != 0
-      cnJoseQuintas:ExecuteCmd( cTxt )
+      cnInternet:ExecuteCmd( cTxt )
    ENDIF
-   cnJoseQuintas:CloseConnection()
+   cnInternet:CloseConnection()
    MsgExclamation( "Fim da importação! Verificados " + LTrim( Str( nQtd ) ) + " CNAEs" )
 
    RETURN

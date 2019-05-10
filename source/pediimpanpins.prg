@@ -8,7 +8,7 @@ PEDIIMPANPINS - IMPORTA T003 - INSTALACOES
 PROCEDURE pEdiImpAnpIns
 
    LOCAL mCnpj, mAnp, nQtd, cnExcel, mFileExcel, cSheetName, nQtdTotal, mFiles
-   LOCAL cnJoseQuintas := ADOClass():New( AppcnJoseQuintas() )
+   LOCAL cnInternet := ADOClass():New( AppcnInternet() )
    LOCAL cTxt    := "", lBegin := .T., mValDe, mValAte, cSheet
 
    mFiles := Directory( "IMPORTA\T008*.XLS" )
@@ -27,11 +27,11 @@ PROCEDURE pEdiImpAnpIns
 
    SayScroll( "Importando dados" )
 
-   cnJoseQuintas:Open()
+   cnInternet:Open()
    cnExcel := ADOClass():New( ExcelConnection( mFileExcel ) )
    cnExcel:Open()
 
-   cnJoseQuintas:ExecuteCmd( "TRUNCATE TABLE JPTABANPINS;" )
+   cnInternet:ExecuteCmd( "TRUNCATE TABLE JPTABANPINS;" )
 
    cSheetName := { "[Parte_1$]", "[Parte_2$]", "[Parte_3$]" }
 
@@ -76,21 +76,21 @@ PROCEDURE pEdiImpAnpIns
                StringSql( mValAte ) + ")"
             lBegin := .F.
             IF Len( cTxt ) > MYSQL_MAX_CMDINSERT
-               cnJoseQuintas:ExecuteCmd( cTxt )
+               cnInternet:ExecuteCmd( cTxt )
                cTxt := ""
                lBegin := .T.
             ENDIF
-            //cnJoseQuintas:Execute()
+            //cnInternet:Execute()
          ENDIF
          cnExcel:MoveNext()
       ENDDO
       cnExcel:CloseRecordset()
       IF Len( cTxt ) > 0
-         cnJoseQuintas:ExecuteCmd( cTxt )
+         cnInternet:ExecuteCmd( cTxt )
       ENDIF
    NEXT
    cnExcel:CloseConnection()
-   cnJoseQuintas:CloseConnection()
+   cnInternet:CloseConnection()
    MsgExclamation( "Fim da importação! Verificadas " + LTrim( Str( nQtd ) ) + " instalações" )
 
    RETURN

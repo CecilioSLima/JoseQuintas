@@ -7,7 +7,7 @@ PEDIIMPIBGECNAE - IMPORTA IBGE CNAE EXCEL
 
 PROCEDURE pEdiImpIbgeCnae
 
-   LOCAL mCnae, mDescricao, nQtd, cnExcel, mFiles, mFileExcel, cSheetName, nQtdTotal, cnJoseQuintas := ADOClass():New( AppcnJoseQuintas() )
+   LOCAL mCnae, mDescricao, nQtd, cnExcel, mFiles, mFileExcel, cSheetName, nQtdTotal, cnInternet := ADOClass():New( AppcnInternet() )
    LOCAL cTxt := "", lBegin := .T.
 
    IF ! AbreArquivos( "jptabel" )
@@ -34,7 +34,7 @@ PROCEDURE pEdiImpIbgeCnae
 
    SayScroll( "Importando dados" )
 
-   cnJoseQuintas:Open()
+   cnInternet:Open()
    cnExcel := ADOClass():New( ExcelConnection( mFileExcel ) )
    cnExcel:Open()
 
@@ -46,8 +46,8 @@ PROCEDURE pEdiImpIbgeCnae
    cnExcel:cSql := "select * from " + cSheetName
    cnExcel:Execute()
 
-   cnJoseQuintas:cSql := "DELETE FROM JPTABAUX WHERE AXTABELA='CNAE..'"
-   cnJoseQuintas:Execute()
+   cnInternet:cSql := "DELETE FROM JPTABAUX WHERE AXTABELA='CNAE..'"
+   cnInternet:Execute()
 
    nQtd := 0
    cnExcel:MoveFirst()
@@ -76,7 +76,7 @@ PROCEDURE pEdiImpIbgeCnae
             cTxt += "( " + StringSql( AUX_CNAE ) + ", " + StringSql( Pad( mCnae, 6 ) ) + ", " + ;
                StringSql( mDescricao ) + ", " + StringSql( LogInfo() ) + " )"
             IF Len( cTxt ) > MYSQL_MAX_CMDINSERT
-               cnJoseQuintas:ExecuteCmd( cTxt )
+               cnInternet:ExecuteCmd( cTxt )
                cTxt := ""
             ENDIF
             nQtd += 1
@@ -86,9 +86,9 @@ PROCEDURE pEdiImpIbgeCnae
    ENDDO
    cnExcel:CloseConnection()
    IF Len( cTxt ) != 0
-      cnJoseQuintas:ExecuteCmd( cTxt )
+      cnInternet:ExecuteCmd( cTxt )
    ENDIF
-   cnJoseQuintas:CloseConnection()
+   cnInternet:CloseConnection()
    MsgExclamation( "Fim da importação! Verificada(s) " + LTrim( Str( nQtd ) ) + " CNAEs" )
 
    RETURN

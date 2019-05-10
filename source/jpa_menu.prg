@@ -952,7 +952,7 @@ STATIC FUNCTION MenuDesenhoCentral()
 
    aTexto := { ;
       "JPA Tecnologia (11) 2280-5776", ;
-      "e-mail: suporte@jpatecnologia.com.br", ;
+      "e-mail: suporte@josequintas.com.br", ;
       "", ;
       "Licenciado: " + Trim( AppEmpresaNome() ), ;
       "", ; // "TerminalID: " + DriveSerial(), ;  // + "   ODBCMySql: " + DriverMySql

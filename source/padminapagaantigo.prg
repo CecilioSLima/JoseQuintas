@@ -354,7 +354,7 @@ STATIC FUNCTION AjustaRefPedidos()
 STATIC FUNCTION ApagaMySqlAntigo()
 
    LOCAL cnMySql := ADOClass():New( AppcnMySqlLocal() )
-   LOCAL cnServerJPA := ADOClass():New( AppcnServerJPA() )
+   LOCAL cnInternet := ADOClass():New( AppcnInternet() )
 
    IF AppcnMySqlLocal() == NIL
       RETURN NIL
@@ -365,8 +365,8 @@ STATIC FUNCTION ApagaMySqlAntigo()
    IF ! IsMaquinaJPA()
       RETURN NIL
    ENDIF
-   cnServerJPA:ExecuteCmd( "DELETE FROM JPLOGNFE WHERE LNINFINC < '2017/01/01'" )
-   cnServerJPA:Close()
+   cnInternet:ExecuteCmd( "DELETE FROM JPLOGNFE WHERE LNINFINC < '2017/01/01'" )
+   cnInternet:Close()
 
    RETURN NIL
 

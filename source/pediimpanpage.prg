@@ -8,7 +8,7 @@ PEDIIMPANPAGE - IMPORTA T001 - AGENTES
 PROCEDURE pEdiImpAnpAge
 
    LOCAL mAnp, mCnpj, cnExcel, mFiles, mFileExcel, cSheetName, nQtd, nQtdTotal
-   LOCAL cnJoseQuintas := ADOClass():New( AppcnJoseQuintas() )
+   LOCAL cnInternet := ADOClass():New( AppcnInternet() )
    LOCAL cTxt := "", lBegin := .F., mValDe, mValAte
 
    mFiles := Directory( "IMPORTA\T001*.XLS" )
@@ -27,8 +27,8 @@ PROCEDURE pEdiImpAnpAge
 
    SayScroll( "Importando dados" )
 
-   cnJoseQuintas:Open()
-   cnJoseQuintas:ExecuteCmd( "TRUNCATE TABLE JPTABANPAGE" )
+   cnInternet:Open()
+   cnInternet:ExecuteCmd( "TRUNCATE TABLE JPTABANPAGE" )
 
    cnExcel := ADOClass():New( ExcelConnection( mFileExcel ) )
    cnExcel:Open()
@@ -70,7 +70,7 @@ PROCEDURE pEdiImpAnpAge
             StringSql( mValDe ) + "," + ;
             StringSql( mValAte ) + ")"
          IF Len( cTxt ) > MYSQL_MAX_CMDINSERT
-            cnJoseQuintas:ExecuteCmd( cTxt )
+            cnInternet:ExecuteCmd( cTxt )
             cTxt := ""
             lBegin := .T.
          ENDIF
@@ -79,9 +79,9 @@ PROCEDURE pEdiImpAnpAge
    ENDDO
    cnExcel:CloseConnection()
    IF Len( cTxt ) > 0
-      cnJoseQuintas:ExecuteCmd( cTxt )
+      cnInternet:ExecuteCmd( cTxt )
    ENDIF
-   cnJoseQuintas:CloseConnection()
+   cnInternet:CloseConnection()
    MsgExclamation( "Fim da importação! Verificados " + LTrim( Str( nQtd ) ) + " agentes" )
 
    RETURN
