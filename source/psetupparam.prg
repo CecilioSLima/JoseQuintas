@@ -226,7 +226,7 @@ FUNCTION GravaCnf( cParametro, cConteudo, lMySql )
 PROCEDURE pSetupParam( cTipoConfiguracao )
 
    LOCAL cCnpjErrado, cCnpjRepetido, cEndEntrega, cEndCobranca, cConsultaMySql, cConsultaSefaz
-   LOCAL cEstoCfop, cEstoContabil, cEstoCCusto, cBaixaDataAtual
+   LOCAL cEstoCfop, cEstoContabil, cEstoCCusto, cBaixaDataAtual, cEstoAltAuto
    LOCAL cPedidoVendedor, cObsCliente, cFiscContabil, cFiscCCusto, cAbaixoCusto
    LOCAL GetList := {}
 
@@ -236,6 +236,7 @@ PROCEDURE pSetupParam( cTipoConfiguracao )
    cEndCobranca    := iif( LeCnf( "CLI C/END.COBRANCA" )      == "SIM", "SIM", "NAO" )
    cConsultaMySql  := iif( LeCnf( "CLI CONSULTA MYSQL" )      == "SIM", "SIM", "NAO" )
    cConsultaSefaz  := iif( LeCnf( "CLI CONSULTA SEFAZ" )      == "SIM", "SIM", "NAO" )
+   cEstoAltAuto    := iif( LeCnf( "ESTOQUE ALT AUTO" )        == "SIM", "SIM", "NAO" )
    cEstoCfOp       := iif( LeCnf( "ESTOQUE CFOP" )            == "SIM", "SIM", "NAO" )
    cEstoContabil   := iif( LeCnf( "ESTOQUE CONTABIL" )        == "SIM", "SIM", "NAO" )
    cEstoCCusto     := iif( LeCnf( "ESTOQUE CCUSTO" )          == "SIM", "SIM", "NAO" )
@@ -254,29 +255,30 @@ PROCEDURE pSetupParam( cTipoConfiguracao )
    @ 2, 0 SAY ""
 
    IF cTipoConfiguracao == "CLIENTE" .OR. cTipoConfiguracao == "GERAL"
-      @ Row() + 1, 5 SAY "Aceita CNPJ errado........:" GET cCnpjErrado     PICTURE "@!A" VALID cCnpjErrado $ "SIM~NAO"
-      @ Row() + 1, 5 SAY "Aceita CCNPJ repetido.....:" GET cCnpjRepetido   PICTURE "@!A" VALID cCnpjErrado $ "SIM~NAO"
-      @ Row() + 1, 5 SAY "Cliente c/ End. Entrega...:" GET cEndEntrega     PICTURE "@!A" VALID cCnpjErrado $ "SIM~NAO"
-      @ Row() + 1, 5 SAY "Cliente c/ End. Cobrança..:" GET cEndCobranca    PICTURE "@!A" VALID cCnpjErrado $ "SIM~NAO"
-      @ Row() + 1, 5 SAY "Consulta Cliente no MySQL.:" GET cConsultaMySql  PICTURE "@!A" VALID cCnpjErrado $ "SIM~NAO"
-      @ Row() + 1, 5 SAY "Consulta Cliente Sefaz....:" GET cConsultaSefaz  PICTURE "@!A" VALID cCnpjErrado $ "SIM~NAO"
+      @ Row() + 1, 5 SAY "Aceita CNPJ errado........:" GET cCnpjErrado     PICTURE "@!A" VALID cCnpjErrado $ "SIM,NAO"
+      @ Row() + 1, 5 SAY "Aceita CCNPJ repetido.....:" GET cCnpjRepetido   PICTURE "@!A" VALID cCnpjErrado $ "SIM,NAO"
+      @ Row() + 1, 5 SAY "Cliente c/ End. Entrega...:" GET cEndEntrega     PICTURE "@!A" VALID cCnpjErrado $ "SIM,NAO"
+      @ Row() + 1, 5 SAY "Cliente c/ End. Cobrança..:" GET cEndCobranca    PICTURE "@!A" VALID cCnpjErrado $ "SIM,NAO"
+      @ Row() + 1, 5 SAY "Consulta Cliente no MySQL.:" GET cConsultaMySql  PICTURE "@!A" VALID cCnpjErrado $ "SIM,NAO"
+      @ Row() + 1, 5 SAY "Consulta Cliente Sefaz....:" GET cConsultaSefaz  PICTURE "@!A" VALID cCnpjErrado $ "SIM,NAO"
    ENDIF
 
    IF cTipoConfiguracao == "ESTOQUE" .OR. cTipoConfiguracao == "GERAL"
-      @ Row() + 1, 5 SAY "Estoque c/ CFOP...........:" GET cEstoCfop       PICTURE "@!A" VALID cCnpjErrado $ "SIM~NAO"
-      @ Row() + 1, 5 SAY "Estoque c/ contabilidade..:" GET cEstoContabil   PICTURE "@!A" VALID cCnpjErrado $ "SIM~NAO"
-      @ Row() + 1, 5 SAY "Estoque c/ CCusto.........:" GET cEstoCCusto     PICTURE "@!A" VALID cCnpjErrado $ "SIM~NAO"
+      @ Row() + 1, 5 SAY "Estoque c/ CFOP...........:" GET cEstoCfop       PICTURE "@!A" VALID cCnpjErrado $ "SIM,NAO"
+      @ Row() + 1, 5 SAY "Estoque c/ contabilidade..:" GET cEstoContabil   PICTURE "@!A" VALID cCnpjErrado $ "SIM,NAO"
+      @ Row() + 1, 5 SAY "Estoque c/ CCusto.........:" GET cEstoCCusto     PICTURE "@!A" VALID cCnpjErrado $ "SIM,NAO"
+      @ Row() + 1, 5 SAY "Estoque altera automatico.:" GET cEstoAltAuto    PICTURE "@!A" VALID cEstoAltAuto $ "SIM,NAO"
    ENDIF
 
    IF cTipoConfiguracao == "PEDIDO" .OR. cTipoConfiguracao == "GERAL"
-      @ Row() + 1, 5 SAY "No Pedido Vendedor=CadCli.:" GET cPedidoVendedor PICTURE "@!A" VALID cCnpjErrado $ "SIM~NAO"
-      @ Row() + 1, 5 SAY "Bloqueia abaixo do custo..:" GET cAbaixoCusto    PICTURE "@!A" VALID cCnpjErrado $ "SIM~NAO"
-      @ Row() + 1, 5 SAY "Pedido Baixa c/ Data Atual:" GET cBaixaDataAtual PICTURE "@!A" VALID cBaixaDataAtual $ "SIM-NAO"
+      @ Row() + 1, 5 SAY "No Pedido Vendedor=CadCli.:" GET cPedidoVendedor PICTURE "@!A" VALID cCnpjErrado $ "SIM,NAO"
+      @ Row() + 1, 5 SAY "Bloqueia abaixo do custo..:" GET cAbaixoCusto    PICTURE "@!A" VALID cCnpjErrado $ "SIM,NAO"
+      @ Row() + 1, 5 SAY "Pedido Baixa c/ Data Atual:" GET cBaixaDataAtual PICTURE "@!A" VALID cBaixaDataAtual $ "SIM,NAO"
    ENDIF
    IF cTipoConfiguracao == "GERAL"
-      @ Row() + 1, 5 SAY "Nota Obs. por Cliente.....:" GET cObsCliente     PICTURE "@!A" VALID cCnpjErrado $ "SIM~NAO"
-      @ Row() + 1, 5 SAY "LFiscal c/ Contabil.......:" GET cFiscContabil   PICTURE "@!A" VALID cCnpjErrado $ "SIM~NAO"
-      @ Row() + 1, 5 SAY "LFiscal c/ CCusto.........:" GET cFiscCCusto     PICTURE "@!A" VALID cCnpjErrado $ "SIM~NAO"
+      @ Row() + 1, 5 SAY "Nota Obs. por Cliente.....:" GET cObsCliente     PICTURE "@!A" VALID cCnpjErrado $ "SIM,NAO"
+      @ Row() + 1, 5 SAY "LFiscal c/ Contabil.......:" GET cFiscContabil   PICTURE "@!A" VALID cCnpjErrado $ "SIM,NAO"
+      @ Row() + 1, 5 SAY "LFiscal c/ CCusto.........:" GET cFiscCCusto     PICTURE "@!A" VALID cCnpjErrado $ "SIM,NAO"
    ENDIF
    IF Len( GetList ) == 0
       CLEAR GETS
@@ -302,6 +304,7 @@ PROCEDURE pSetupParam( cTipoConfiguracao )
       GravaCnf( "ESTOQUE CFOP", cEstoCfop )
       GravaCnf( "ESTOQUE CONTABIL", cEstoContabil )
       GravaCnf( "ESTOQUE CCUSTO", cEstoCCusto )
+      GravaCnf( "ESTOQUE ALT AUTO", cEstoAltAuto )
    ENDIF
    IF cTipoConfiguracao == "PEDIDO" .OR. cTipoConfiguracao == "GERAL"
       GravaCnf( "PEDIDO VENDEDOR=CLIENTE", cPedidoVendedor )
