@@ -109,7 +109,7 @@ FUNCTION PegaSenha( nLini, nColi, nLen )
          LOOP
       ENDIF
       IF ! Encontra( "S" + pw_Criptografa( cUsuario ) + pw_Criptografa( cSenha ), "jpsenha" ) .AND. AppUserLevel() != 0
-         MsgWarning( "Usuário ou Senha inválidos!" )
+         MsgStop( "Usuário ou Senha inválidos!" )
          CLOSE DATABASES
          LOOP
       ENDIF

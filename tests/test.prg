@@ -17,7 +17,7 @@ FUNCTION jpCombustivelClass(); RETURN NIL
 FUNCTION jpPrecoClass(); RETURN NIL
 FUNCTION  ProximaNota(); RETURN "1"
 PROCEDURE AppcnMysqlLocal
-PROCEDURE AppcnServerJpa
+PROCEDURE AppcnInternet
 PROCEDURE ze_RawImage
 PROCEDURE ctplanoclass
 PROCEDURE jpcadas1class
@@ -30,7 +30,7 @@ PROCEDURE jpforpagclass
 PROCEDURE jpagendaclass
 PROCEDURE jppediclass
 PROCEDURE jpitemclass
-PROCEDURE AppcnJoseQuintas
+PROCEDURE AppcnInternet
 PROCEDURE jpvendedclass
 PROCEDURE NomeCertificado
 PROCEDURE jpalogerro
