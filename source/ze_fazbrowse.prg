@@ -641,8 +641,8 @@ FUNCTION DbView( nTop, nLeft, nBottom, nRight, oTBrowse, bUserFunction, nFixToCo
          IF mRecno != RecNo() .OR. Deleted()
             Eval( oBrowse:SkipBlock, 1 )
          ENDIF
-         oBrowse:RefreshAll()
          WRestore()
+         oBrowse:RefreshAll()
       ENDIF
    ENDDO
    AEval( aTraceList, { | e | e:Destroy() } )

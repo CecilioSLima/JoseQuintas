@@ -44,22 +44,14 @@ FUNCTION GrupoContabil( cCodigo )
 
 FUNCTION CabecalhoContabil()
 
-   LOCAL nNumMes, nNumAno
    MEMVAR oPDF, m_Livro, nOpcMes, nOpcOficial, mData
 
    IF Type( "nOpcMes" ) != "N"
       nOpcMes := 1
    ENDIF
-   nNumMes := nOpcMes
-   nNumAno := jpempre->emAnoBase
-   DO WHILE nNumMes > 12
-      nNumMes -= 12
-      nNumAno += 1
-   ENDDO
-   mData := UltDia( Stod( StrZero( nNumAno, 4 ) + StrZero( nNumMes, 2 ) + "01" ) )
    IF nOpcOficial == 1 .AND. ( oPDF:nPageNumber + 1 ) == jpempre->emQtdPag
-      TermoLivroDiario( "ENCERRAMENTO", jpempre->emQtdPag )
-      TermoLivroDiario( "ABERTURA",     jpempre->emQtdPag )
+      TermoLivroDiario( "ENCERRAMENTO", jpempre->emQtdPag,, nOpcMes )
+      TermoLivroDiario( "ABERTURA",     jpempre->emQtdPag,, nOpcMes )
       oPDF:nPageNumber := 1
       m_Livro = m_Livro + 1
    ENDIF

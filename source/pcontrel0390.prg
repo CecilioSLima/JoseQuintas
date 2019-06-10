@@ -43,7 +43,7 @@ PROCEDURE PCONTREL0390
          m_DataAb := Ctod( "01/01/" + StrZero( jpempre->emAnoBase, 4 ) )
          m_DataFe := Ctod( "31/12/" + StrZero( jpempre->emAnoBase, 4 ) )
          Mensagem()
-         wOpen( 5, 5, 12, 40, "Livro e Página" )
+         wOpen( 5, 5, 12, 40, "Livro e Folha" )
          @  7, 7 SAY "Livro...:" GET m_Livro      PICTURE "9999" VALID m_Livro > 0
          @  8, 7 SAY "Qt.Pág..:" GET m_QtPag      PICTURE "9999" VALID m_QtPag > 0
          @  9, 7 SAY "Dt.Inic.:" GET m_DataAb     VALID ! Empty( m_DataAb )
@@ -54,7 +54,7 @@ PROCEDURE PCONTREL0390
             LOOP
          ENDIF
          IF ConfirmaImpressao()
-            DO p390_rel
+            p390_rel( { m_DataAb, m_DataFe } )
          ENDIF
 
       CASE m_Menu == 2
@@ -71,7 +71,7 @@ PROCEDURE PCONTREL0390
 
    RETURN
 
-STATIC PROCEDURE p390_rel
+STATIC FUNCTION p390_rel( aDataList )
 
    MEMVAR oPDF, m_QtPag, nOpcPrinterType
    PRIVATE oPDF
@@ -80,27 +80,32 @@ STATIC PROCEDURE p390_rel
    oPDF:SetType( nOpcPrinterType )
    oPDF:Begin()
 
-   TermoLivroDiario( "ABERTURA",     m_QtPag )
-   TermoLivroDiario( "ENCERRAMENTO", m_QtPag )
+   TermoLivroDiario( "ABERTURA",     m_QtPag, aDataList )
+   TermoLivroDiario( "ENCERRAMENTO", m_QtPag, aDataList )
 
    oPDF:End()
 
-   RETURN
+   RETURN NIL
 
-FUNCTION TermoLivroDiario( m_Termo, m_TPag )
+FUNCTION TermoLivroDiario( m_Termo, m_TPag, aDataList, nNumMes )
 
-   LOCAL mTemp, mTermoDatIni, mTermoDatFim, m_Texto, mData, m_Lim
+   LOCAL mTemp, m_Texto, mData, m_Lim
    MEMVAR oPDF, m_DataAb, m_DataFe, m_Livro
    PRIVATE m_NumMes, m_NumAno
 
-   IF Type( "m_DataAb" ) != "D"
-      mTermoDatIni := Ctod( "01/01/" + StrZero( jpempre->emAnoBase, 4 ) )
-      mTermoDatFim := Ctod( "31/12/" + StrZero( jpempre->emAnoBase, 4 ) )
+   IF nNumMes != NIL
+      DatasTermoLivroDiario( nNumMes, @aDataList )
+   ELSEIF aDataList != NIL
+      aDataList[ 1 ] := aDataList[ 1 ]
+      aDataList[ 2 ] := aDataList[ 2 ]
+   ELSEIF Type( "m_DataAb" ) != "D"
+      aDataList[ 1 ] := Ctod( "01/01/" + StrZero( jpempre->emAnoBase, 4 ) )
+      aDataList[ 2 ] := Ctod( "31/12/" + StrZero( jpempre->emAnoBase, 4 ) )
    ELSE
-      mTermoDatIni := m_DataAb
-      mTermoDatFim := m_DataFe
+      aDataList[ 1 ] := m_DataAb
+      aDataList[ 2 ] := m_DataFe
    ENDIF
-   mData = iif( m_Termo == "ABERTURA", mTermoDatIni, mTermoDatFim )
+   mData = iif( m_Termo == "ABERTURA", aDataList[ 1 ], aDataList[ 2 ] )
    mTemp := aClone( oPDF:acHeader )
 
    m_Lim   = m_Tpag
@@ -119,8 +124,8 @@ FUNCTION TermoLivroDiario( m_Termo, m_TPag )
       oPDF:nRow++
       m_Texto = "Contem este livro " + StrZero( m_Lim, 4 ) + " folhas numeradas eletronicamente de 0001 a " + ;
          StrZero( m_Lim, 4 ) + ", que " + iif( m_Termo == "ABERTURA", "servira", "serviu" ) + ;
-         " de Diario Geral Numero " + StrZero( m_Livro, 4 ) + ", correspondendo ao periodo de " + Dtoc( mTermoDatIni ) + ;
-         " ate " + Dtoc( mTermoDatFim ) + ", "
+         " de Diario Geral Numero " + StrZero( m_Livro, 4 ) + ", correspondendo ao periodo de " + Dtoc( aDataList[ 1 ] ) + ;
+         " ate " + Dtoc( aDataList[ 2 ] ) + ", "
       m_Texto += "da sociedade " + Trim( AppEmpresaNome() ) + ", estabelecida a " + Trim( jpempre->emEndereco ) + ;
          " " + Trim( jpempre->emBairro ) + " em " + Trim( jpempre->emCidade ) + " - " + jpempre->emUf + ", registrada "
       m_Texto += Trim( jpempre->emLocReg ) + " "
@@ -218,5 +223,30 @@ STATIC FUNCTION P390_ImpCentralizado( cTexto )
    MEMVAR oPDF
 
    oPDF:DrawText( oPDF:nRow, 5 + Int( ( oPDF:MaxCol() - Len( cTexto ) - 10 ) / 2 ), cTexto )
+
+   RETURN NIL
+
+FUNCTION DatasTermoLivroDiario( nOpcMes, aDataList )
+
+   LOCAL nMesAbre, nMesFecha, nAnoAbre, nAnoFecha
+
+   nMesFecha := nOpcMes
+   DO WHILE Mod( nMesFecha, jpempre->emFecha ) != 0
+      nMesFecha += 1
+   ENDDO
+   nMesAbre  := nMesFecha - jpempre->emFecha + 1
+   nAnoAbre  := jpempre->emAnoBase
+   DO WHILE nMesAbre > 12
+      nAnoAbre += 1
+      nMesAbre -= 12
+   ENDDO
+   nAnoFecha := jpempre->emAnoBase
+   DO WHILE nMesFecha > 12
+      nAnoFecha += 1
+      nMesFecha -= 12
+   ENDDO
+   aDataList := Array(2)
+   aDataList[ 1 ] := Stod( StrZero( nAnoAbre, 4 ) + StrZero( nMesAbre, 2 ) + StrZero( 1, 2 ) )
+   aDataList[ 2 ] := Ultdia( Stod( StrZero( nAnoFecha, 4 ) + StrZero( nMesFecha, 2 ) + StrZero( 1, 2 ) ) )
 
    RETURN NIL

@@ -52,24 +52,13 @@ PROCEDURE pFiscRel0020
          EXIT
 
       CASE nOpcMenu == nOpcTemp++
-         wOpen( 5, 5, 12, 40, "Livro, Páginas e Datas" )
+         wOpen( 5, 5, 12, 40, "Livro, Folhas e Datas" )
          @  7, 7 SAY "Livro......:" GET nNumLivro    PICTURE "9999" VALID nNumLivro > 0
          @  8, 7 SAY "Qt.Folhas..:" GET nQtdFolhas   PICTURE "9999" VALID nQtdFolhas > 2
          @  9, 7 SAY "Dt.Inicial.:" GET dDataInicial VALID ! Empty( dDataInicial )
          @ 10, 7 SAY "Dt.Final...:" GET dDataFinal   VALID ! Empty( dDataFinal )
          READ
          wClose()
-         //         Mensagem( "Número do livro: " )
-         //         @ Row(), Col() GET  nNumLivro PICTURE "99999" VALID nNumLivro > 0
-         //         READ
-         //         Mensagem( "Quantidade de folhas: " )
-         //         @ Row(), Col() GET  nQtdFolhas PICTURE "999" VALID nQtdFolhas > 2
-         //         READ
-         //           Mensagem( "Datas dos termos: " )
-         //         @ Row(), Col() GET dDataInicial VALID ! Empty( dDataInicial )
-         //         @ Row(), Col() + 2 GET dDataFinal VALID ! Empty( dDataFinal )
-         //         READ
-         //         Mensagem()
          IF LastKey() == K_ESC
             LOOP
          ENDIF

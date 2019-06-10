@@ -75,7 +75,7 @@ FUNCTION PlayHappyBirthDay()
 
    RETURN NIL
 
-FUNCTION GetValidIE( cInscricao, cUF )
+FUNCTION OkGetIE( cInscricao, cUF )
 
    LOCAL lOk := .T.
 
@@ -94,7 +94,7 @@ FUNCTION GetValidIE( cInscricao, cUF )
 
    RETURN lOk
 
-FUNCTION ValidNCM( mNCM )
+FUNCTION OkGetNCM( mNCM )
 
    LOCAL lOk := .T.
 
@@ -109,7 +109,7 @@ FUNCTION PicNCM()
 
    RETURN "@R 9999.99.99"
 
-FUNCTION ValidCEST( cCest, cNcm )
+FUNCTION OkGetCEST( cCest, cNcm )
 
    LOCAL aList  := SEFAZ_CEST
    LOCAL aList2 := SEFAZ_CEST_PORTA
@@ -157,7 +157,7 @@ FUNCTION PicCEST()
 
    RETURN "@R 99.999.99"
 
-FUNCTION GetValidCnpjCpf( cCnpj, lAceitaErrado )
+FUNCTION OkGetCnpjCpf( cCnpj, lAceitaErrado )
 
    LOCAL lOk := .T.
 
@@ -182,22 +182,6 @@ FUNCTION GetValidCnpjCpf( cCnpj, lAceitaErrado )
    cCnpj := Pad( FormatCnpj( cCnpj ), 18 )
 
    RETURN lOk
-
-FUNCTION TrechoJust( mTexto, mColunas )
-
-   LOCAL nPos, mTexto2
-
-   nPos = Rat( " ", Left( mTexto + " ", mColunas+1 ) )
-   IF nPos == 0
-      nPos = mColunas + 1
-   ENDIF
-   mTexto2 = Left( mTexto, nPos - 1 )
-   mTexto  = LTrim( Substr( mTexto, nPos ) )
-   IF Len( mTexto ) != 0 // Se ainda tem mais linhas
-      Justifica( @mTexto2, mColunas )
-   ENDIF
-
-   RETURN mTexto2
 
 FUNCTION TextToArray( cTexto, nLargura, lAjusta )
 
@@ -238,38 +222,18 @@ FUNCTION TextToArray( cTexto, nLargura, lAjusta )
 
    RETURN acTextList
 
-FUNCTION Justifica( mTexto, mColunas )
-
-   LOCAL mEspaco := at( " ", mTexto )
-
-   IF mEspaco != 0
-      DO WHILE Len( mTexto ) < mColunas
-         mTexto = Stuff( mTexto, mEspaco, 0, " " )
-         DO WHILE Substr( mTexto, mEspaco, 1 ) == " " .AND. mEspaco <= Len( mTexto )
-            mEspaco += 1
-         ENDDO
-         DO WHILE Substr( mTexto, mEspaco, 1 ) != " " .AND. mEspaco <= Len( mTexto )
-            mEspaco += 1
-         ENDDO
-         IF mEspaco >= Len( mTexto )
-            mEspaco = At( " ", mTexto )
-         ENDIF
-      ENDDO
-   ENDIF
-
-   RETURN mTexto
-
-FUNCTION ze_RangeValue( xValue, xMin, xMax )
+FUNCTION FixValueInRange( xValue, xMin, xMax )
 
    DO CASE
    CASE ValType( xValue ) != ValType( xMin ) ; xValue := xMin
    CASE xValue < xMin                        ; xValue := xMin
+   CASE ValType( xMax ) != "N"
    CASE xValue > xMax                        ; xValue := xMax
    ENDCASE
 
    RETURN xValue
 
-FUNCTION ValidUnidadeExterior( cNcm, cUnidade )
+FUNCTION OkGetUnidadeExterior( cNcm, cUnidade )
 
    LOCAL oElement, lOk := .T.
 
@@ -375,3 +339,43 @@ HB_FUNC( SAVERESOURCE )
 
    RETURN aMapList
    */
+/*
+FUNCTION TrechoJust( mTexto, mColunas )
+
+   LOCAL nPos, mTexto2
+
+   nPos = Rat( " ", Left( mTexto + " ", mColunas+1 ) )
+   IF nPos == 0
+      nPos = mColunas + 1
+   ENDIF
+   mTexto2 = Left( mTexto, nPos - 1 )
+   mTexto  = LTrim( Substr( mTexto, nPos ) )
+   IF Len( mTexto ) != 0 // Se ainda tem mais linhas
+      Justifica( @mTexto2, mColunas )
+   ENDIF
+
+   RETURN mTexto2
+*/
+
+/*
+FUNCTION Justifica( mTexto, mColunas )
+
+   LOCAL mEspaco := at( " ", mTexto )
+
+   IF mEspaco != 0
+      DO WHILE Len( mTexto ) < mColunas
+         mTexto = Stuff( mTexto, mEspaco, 0, " " )
+         DO WHILE Substr( mTexto, mEspaco, 1 ) == " " .AND. mEspaco <= Len( mTexto )
+            mEspaco += 1
+         ENDDO
+         DO WHILE Substr( mTexto, mEspaco, 1 ) != " " .AND. mEspaco <= Len( mTexto )
+            mEspaco += 1
+         ENDDO
+         IF mEspaco >= Len( mTexto )
+            mEspaco = At( " ", mTexto )
+         ENDIF
+      ENDDO
+   ENDIF
+
+   RETURN mTexto
+*/

@@ -25,7 +25,7 @@ PROCEDURE PCONTREL0340
    m_param = rel_param
    m_txtparam := ;
       { "Todos ", "Parâmetros Contábeis ", "Dados da Empresa ", "Dólar para cada mes ", ;
-      "Livros/Páginas dos Diários ", "Relatórios Emitidos " }
+      "Livros/Folhas dos Diários ", "Relatórios Emitidos " }
 
    nOpcPrinterType := AppPrinterType()
 

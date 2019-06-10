@@ -9,7 +9,7 @@ PROCEDURE PGeralRecibo
 
    LOCAL mPagador := Space(50), mMotivo := Space(200), mData := Date()
    LOCAL mEmitente := Space(50), mValor := 0, cText
-   LOCAL GetList := {}, oPDF
+   LOCAL GetList := {}, oPDF, oElement
 
    IF ! AbreArquivos( "jpempre" )
       RETURN
@@ -38,13 +38,10 @@ PROCEDURE PGeralRecibo
       cText := "Recebi de " + Trim( mPagador ) + " a importância de " + "R$" + ;
          Ltrim( Transform( mValor, "@E 999,999,999.99" ) ) + " (" + Extenso( mValor ) + ;
          ") relativa ao pagamento de " + Trim( mMotivo ) + "."
-      DO WHILE .T.
-         oPDF:DrawText( oPDF:nRow, 10, TrechoJust( @cText, oPDF:MaxCol() - 20 ) )
+      FOR EACH oElement IN TextToArray( cText, oPDF:MaxCol() - 20, .T. )
+         oPDF:DrawText( oPDF:nRow, 10, oElement )
          oPDF:nRow += 1
-         IF Len( cText ) == 0
-            EXIT
-         ENDIF
-      ENDDO
+      NEXT
       oPDF:nRow += 2
       oPDF:DrawText( oPDF:nRow, 10, Padc( Trim( jpempre->emCidade ) + ", " + Extenso( mData ), oPDF:MaxCol() - 20 ) )
       oPDF:nRow += 4

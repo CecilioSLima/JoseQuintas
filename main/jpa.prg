@@ -45,7 +45,7 @@ PROCEDURE Main
    hb_Default( @xParam, "" )
    Inkey(1)
    hb_ThreadStart( { || Sistema( xParam ) } )
-   Inkey(60) // pra dar tempo de se configurar
+   Inkey(10) // pra dar tempo de se configurar
    //_hmge_Init()
    DO WHILE nThreads > 1
       __vmCountThreads( @nThreads, 0 )
@@ -179,3 +179,4 @@ PROCEDURE HB_GTSYS()
    // s_mainThreadID := hb_threadSelf()
 
    // RunThread( /* HB_BITOR( HB_THREAD_INHERIT_PUBLIC, HB_THREAD_MEMVARS_COPY ) /* @DoPrg( cModule, cTitulo ) )
+

@@ -155,7 +155,7 @@ STATIC FUNCTION FormatFile( cFile, nContYes, nContNo )
       NEXT
    ENDIF
    // save if changed
-   IF ! cTxtPrg == cTxtPrgAnt
+   IF ! cTxtPrg == cTxtPrgAnt .OR. Lower( cFile ) != cFile
       MakeBackup( cFile )
       nContYes += 1
       ? nContYes, nContNo, "Formatted " + cFile

@@ -37,8 +37,8 @@ PROCEDURE PCONTSETUP
       @ Row()+1, 2  SAY "Diário com Demonstr..:" GET memDiaDem  PICTURE "!A"     VALID memDiaDem $ "SN"
       @ Row()+1, 2  SAY "Diário com Balanço...:" GET memDiaBal  PICTURE "!A"     VALID memDiaBal $ "SN"
       @ Row()+1, 2  SAY "Diário com Plano Ctas:" GET memDiaPla  PICTURE "!A"     VALID memDiaPla $ "SN"
-      @ Row()+1, 2  SAY "Limite Pags.p/Livro..:" GET memQtdPag  PICTURE "999"    VALID memQtdPag > 100
-      @ Row(), Col()+2 SAY " (Minimo 100 páginas )"
+      @ Row()+1, 2  SAY "Limite Folhas p/Livro:" GET memQtdPag  PICTURE "999"    VALID memQtdPag > 100
+      @ Row(), Col()+2 SAY " (Minimo 100 folhas)"
       @ Row()+1, 2  SAY "Layout dos termos....:" GET memDiaTer  PICTURE "9"     VALID memDiaTer $ "12"
       @ Row(), Col()+2 SAY "( 1 ou 2 )"
       @ Row()+2, 2  SAY "Fechamento (meses)...:" GET memFecha   PICTURE "99" VALID StrZero( memFecha, 2 ) $ "01.02.03.04.06.12"
