@@ -473,7 +473,7 @@ PROCEDURE Pesquisa
          cKeyboard := jpnota->nfNotFis
       ENDIF
 
-   CASE cVarName $ "m_resumo,m_resumo1,m_resumo2,m_resumo3,mbgresumo"
+   CASE cVarName $ "m_resumo,m_resumo1,m_resumo2,m_resumo3,mbgresumo" .OR. ( cVarName == "oelement" .AND. m_Prog == "PBANCOGRAFICOMES" )
       SELECT jpbagrup
       FazBrowse( { { "RESUMO", { || jpbagrup->bgResumo } }, { "GRUPO", { || jpbagrup->bgGrupo } } } )
       cKeyboard := jpbagrup->bgResumo

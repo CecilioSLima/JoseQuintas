@@ -5,6 +5,7 @@ JPA_MENU - MENU DO SISTEMA
 
 #include "hbgtinfo.ch"
 #include "inkey.ch"
+#define IDLE_SECONDS 600
 
 MEMVAR m_Prog, nMenuLevel, oMenuOptions
 
@@ -295,7 +296,7 @@ FUNCTION MenuCria( lInterno )
       MenuOption( "Clientes/Fornecedores",            "PJPCADAS1" )
       MenuOption( "Clientes/Fornecedores (Consulta)", "PJPCADAS1B" )
       MenuOption( "Contas Administrativas",           "PCONTCTAADM" )
-      MenuOption( "Empresa",                          "PJPEMPRE" )
+      MenuOption( "Empresa(s)/Filial(is)",            "PJPEMPRE" )
       MenuOption( "Históricos Padrão",                "PCONTHISTORICO" )
       MenuOption( "Lançamentos Padrão",               "PCONTLANCPAD" )
       MenuOption( "Licenças" )
@@ -601,7 +602,7 @@ FUNCTION MenuPrinc( mMenuOpt )
       NEXT
       //MenuDesenhoCentral()
       BoxMenu( 3, mColIni[ mOpc ] - 20 + Int( Len( mMenuOpt[ mOpc, 1 ] ) / 2 ), mMenuOpt[ mOpc, 2 ], 1,, .T., .T., aMouseMenu, 1 )
-      nKey := Inkey( 60, INKEY_ALL - INKEY_MOVE + HB_INKEY_GTEVENT )
+      nKey := Inkey( IDLE_SECONDS, INKEY_ALL - INKEY_MOVE + HB_INKEY_GTEVENT )
       DO CASE
       CASE nKey == HB_K_RESIZE
          //wvgSetAppWindow():InvalidateRect()

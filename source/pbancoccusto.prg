@@ -110,7 +110,7 @@ FUNCTION ValidBancarioResumo( cResumo )
    DO CASE
    CASE cResumo == Pad( "APLIC", 10 )
    CASE cResumo == Pad( "NENHUM", 10 )
-   CASE Empty( cResumo ) .AND. m_Prog != "PBANCOGRAFICOMES" .AND. ReadVar() != "M_RESUMO1"
+   CASE Empty( cResumo ) .AND. m_Prog != "PBANCOGRAFICOMES"
    CASE ! Encontra( cResumo, "jpbagrup" )
       MsgWarning( "Resumo bancário não cadastrado!" )
       lOk := .F.

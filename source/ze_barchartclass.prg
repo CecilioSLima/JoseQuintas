@@ -46,15 +46,12 @@ METHOD BarchartClass:CalcMaxValue()
          ::nMaxValue := Max( ::nMaxValue, oSubElement )
       NEXT
    NEXT
-   DO WHILE .t.
+   DO WHILE ::nIncrement * 10 < ::nMaxValue
       ::nIncrement *= 10
-      IF ::nIncrement * ::nGradeCount > ::nMaxValue
-         EXIT
-      ENDIF
    ENDDO
    nReduce := ::nIncrement / 10
    DO WHILE ( ( ::nIncrement - nReduce ) * ::nGradeCount ) > ::nMaxValue
-      ::nIncrement := ::nIncrement - nReduce
+      ::nIncrement -= nReduce
    ENDDO
    ::nIncrement := Max( ::nIncrement, nReduce )
    ::nMaxValue  := ::nIncrement * ::nGradeCount
@@ -63,7 +60,7 @@ METHOD BarchartClass:CalcMaxValue()
 
 METHOD BarchartClass:ShowEmpty()
 
-   LOCAL nCont, oElement
+   LOCAL nCont, oElement, nRowIni, nRowEnd, nHeight
 
    // Título
    @ ::nTop, Int( ( ::nRight - ::nLeft - 1 - Len( ::cTxtTitle ) ) / 2 ) SAY " " + ::cTxtTitle + " " COLOR "N/W"
@@ -72,9 +69,12 @@ METHOD BarchartClass:ShowEmpty()
    @ ::nTop + 2, ::nLeft + 12 TO ::nBottom - 3, ::nLeft + 12
    @ ::nBottom - 3, ::nLeft + 12 TO ::nBottom - 3, ::nRight - 2
 
+   nRowEnd := ::nBottom - 3
+   nRowIni := ::nTop + 3
+   nHeight := nRowEnd - nRowIni + 1
    // Valores da barra vertical
    FOR nCont = 1 TO ::nGradeCount
-      @ ::nBottom - 3 - ( ( ::nBottom - ::nTop - 6 ) / ::nGradeCount * nCont ), ::nLeft SAY nCont * ::nIncrement PICTURE "9999999999"
+      @ nRowEnd - ( nHeight / ::nGradeCount * nCont ), ::nLeft SAY nCont * ::nIncrement PICTURE "9999999999"
       @ Row(), ::nLeft + 13 TO Row(), ::nRight - 3
    NEXT
 
@@ -102,15 +102,21 @@ METHOD BarchartClass:ShowColBar()
 
 METHOD BarchartClass:ShowColSub( nNumBar, nColuna, nLarguraColuna )
 
-   LOCAL oElement, cColorOld, nRow
+   LOCAL oElement, cColorOld, nRowEnd, nRowIni, nHeight, nSize
 
    cColorOld := SetColor()
 
+   nRowEnd := ::nBottom - 3
+   nRowIni := ::nTop + 3
+   nHeight := nRowEnd - nRowIni + 1
+
    // barras de comparação
    FOR EACH oElement IN ::aTxtSubList
-      nRow := ::nBottom - ( ( ::nBottom - ::nTop - 2 ) * ::aValues[ oElement:__EnumIndex, nNumbar ] / ::nMaxValue )
-      SetColor( ::BarColor( oElement:__EnumIndex ) )
-      @ nRow, nColuna + oElement:__EnumIndex CLEAR TO ::nBottom - 4, nColuna + oElement:__EnumIndex
+      nSize := Round( nHeight * ::aValues[ oElement:__EnumIndex, nNumbar ] / ::nMaxValue, 0 )
+      IF nSize != 0
+         SetColor( ::BarColor( oElement:__EnumIndex ) )
+         @ nRowEnd - nSize, nColuna + oElement:__EnumIndex CLEAR TO ::nBottom - 4, nColuna + oElement:__EnumIndex
+      ENDIF
    NEXT
    SetColor( cColorOld )
    // legenda de cada coluna do gráfico

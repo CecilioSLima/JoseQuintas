@@ -34,7 +34,11 @@ PROCEDURE pBancoGraficoMes
       @ 4, 3 SAY "Período desde...:" GET mDatai
       @ Row(), Col() + 2 SAY "ate:"  GET mDataf
       FOR EACH oElement IN acResumo
-         @ Row() + 1, 3 SAY "Resumo .........:" GET oElement PICTURE "@K!" VALID Empty( oElement ) .OR. ValidBancarioResumo( @oElement )
+         IF oElement:__EnumIndex == 1
+            @ Row() + 1, 3 SAY "Resumo .........:" GET oElement PICTURE "@K!" VALID ! Empty( oElement ) .OR. ValidBancarioResumo( @oElement )
+         ELSE
+            @ Row() + 1, 3 SAY "Resumo .........:" GET oElement PICTURE "@K!" VALID Empty( oElement ) .OR. ValidBancarioResumo( @oElement )
+         ENDIF
       NEXT
       Mensagem( "Digite dados a serem apresentados, F9 Pesquisa, ESC Sai" )
       READ
