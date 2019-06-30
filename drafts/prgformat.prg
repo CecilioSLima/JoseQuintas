@@ -180,6 +180,12 @@ FUNCTION FormatIndent( cLinePrg, oFormat )
 
    cLinePrg := AllTrim( cLinePrg )
 /* porque tem muito fonte assim */
+   IF cLinePrg == "CLEAR"
+      cLinePrg := "CLS"
+   ENDIF
+   IF cLinePrg == "END CLASS"
+      cLinePrg := "ENDCLASS"
+   ENDIF
    IF Left( cLinePrg, 8 ) == "DO WHIL "
       cLinePrg := StrTran( cLinePrg, "DO WHIL ", "DO WHILE " )
    ENDIF
@@ -501,7 +507,9 @@ STATIC FUNCTION FmtList( nType )
          "CLASS", ;
          "CLASSVAR", ;
          "CLEAR", ;
+         "CLEAR GETS", ;
          "CLOSE", ;
+         "CLS", ;
          "COL", ; // DEFINE
          "COLOFFSET", ; // DEFINE
          "COLUMNWHEN", ; // DEFINE
@@ -954,7 +962,7 @@ STATIC FUNCTION FmtList( nType )
          { "SET SCOR ON", "SET SCOREBOARD ON" }, ;
          { "SET SCOR OFF", "SET SCOREBOARD OFF" } }
 
-   CASE nType == FMT_CASE_ANY // on any line posicion
+   CASE nType == FMT_CASE_ANY // on any line position
       aList := { ;
          " .AND. ", ;
          " .NOT. ", ;
@@ -970,6 +978,7 @@ STATIC FUNCTION FmtList( nType )
          " Bof(", ;
          " Chr(", ;
          "(Chr({", ;
+         " CLEAR TO ", ;
          " Col(", ;
          " Ctod(", ;
          " dbGoBottom(", ;
