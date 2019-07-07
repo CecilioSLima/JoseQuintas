@@ -33,44 +33,44 @@ FUNCTION MAIN
 
 PROCEDURE Proc_ON_PAINT( Cont, oJanela )
 
-   LOCAL n_hWnd, Width, Height
+   LOCAL n_hWnd, nWidth, nHeight
    LOCAL hDC, BTstruct, nAlignText, nTypeText
 
    n_hWnd := __xhb_p2n( oJanela:hWnd )
-   WIDTH  := oJanela:CurrentSize[ 1 ] // BT_ClientAreaWidth( n_hWnd )
-   HEIGHT := oJanela:CurrentSize[ 2 ] // BT_ClientAreaHeight( n_hWnd )
+   nWidth := oJanela:CurrentSize[ 1 ] // BT_ClientAreaWidth( n_hWnd )
+   nHeight := oJanela:CurrentSize[ 2 ] // BT_ClientAreaHeight( n_hWnd )
 
    hDC = BT_CreateDC ( n_hWnd, BT_HDC_INVALIDCLIENTAREA, @BTstruct)
 
    DO CASE
    CASE cont = 1
-      BT_DrawGradientFillHorizontal (hDC, 0,       0, Width/2, Height, BLACK, BLUE)
-      BT_DrawGradientFillHorizontal (hDC, 0, Width/2, Width/2, Height, BLUE,  BLACK)
+      BT_DrawGradientFillHorizontal (hDC, 0,       0, nWidth/2, nHeight, BLACK, BLUE)
+      BT_DrawGradientFillHorizontal (hDC, 0, nWidth/2, nWidth/2, nHeight, BLUE,  BLACK)
 
    CASE cont = 2
-      BT_DrawGradientFillVertical (hDC,        0,   0, Width, Height/2, BLACK, RED)
-      BT_DrawGradientFillVertical (hDC, Height/2,   0, Width, Height/2, RED,   BLACK)
+      BT_DrawGradientFillVertical (hDC,        0,   0, nWidth, nHeight/2, BLACK, RED)
+      BT_DrawGradientFillVertical (hDC, nHeight/2,   0, nWidth, nHeight/2, RED,   BLACK)
 
    CASE cont = 3
-      BT_DrawGradientFillVertical (hDC,        0,   0, Width, Height/2, RED,   GREEN)
-      BT_DrawGradientFillVertical (hDC, Height/2,   0, Width, Height/2, GREEN, BLUE)
+      BT_DrawGradientFillVertical (hDC,        0,   0, nWidth, nHeight/2, RED,   GREEN)
+      BT_DrawGradientFillVertical (hDC, nHeight/2,   0, nWidth, nHeight/2, GREEN, BLUE)
 
    CASE cont = 4
-      BT_DrawGradientFillHorizontal (hDC, 0,       0, Width/2, Height, GREEN, BLUE)
-      BT_DrawGradientFillHorizontal (hDC, 0, Width/2, Width/2, Height, BLUE,  RED)
+      BT_DrawGradientFillHorizontal (hDC, 0,        0, nWidth/2, nHeight, GREEN, BLUE)
+      BT_DrawGradientFillHorizontal (hDC, 0, nWidth/2, nWidth/2, nHeight, BLUE,  RED)
 
    CASE cont = 5
-      BT_DrawGradientFillVertical   (hDC,   0,       0,  Width,  Height, WHITE, BLACK)
+      BT_DrawGradientFillVertical   (hDC,   0,       0,  nWidth,  nHeight, WHITE, BLACK)
 
    CASE cont = 6
-      BT_DrawGradientFillHorizontal (hDC,   0,       0,  Width,  Height, {100,0,123}, BLACK)
+      BT_DrawGradientFillHorizontal (hDC,   0,       0,  nWidth,  nHeight, {100,0,123}, BLACK)
 
    END CASE
 
    nTypeText  := BT_TEXT_TRANSPARENT + BT_TEXT_BOLD + BT_TEXT_ITALIC + BT_TEXT_UNDERLINE
    nAlignText := BT_TEXT_CENTER + BT_TEXT_BASELINE
-   BT_DrawText (hDC, Height/2-3, Width/2+3, "The Power of Bostaurus", "Comic Sans MS", 18, GRAY, BLACK, nTypeText, nAlignText ) // Shadow Effect
-   BT_DrawText (hDC, Height/2, Width/2, "The Power of Bostaurus", "Comic Sans MS", 18, YELLOW, BLACK, nTypeText, nAlignText )
+   BT_DrawText (hDC, nHeight/2-3, nWidth/2+3, "The Power of Bostaurus", "Comic Sans MS", 18, GRAY, BLACK, nTypeText, nAlignText ) // Shadow Effect
+   BT_DrawText (hDC, nHeight/2, nWidth/2, "The Power of Bostaurus", "Comic Sans MS", 18, YELLOW, BLACK, nTypeText, nAlignText )
 
    BT_DeleteDC (BTstruct)
 
