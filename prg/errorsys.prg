@@ -35,7 +35,7 @@ STATIC FUNCTION JoseQuintasError( e )
       RETURN ( 0 )
    ENDIF
 
-   // Only retry if open error 2014.09.24.1810
+   // Only retry IF open error 2014.09.24.1810
    IF e:OsCode == 64 .AND. e:GenCode == EG_OPEN
       //wOpen( 10, 10, 20, 80, "Atenção" )
       //@ 15, 15 SAY "Servidor sumiu. Tentar novamente em 2 segundos"
@@ -44,13 +44,13 @@ STATIC FUNCTION JoseQuintasError( e )
       RETURN .T.
    ENDIF
 
-   // For network open error, set NETERR() and subsystem default
+   // For network open error, set NetErr() and subsystem default
    IF ( e:GenCode == EG_OPEN .AND. e:OsCode == 32 .AND. e:CanDefault )
       NetErr( .T. )
       RETURN ( .F. )     // NOTE
    ENDIF
 
-   // for lock error during APPEND BLANK, set NETERR() and subsystem default
+   // for lock error during APPEND BLANK, set NetErr() and subsystem default
    IF ( e:GenCode == EG_APPENDLOCK .AND. e:CanDefault )
       NetErr( .T. )
       RETURN ( .F. )     // NOTE

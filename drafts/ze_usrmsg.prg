@@ -42,7 +42,7 @@ CREATE CLASS MessageClass
    METHOD Execute( cUser )                              //
    METHOD UserExecute()                                 // Execute for user window
    METHOD MainExecute()                                 // Execute for main window
-   METHOD CheckMasterThread()                           // Check if master thread is running
+   METHOD CheckMasterThread()                           // Check IF master thread is running
    METHOD Close()                                       // Close window
    METHOD SelectExecute()
 
@@ -195,7 +195,7 @@ METHOD SelectExecute() CLASS MessageClass
       SKIP
    ENDDO
    IF AppUserName() != "JOSEQ"
-      Aadd( aLstUser, Pad( "JOSEQ", 10 ) )
+      AAdd( aLstUser, Pad( "JOSEQ", 10 ) )
    ENDIF
    CLOSE DATABASES
    DO WHILE ! ::lExit
@@ -223,7 +223,7 @@ METHOD MessageFromUser( cUser, cDateFrom, cText ) CLASS MessageClass
       ENDIF
    NEXT
    IF nNumWindow == 0
-      Aadd( AppMessage(), MessageClass():New() )
+      AAdd( AppMessage(), MessageClass():New() )
       nNumWindow := Len( AppMessage() )
       AppMessage()[ nNumWindow ]:Execute( cUser )
    ELSEIF AppMessage()[ nNumWindow ]:lExit
@@ -231,7 +231,7 @@ METHOD MessageFromUser( cUser, cDateFrom, cText ) CLASS MessageClass
       AppMessage()[ nNumWindow ]:Execute( cUser )
    ENDIF
    IF ! Empty( cText )
-      Aadd( AppMessage()[ nNumWindow ]:acMessage, { cDateFrom, cText, .T. }  )
+      AAdd( AppMessage()[ nNumWindow ]:acMessage, { cDateFrom, cText, .T. }  )
    ENDIF
 
    RETURN NIL
@@ -264,7 +264,7 @@ METHOD SendMessage() CLASS MessageClass
          :QueryExecuteInsert( "JPUSRMSG" )
       END WITH
       //cnMySql:CloseConnection()
-      Aadd( ::acMessage, { cDateFrom, cText } )
+      AAdd( ::acMessage, { cDateFrom, cText } )
    END SEQUENCE
 
    RETURN NIL

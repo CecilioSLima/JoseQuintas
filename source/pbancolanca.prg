@@ -40,7 +40,7 @@ PROCEDURE pBancoLanca
    cTempFile := MyTempFile( "CDX" )
    INDEX ON jpbamovi->baConta + jpbamovi->baAplic + Dtos( jpbamovi->baDatBan ) + Dtos( jpbamovi->baDatEmi ) + ;
       iif( jpbamovi->baValor > 0, "1", "2" ) + StrZero( jpbamovi->( RecNo() ), 6 ) TAG TEMP TO ( cTempFile ) ;
-      FOR Dtos( jpbamovi->baDatBan ) >= dtos( mDataIni ) .OR. ( jpbamovi->baValor == 0 )
+      FOR Dtos( jpbamovi->baDatBan ) >= Dtos( mDataIni ) .OR. ( jpbamovi->baValor == 0 )
    SET INDEX TO ( PathAndFile( "jpbamovi" ) ), ( cTempFile )
    OrdSetFocus( "temp" )
 
@@ -98,35 +98,35 @@ FUNCTION DigBancoLanca( ... ) // NAO STATIC usada em pBancoConsolida
    LOCAL nRecNo, m_Aplic, mbaConta
    MEMVAR m_Alterou, mRecalcAuto
 
-   IF Lastkey() == K_ESC
+   IF LastKey() == K_ESC
       RETURN 0
    ENDIF
    m_Alterou = .F.
    DO CASE
-   CASE Chr( Lastkey() ) $ "Ss" .AND. m_Prog == "PBANCOLANCA"
+   CASE Chr( LastKey() ) $ "Ss" .AND. m_Prog == "PBANCOLANCA"
       SomaFiltro()
 
-   CASE Chr( Lastkey() ) $ "Dd" .AND. m_Prog == "PBANCOLANCA"
+   CASE Chr( LastKey() ) $ "Dd" .AND. m_Prog == "PBANCOLANCA"
       mRecalcAuto := .F.
 
    CASE Chr( LastKey() ) $ "Tt" .AND. m_Prog == "PBANCOLANCA"
       TrocaConta()
 
-   CASE Chr( lastkey() ) $ "Rr"
+   CASE Chr( LastKey() ) $ "Rr"
       RecalculoBancario()
 
    CASE Chr( LastKey() ) $ "Nn" .AND. m_Prog == "PBANCOLANCA"
       NovaConta()
 
-   CASE Chr( lastkey() ) $ "Pp" .AND. m_Prog == "PBANCOLANCA"
+   CASE Chr( LastKey() ) $ "Pp" .AND. m_Prog == "PBANCOLANCA"
       mbaConta = jpbamovi->baConta
       m_Aplic = iif( jpbamovi->baAplic == "S", "N", "S" )
       ve_Conta( mbaConta, m_Aplic )
 
-   CASE Chr( lastkey() ) $ "Ff"
+   CASE Chr( LastKey() ) $ "Ff"
       DO DigFiltro
 
-   CASE Chr( lastkey() ) $ "Cc" .AND. m_Prog == "PBANCOLANCA"
+   CASE Chr( LastKey() ) $ "Cc" .AND. m_Prog == "PBANCOLANCA"
       DO DigConta
 
    CASE LastKey() == K_CTRL_L .AND. m_Prog == "PBANCOLANCA"
@@ -141,23 +141,23 @@ FUNCTION DigBancoLanca( ... ) // NAO STATIC usada em pBancoConsolida
       KEYBOARD Chr( K_UP )
       RETURN TBR_CONTINUE
 
-   CASE lastkey() == K_HOME .OR. Chr( lastkey() ) == "7"
+   CASE LastKey() == K_HOME .OR. Chr( LastKey() ) == "7"
       KEYBOARD Chr( K_CTRL_PGUP )
       RETURN TBR_CONTINUE
 
-   CASE lastkey() == K_CTRL_PGDN .OR. Chr( lastkey() ) == "1"
+   CASE LastKey() == K_CTRL_PGDN .OR. Chr( LastKey() ) == "1"
       KEYBOARD Chr( K_CTRL_PGDN )
       RETURN TBR_CONTINUE
 
-   CASE lastkey() == K_INS .OR. Chr( lastkey() ) == "0" .OR. Chr( lastkey() ) $ "Ii"
+   CASE LastKey() == K_INS .OR. Chr( LastKey() ) == "0" .OR. Chr( LastKey() ) $ "Ii"
       cadlanc( "INCLUSAO" )
       RETURN TBR_CONTINUE
 
-   CASE lastkey() == K_DEL .OR. Chr( lastkey() ) == "." .OR. Chr( lastkey() ) $ "Ee"
+   CASE LastKey() == K_DEL .OR. Chr( LastKey() ) == "." .OR. Chr( LastKey() ) $ "Ee"
       cadlanc( "EXCLUSAO" )
       RETURN TBR_CONTINUE
 
-   CASE lastkey() == K_ENTER .OR. Chr( lastkey() ) $ "Aa"
+   CASE LastKey() == K_ENTER .OR. Chr( LastKey() ) $ "Aa"
       IF jpbamovi->baValor != 0
          nRecNo := RecNo()
          cadlanc( "ALTERACAO" )
@@ -180,14 +180,14 @@ STATIC PROCEDURE TrocaConta
    LOCAL GetList := {}, mbaConta, mbaConta1, mbaConta2, m_Aplic1, m_DtBco1, m_Aplic2, m_DtBco2, m_RecNo
 
    mbaConta := jpbamovi->baConta
-   m_RecNo := recno()
+   m_RecNo := RecNo()
    WOpen( 5, 5, 9, 75, "Troca para Conta" )
    @ 7, 15 SAY "Conta..:" GET mbaConta PICTURE "@!" VALID ValidBancarioConta( @mbaConta )
    Mensagem( "Digite Conta, F9 pesquisa, ESC Sai" )
    READ
    Mensagem()
    GOTO ( m_RecNo )
-   IF jpbamovi->baConta != mbaConta .AND. lastkey() != K_ESC
+   IF jpbamovi->baConta != mbaConta .AND. LastKey() != K_ESC
       IF MsgYesNo( "Confirme transferência para esta Conta?" )
          mbaConta1 := jpbamovi->baConta
          m_Aplic1  := jpbamovi->baAplic
@@ -217,8 +217,8 @@ STATIC FUNCTION Filtro()
          DO CASE
          CASE oElement $ jpbamovi->baResumo
          CASE oElement $ jpbamovi->baHist
-         CASE oElement $ dtoc( jpbamovi->baDatEmi )
-         CASE oElement $ dtoc( jpbamovi->baDatBan )
+         CASE oElement $ Dtoc( jpbamovi->baDatEmi )
+         CASE oElement $ Dtoc( jpbamovi->baDatBan )
          CASE oElement $ jpbamovi->baConta
          CASE Val( oElement ) != 0 .AND. Val( oElement ) == Abs( jpbamovi->baValor )
          OTHERWISE
@@ -227,7 +227,7 @@ STATIC FUNCTION Filtro()
          ENDCASE
       NEXT
       IF Type( "mDataIni" ) == "D"
-         IF Dtos( mDataIni ) > dtos( jpbamovi->baDatBan )
+         IF Dtos( mDataIni ) > Dtos( jpbamovi->baDatBan )
             mReturn := .F.
          ENDIF
       ENDIF
@@ -270,7 +270,7 @@ STATIC FUNCTION NovaConta()
    @ Row(), Col() + 2 GET cTxt PICTURE "@!"
    READ
    Mensagem()
-   IF lastkey() != K_ESC
+   IF LastKey() != K_ESC
       RecAppend()
       REPLACE ;
          jpbamovi->baConta WITH cTxt, ;
@@ -292,7 +292,7 @@ STATIC FUNCTION ve_Conta
 
       m_Confirma := .T.
    ENDIF
-   m_RecNo := recno()
+   m_RecNo := RecNo()
    SEEK mbaConta + m_Aplic
    IF Eof()
       IF m_Confirma
@@ -337,11 +337,11 @@ STATIC FUNCTION CadLanc( m_Tipo )
    DO CASE
    CASE m_Tipo == "EXCLUSAO"
       IF MsgYesNo( "Confirma exclusão?" )
-         GravaOcorrencia( ,,"Exclusao BANCARIO de " + dtoc( jpbamovi->baDatEmi ) + ", " + dtoc( jpbamovi->baDatBan ) )
+         GravaOcorrencia( ,,"Exclusao BANCARIO de " + Dtoc( jpbamovi->baDatEmi ) + ", " + Dtoc( jpbamovi->baDatBan ) )
          m_DtEmi := jpbamovi->baDatEmi
          m_DtBco := jpbamovi->baDatBan
          RecDelete()
-         SEEK mbaConta + m_Aplic + dtos( m_DtBco ) + dtos( m_DtEmi ) SOFTSEEK
+         SEEK mbaConta + m_Aplic + Dtos( m_DtBco ) + Dtos( m_DtEmi ) SOFTSEEK
          SKIP -1
          IF mbaConta != jpbamovi->baConta .OR. m_Aplic != jpbamovi->baAplic
             SEEK mbaConta + m_Aplic SOFTSEEK
@@ -359,9 +359,9 @@ STATIC FUNCTION CadLanc( m_Tipo )
             m_VlEnt   := iif( jpbamovi->baValor < 0, 0, jpbamovi->baValor  )
             m_VlSai   := iif( jpbamovi->baValor > 0, 0, -jpbamovi->baValor )
          ELSE
-            scroll( 5, 0, m_Lin, maxcol(), 1 )
-            m_DtBco   := ctod("")
-            m_DtEmi   := ctod("")
+            Scroll( 5, 0, m_Lin, maxcol(), 1 )
+            m_DtBco   := Ctod("")
+            m_DtEmi   := Ctod("")
             m_Resumo  := EmptyValue( jpbamovi->baResumo )
             m_Hist    := EmptyValue( jpbamovi->baHist)
             m_VlEnt   := 0
@@ -383,7 +383,7 @@ STATIC FUNCTION CadLanc( m_Tipo )
          Mensagem( "Digite campos, F9 Pesquisa, ESC abandona" )
          READ
          wClose()
-         IF lastkey() == K_ESC
+         IF LastKey() == K_ESC
             EXIT
          ELSE
             m_DtBco = iif( Empty( m_DtBco ), Stod( "29991231" ), m_DtBco )
@@ -443,12 +443,12 @@ STATIC FUNCTION CadLanc( m_Tipo )
          ENDIF
          IF m_Tipo == "ALTERACAO"
             EXIT
-         ELSEIF lastkey() == 23
+         ELSEIF LastKey() == 23
             KEYBOARD Chr( 205 )
             Inkey(0)
          ENDIF
       ENDDO
-      IF Lastkey() == K_ESC
+      IF LastKey() == K_ESC
          KEYBOARD Chr( 205 )
          Inkey(0)
       ENDIF
@@ -456,8 +456,8 @@ STATIC FUNCTION CadLanc( m_Tipo )
    IF m_Alterou
       BARecalcula( mbaConta, m_Aplic, m_MinDtBco )
    ENDIF
-   IF lastkey() == K_ESC
-      KEYBOARD CHR(215)
+   IF LastKey() == K_ESC
+      KEYBOARD Chr(215)
       Inkey(0)
    ENDIF
    WRestore()
@@ -470,11 +470,11 @@ FUNCTION RecalculoBancario()
 
    OrdSetFocus( "jpbamovi1" )
    GOTO TOP
-   DO WHILE ! eof()
+   DO WHILE ! Eof()
       GrafProc()
       mbaConta := jpbamovi->baConta
       m_Aplic  := jpbamovi->baAplic
-      BARecalcula( mbaConta, m_Aplic, ctod(""), .T. )
+      BARecalcula( mbaConta, m_Aplic, Ctod(""), .T. )
       SEEK mbaConta + m_Aplic + "X" SOFTSEEK
    ENDDO
    OrdSetFocus( "jpbamovi1" )
@@ -492,19 +492,19 @@ STATIC FUNCTION DigFiltro()
       m_Texto += oElement + " "
    NEXT
    m_Texto = Pad( m_Texto, 200 )
-   scroll( 10, 0, 14, MaxCol(), 0 )
+   Scroll( 10, 0, 14, MaxCol(), 0 )
    @ 10, 0 to 14, MaxCol()
    @ 12, 1 to 12, MaxCol()-1
    @ 11, 1 SAY "Trechos de texto para filtro na apresentação dos dados"
    @ 13, 1 GET m_Texto PICTURE "@K!S75"
    READ
-   IF lastkey() != K_ESC
+   IF LastKey() != K_ESC
       m_Filtro := {}
       m_Texto = Trim( m_Texto )
       DO WHILE Len( m_Texto ) != 0
          m_posi := At(" ",m_Texto+" ")
-         AAdd( m_Filtro, Trim( substr( m_Texto, 1, m_posi ) ) )
-         m_Texto := lTrim( substr( m_Texto, m_posi ) )
+         AAdd( m_Filtro, Trim( Substr( m_Texto, 1, m_posi ) ) )
+         m_Texto := lTrim( Substr( m_Texto, m_posi ) )
       ENDDO
       IF ! Filtro()
          GOTO TOP
@@ -542,7 +542,7 @@ STATIC FUNCTION SomaFiltro()
 
 STATIC FUNCTION DigConta()
 
-   LOCAL mbaConta := jpbamovi->baConta, m_RecNo := recno(), m_NumConta := 1, m_NomeCta := {}, nCont
+   LOCAL mbaConta := jpbamovi->baConta, m_RecNo := RecNo(), m_NumConta := 1, m_NomeCta := {}, nCont
 
    GOTO TOP
    DO WHILE ! Eof()
@@ -571,22 +571,22 @@ STATIC FUNCTION pBancoLancaLocaliza()
    THREAD STATIC m_Texto := " "
 
    wOpen( 5, 5, 10, MaxCol() - 1, "Texto a localizar" )
-   m_Texto := pad( m_Texto, 50 )
+   m_Texto := Pad( m_Texto, 50 )
    // WSave( maxrow()-1, 0, maxrow(), maxcol() )
-   // mensagem( "Digite texto para localização afrente, ESC sai" )
+   // Mensagem( "Digite texto para localização afrente, ESC sai" )
    SET CURSOR ON
    @ 7, 7 GET m_Texto PICTURE "@K!"
    READ
    SET CURSOR OFF
    wClose()
-   mensagem()
-   IF lastkey() != K_ESC
+   Mensagem()
+   IF LastKey() != K_ESC
       Mensagem( "Aguarde... localizando texto afrente... ESC interrompe" )
       m_Texto = Trim(m_Texto)
-      IF ! eof()
+      IF ! Eof()
          SKIP
       ENDIF
-      m_Struct := dbstruct()
+      m_Struct := dbStruct()
       m_Sai    := .F.
       DO WHILE ! m_Sai .AND. ! Eof()
          grafproc()
@@ -622,7 +622,7 @@ STATIC FUNCTION pBancoLancaLocaliza()
 
 STATIC FUNCTION BARecalcula( mbaConta, m_Aplic, m_DataIni, m_RecGeral )
 
-   LOCAL m_RecNo := recno(), m_Saldo, m_DtBco, m_DtEmi, cOrdSetFocus
+   LOCAL m_RecNo := RecNo(), m_Saldo, m_DtBco, m_DtEmi, cOrdSetFocus
    MEMVAR mRecalcAuto, m_Prog
 
    hb_Default( @m_RecGeral, .F. )
@@ -633,12 +633,12 @@ STATIC FUNCTION BARecalcula( mbaConta, m_Aplic, m_DataIni, m_RecGeral )
    IF Val( Dtos( m_DataIni ) ) != 0
       m_DataIni := m_DataIni -1
    ENDIF
-   mensagem( "Aguarde, Recalculando Conta " + Trim( jpbamovi->baConta ) + "..." )
+   Mensagem( "Aguarde, Recalculando Conta " + Trim( jpbamovi->baConta ) + "..." )
    SET FILTER TO
    cOrdSetFocus := OrdSetFocus( "jpbamovi1" )
-   SEEK mbaConta + m_Aplic + dtos( m_DataIni ) SOFTSEEK
+   SEEK mbaConta + m_Aplic + Dtos( m_DataIni ) SOFTSEEK
    SKIP -1
-   IF jpbamovi->baConta != mbaConta .OR. jpbamovi->baAplic != m_Aplic .OR. bof()
+   IF jpbamovi->baConta != mbaConta .OR. jpbamovi->baAplic != m_Aplic .OR. Bof()
       SEEK mbaConta + m_Aplic
       IF jpbamovi->baSaldo != jpbamovi->baValor
          RecLock()
@@ -654,7 +654,7 @@ STATIC FUNCTION BARecalcula( mbaConta, m_Aplic, m_DataIni, m_RecGeral )
    ENDIF
    m_Saldo = jpbamovi->baSaldo
    SKIP
-   DO WHILE jpbamovi->baConta == mbaConta .AND. jpbamovi->baAplic == m_Aplic .AND. ! eof()
+   DO WHILE jpbamovi->baConta == mbaConta .AND. jpbamovi->baAplic == m_Aplic .AND. ! Eof()
       GrafProc()
       m_Saldo += jpbamovi->baValor
       IF jpbamovi->baSaldo == m_Saldo .AND. m_Saldo != 0 .AND. ! m_RecGeral
@@ -675,10 +675,10 @@ STATIC FUNCTION BARecalcula( mbaConta, m_Aplic, m_DataIni, m_RecGeral )
       RecUnlock()
       SKIP -1
    ENDIF
-   m_DtBco = ctod("")
-   m_DtEmi = ctod("")
+   m_DtBco = Ctod("")
+   m_DtEmi = Ctod("")
    * Alterado DO WHILE para DtBco ao invez de m_DtBco
-   DO WHILE jpbamovi->baConta == mbaConta .AND. jpbamovi->baAplic == m_Aplic .AND. dtos( jpbamovi->baDatBan ) > dtos( m_DataIni ) .AND. ! bof()
+   DO WHILE jpbamovi->baConta == mbaConta .AND. jpbamovi->baAplic == m_Aplic .AND. Dtos( jpbamovi->baDatBan ) > Dtos( m_DataIni ) .AND. ! Bof()
       GrafProc()
       IF jpbamovi->baDatBan != m_DtBco
          IF jpbamovi->baImpSld != "S"
