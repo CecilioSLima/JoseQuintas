@@ -235,7 +235,7 @@ FUNCTION Browse( nTop, nLeft, nBottom, nRight )
 
       CASE K_DEL
          IF RecNo() != LastRec() + 1
-            IF rLock()
+            IF RLock()
                IF Deleted()
                   dbRecall()
                ELSE

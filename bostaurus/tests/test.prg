@@ -31,15 +31,14 @@ FUNCTION MAIN
 
    RETURN NIL
 
-
 PROCEDURE Proc_ON_PAINT( Cont, oJanela )
 
    LOCAL n_hWnd, Width, Height
    LOCAL hDC, BTstruct, nAlignText, nTypeText
 
    n_hWnd := __xhb_p2n( oJanela:hWnd )
-   Width  := oJanela:CurrentSize[ 1 ] // BT_ClientAreaWidth( n_hWnd )
-   Height := oJanela:CurrentSize[ 2 ] // BT_ClientAreaHeight( n_hWnd )
+   WIDTH  := oJanela:CurrentSize[ 1 ] // BT_ClientAreaWidth( n_hWnd )
+   HEIGHT := oJanela:CurrentSize[ 2 ] // BT_ClientAreaHeight( n_hWnd )
 
    hDC = BT_CreateDC ( n_hWnd, BT_HDC_INVALIDCLIENTAREA, @BTstruct)
 

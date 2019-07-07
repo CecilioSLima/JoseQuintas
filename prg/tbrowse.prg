@@ -210,8 +210,8 @@ CREATE CLASS TBrowse
 
    METHOD up()                                  // moves the cursor up one row
    METHOD down()                                // moves the cursor down one row
-   METHOD left()                                // moves the cursor left one column
-   METHOD right()                               // moves the cursor right one column
+   METHOD Left()                                // moves the cursor left one column
+   METHOD Right()                               // moves the cursor right one column
    METHOD pageUp()                              // repositions the data source upward
    METHOD pageDown()                            // repositions the data source downward
    METHOD home()                                // moves the cursor to the leftmost visible data column
@@ -275,9 +275,9 @@ CREATE CLASS TBrowse
    METHOD setVisible()                          // set visible columns
    METHOD setCursorPos()                        // set screen cursor position at current cell
    METHOD scrollBuffer( nRows )                 // scroll internal buffer for given row numbers
-   METHOD colorValue( nColorIndex )             // get color value for given index
-   METHOD cellValue( nRow, nCol )               // get cell color indexes
-   METHOD cellColor( nRow, nCol )               // get cell formatted value
+   METHOD colorValue( nColorIndex )             // GET color value for given index
+   METHOD cellValue( nRow, nCol )               // GET cell color indexes
+   METHOD cellColor( nRow, nCol )               // GET cell formatted value
    METHOD dispFrames()                          // display TBrowse border, columns' headings, footings and separators
    METHOD dispRow( nRow )                       // display TBrowse data
 
@@ -320,7 +320,7 @@ METHOD new( nTop, nLeft, nBottom, nRight ) CLASS TBrowse
 
    ::colorSpec := SetColor()
 
-   RETURN Self
+   RETURN SELF
 
 STATIC FUNCTION _SKIP_RESULT( xResult )
 
@@ -464,7 +464,7 @@ METHOD dispFrames() CLASS TBrowse
 
    ::lFrames := .F.
 
-   RETURN Self
+   RETURN SELF
 
 METHOD dispRow( nRow ) CLASS TBrowse
 
@@ -523,7 +523,7 @@ METHOD dispRow( nRow ) CLASS TBrowse
       NEXT
    ENDIF
 
-   RETURN Self
+   RETURN SELF
 
 METHOD colorRect( aRect, aColors ) CLASS TBrowse
 
@@ -557,7 +557,7 @@ METHOD colorRect( aRect, aColors ) CLASS TBrowse
       NEXT
    ENDIF
 
-   RETURN Self
+   RETURN SELF
 
 METHOD scrollBuffer( nRows ) CLASS TBrowse
 
@@ -596,7 +596,7 @@ METHOD scrollBuffer( nRows ) CLASS TBrowse
       ENDIF
    ENDIF
 
-   RETURN Self
+   RETURN SELF
 
 METHOD readRecord( nRow ) CLASS TBrowse
 
@@ -737,7 +737,7 @@ METHOD setPosition() CLASS TBrowse
 
    ::nMoveOffset := 0
 
-   RETURN Self
+   RETURN SELF
 
 METHOD stabilize() CLASS TBrowse
 
@@ -854,7 +854,7 @@ METHOD forceStable() CLASS TBrowse
    DO WHILE ! ::stabilize()
    ENDDO
 
-   RETURN Self
+   RETURN SELF
 
 METHOD colorValue( nColorIndex ) CLASS TBrowse
 
@@ -1039,7 +1039,7 @@ METHOD setUnstable() CLASS TBrowse
    ::lHitBottom := .F.
    ::lStable    := .F.
 
-   RETURN Self
+   RETURN SELF
 
 METHOD invalidate() CLASS TBrowse
 
@@ -1047,7 +1047,7 @@ METHOD invalidate() CLASS TBrowse
    ::lInvalid := .T.
    ::lFrames := .T.
 
-   RETURN Self
+   RETURN SELF
 
 METHOD refreshAll() CLASS TBrowse
 
@@ -1062,7 +1062,7 @@ METHOD refreshAll() CLASS TBrowse
    */
    ::lRefresh := .T.
 
-   RETURN Self
+   RETURN SELF
 
 METHOD refreshCurrent() CLASS TBrowse
 
@@ -1072,37 +1072,37 @@ METHOD refreshCurrent() CLASS TBrowse
       ::aCellStatus[ ::nRowPos ] := .F.
    ENDIF
 
-   RETURN Self
+   RETURN SELF
 
 METHOD up() CLASS TBrowse
 
    ::setUnstable()
    ::nMoveOffset--
 
-   RETURN Self
+   RETURN SELF
 
 METHOD down() CLASS TBrowse
 
    ::setUnstable()
    ::nMoveOffset++
 
-   RETURN Self
+   RETURN SELF
 
 METHOD pageUp() CLASS TBrowse
 
    ::setUnstable()
    ::nMoveOffset -= ::rowCount
 
-   RETURN Self
+   RETURN SELF
 
 METHOD pageDown() CLASS TBrowse
 
    ::setUnstable()
    ::nMoveOffset += ::rowCount
 
-   RETURN Self
+   RETURN SELF
 
-METHOD left() CLASS TBrowse
+METHOD Left() CLASS TBrowse
 
    ::setUnstable()
    DO WHILE .T.
@@ -1113,9 +1113,9 @@ METHOD left() CLASS TBrowse
       ENDIF
    ENDDO
 
-   RETURN Self
+   RETURN SELF
 
-METHOD right() CLASS TBrowse
+METHOD Right() CLASS TBrowse
 
    ::setUnstable()
    DO WHILE .T.
@@ -1126,7 +1126,7 @@ METHOD right() CLASS TBrowse
       ENDIF
    ENDDO
 
-   RETURN Self
+   RETURN SELF
 
 METHOD home() CLASS TBrowse
 
@@ -1134,14 +1134,14 @@ METHOD home() CLASS TBrowse
    ::nColPos := iif( ::nLeftVisible < ::nRightVisible, ;
       ::nLeftVisible, ::nRightVisible )
 
-   RETURN Self
+   RETURN SELF
 
 METHOD end() CLASS TBrowse
 
    ::setUnstable()
    ::nColPos := ::nRightVisible
 
-   RETURN Self
+   RETURN SELF
 
 METHOD panLeft() CLASS TBrowse
 
@@ -1156,7 +1156,7 @@ METHOD panLeft() CLASS TBrowse
       ::nLeftVisible := nNewPos
    ENDIF
 
-   RETURN Self
+   RETURN SELF
 
 METHOD panRight() CLASS TBrowse
 
@@ -1171,21 +1171,21 @@ METHOD panRight() CLASS TBrowse
       ::nRightVisible := nNewPos
    ENDIF
 
-   RETURN Self
+   RETURN SELF
 
 METHOD panHome() CLASS TBrowse
 
    ::setUnstable()
    ::nColPos := _NEXTCOLUMN( ::aColData, 1 )
 
-   RETURN Self
+   RETURN SELF
 
 METHOD panEnd() CLASS TBrowse
 
    ::setUnstable()
    ::nColPos := _PREVCOLUMN( ::aColData, ::colCount )
 
-   RETURN Self
+   RETURN SELF
 
 METHOD goTop() CLASS TBrowse
 
@@ -1202,7 +1202,7 @@ METHOD goTop() CLASS TBrowse
    ::nMoveOffset := 0
    Eval( ::bSkipBlock, 0 )
 
-   RETURN Self
+   RETURN SELF
 
 METHOD goBottom() CLASS TBrowse
 
@@ -1222,7 +1222,7 @@ METHOD goBottom() CLASS TBrowse
    ::nMoveOffset := -nMoved
    Eval( ::bSkipBlock, 0 )
 
-   RETURN Self
+   RETURN SELF
 
 METHOD configure( nMode ) CLASS TBrowse
 
@@ -1237,7 +1237,7 @@ METHOD configure( nMode ) CLASS TBrowse
    ENDIF
    ::nConfigure := hb_bitOr( ::nConfigure, nMode )
 
-   RETURN Self
+   RETURN SELF
 
 METHOD doConfigure() CLASS TBrowse
 
@@ -1269,7 +1269,7 @@ METHOD doConfigure() CLASS TBrowse
    nColCount := Len( ::columns )
    ASize( ::aColData, nColCount )
    FOR EACH oCol, aCol IN ::columns, ::aColData
-      /* CA-Cl*pper always evaluates column block even if column is
+      /* CA-Cl*pper always evaluates column block even IF column is
       * hidden by setting :width to 0. [druzus]
       */
       xValue := Eval( oCol:block )
@@ -1344,7 +1344,7 @@ METHOD doConfigure() CLASS TBrowse
          ENDIF
 #ifdef HB_CLP_STRICT
          /* This is bug in CA-Cl*pper TBrowse. It causes that column
-         * is not well centered when picture increase the field size
+         * is not well centered when PICTURE increase the field size
          * it also has other bad side effects in Clipper. :hiLite()
          * method does not check for the cell size and shows the whole
          * formatted string starting from the middle of column. When
@@ -1447,7 +1447,7 @@ METHOD doConfigure() CLASS TBrowse
 
    ::nBufferPos := ::nRowPos
 
-   RETURN Self
+   RETURN SELF
 
 STATIC PROCEDURE _GENLIMITRTE()
 
@@ -1468,7 +1468,7 @@ STATIC PROCEDURE _GENLIMITRTE()
 
    RETURN
 
-   /* helper function to take headings and footing data */
+   /* helper FUNCTION to take headings and footing data */
 
 STATIC FUNCTION _DECODE_FH( cName, nHeight, nWidth )
 
@@ -1781,7 +1781,7 @@ METHOD setVisible() CLASS TBrowse
 
    ENDIF
 
-   RETURN Self
+   RETURN SELF
 
 METHOD hiLite() CLASS TBrowse
 
@@ -1807,7 +1807,7 @@ METHOD hiLite() CLASS TBrowse
 
    DispEnd()
 
-   RETURN Self
+   RETURN SELF
 
 METHOD deHilite() CLASS TBrowse
 
@@ -1833,7 +1833,7 @@ METHOD deHilite() CLASS TBrowse
 
    DispEnd()
 
-   RETURN Self
+   RETURN SELF
 
    /* Returns the display width of a particular column */
 
@@ -2086,7 +2086,7 @@ METHOD addColumn( oCol ) CLASS TBrowse
    AAdd( ::columns, oCol )
    ::configure( _TBR_CONF_COLUMNS )
 
-   RETURN Self
+   RETURN SELF
 
    /* Delete a column object from a browse */
 
@@ -2154,7 +2154,7 @@ METHOD setColumn( nColumn, oCol ) CLASS TBrowse
    parameter is passed, when it returns NIL). [vszakats] */
 #ifdef HB_CLP_STRICT
 
-   RETURN Self
+   RETURN SELF
 #else
 
    RETURN oPrevCol

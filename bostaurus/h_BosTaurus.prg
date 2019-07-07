@@ -16,7 +16,7 @@ ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
 FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
+along with this program; If not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor Boston, MA 02110-1301, USA
 (or visit their web site at http://www.gnu.org/).
 
@@ -69,9 +69,9 @@ FUNCTION bt_ListCalledFunctions (nActivation)
 
    LOCAL cMsg := ""
 
-   nActivation := IF (ValType(nActivation) <> "N", 1, nActivation)
-   DO WHILE .NOT.(PROCNAME(nActivation) == "")
-      cMsg := cMsg + "Called from:" + PROCNAME(nActivation) + "(" + LTRIM(STR(PROCLINE(nActivation))) + ")" + CRLF
+   nActivation := IF( ValType( nActivation ) <> "N", 1, nActivation )
+   DO WHILE .NOT.( ProcName( nActivation ) == "" )
+      cMsg := cMsg + "Called from:" + ProcName( nActivation ) + "(" + LTrim( Str( ProcLine( nActivation ) ) ) + ")" + CRLF
       nActivation++
    ENDDO
 
@@ -83,15 +83,15 @@ FUNCTION bt_ListCalledFunctions (nActivation)
 
 FUNCTION BT_InfoName ()
 
-   RETURN (Alltrim(_BT_INFO_NAME_))
+   RETURN AllTrim( _BT_INFO_NAME_ )
 
 FUNCTION BT_InfoVersion ()
 
-   RETURN (Alltrim(Str(_BT_INFO_MAJOR_VERSION_))+"."+Alltrim(Str(_BT_INFO_MINOR_VERSION_))+"."+Alltrim(Str(_BT_INFO_PATCHLEVEL_)))
+   RETURN AllTrim( Str( _BT_INFO_MAJOR_VERSION_ ) ) + "." + Alltrim( Str( _BT_INFO_MINOR_VERSION_ ) ) + "." + Alltrim( Str( _BT_INFO_PATCHLEVEL_ ) )
 
 FUNCTION BT_InfoAuthor ()
 
-   RETURN (Alltrim(_BT_INFO_AUTHOR_))
+   RETURN AllTrim( _BT_INFO_AUTHOR_ )
 
    // **********************************************************************************************************************************
    // * Handle DC
@@ -668,4 +668,3 @@ FUNCTION BT_BitmapClipboardIsEmpty ()
    LOCAL lRet := BT_BMP_CLIPBOARD_ISEMPTY()
 
    RETURN lRet
-
