@@ -23,11 +23,11 @@ PROCEDURE pContRedRenum
    SayScroll( "Após a execução deste  modulo,  os  códigos  anteriores  somente  poderão  ser" )
    SayScroll( "recuperados através do retorno de um backup (Faça um backup antes de executar)" )
 
-   mensagem( "Confirme a operação digitando <SIM>" )
+   Mensagem( "Confirme a operação digitando <SIM>" )
    m_conf = "NAO"
    @ Row(), Col()+2 GET m_conf PICTURE "@!"
    READ
-   mensagem()
+   Mensagem()
 
    IF m_conf == "SIM" .AND. LastKey() != K_ESC
       Mensagem( "Aguarde... alterando códigos reduzidos..." )
@@ -38,7 +38,7 @@ PROCEDURE pContRedRenum
          GrafProc()
          IF ctplano->a_tipo == "A"
             RecLock()
-            REPLACE ctplano->a_reduz WITH str( nCodigo, 5 ) + CalculaDigito( str( nCodigo ), "11" )
+            REPLACE ctplano->a_reduz WITH Str( nCodigo, 5 ) + CalculaDigito( Str( nCodigo ), "11" )
             nCodigo += 1
             RecUnlock()
          ENDIF

@@ -55,7 +55,7 @@ PROCEDURE LJPTABEL
    nOpcGeral = 1
    acTxtGeral := Array(5)
 
-   WOpen( 5, 4, 7 + len( acTxtGeral ), 45, "Opções disponíveis" )
+   WOpen( 5, 4, 7 + Len( acTxtGeral ), 45, "Opções disponíveis" )
 
    DO WHILE .T.
       acTxtGeral := { ;
@@ -66,7 +66,7 @@ PROCEDURE LJPTABEL
          "Ordem.....: " + acTxtOrdem[ nOpcOrdem ], ;
          "Saída.....: " + TxtSaida()[ nOpcPrinterType ] }
 
-      FazAchoice( 7, 5, 6+len(acTxtGeral), 44, acTxtGeral, @nOpcGeral )
+      FazAchoice( 7, 5, 6+Len(acTxtGeral), 44, acTxtGeral, @nOpcGeral )
 
       nOpctemp := 1
       DO CASE

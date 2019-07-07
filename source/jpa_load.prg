@@ -72,7 +72,7 @@ FUNCTION Sistema( cParam )
    DO WHILE .T.
       Cls()
       TelaEntrada()
-      IF Lastkey() == K_ESC
+      IF LastKey() == K_ESC
          EXIT
       ENDIF
       AppIsMultithread( AppUserLevel() == 0 )

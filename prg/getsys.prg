@@ -77,7 +77,7 @@ FUNCTION ReadModal( GetList, nPos, lIsMouse )
       EVAL( sbFormat )
    ENDIF
 
-   IF ( EMPTY( GetList ) )
+   IF ( Empty( GetList ) )
 
       // S'87 compatibility
       SETPOS( MAXROW() - 1, 0 )
@@ -181,7 +181,7 @@ PROCEDURE GetReader( oGet, lIsMouse )
 
    /***
    *  GetApplyKey()
-   *  Apply a single INKEY() keystroke to a GET
+   *  Apply a single Inkey() keystroke to a GET
    *  NOTE: GET must have focus.
    */
 
@@ -421,7 +421,7 @@ FUNCTION GetPostValidate( oGet )
       lSavUpdated := slUpdated
 
       // S'87 compatibility
-      SETPOS( oGet:row, oGet:col + LEN( oGet:buffer ) )
+      SETPOS( oGet:row, oGet:col + Len( oGet:buffer ) )
 
       lValid := EVAL( oGet:postBlock, oGet )
 
@@ -540,7 +540,7 @@ STATIC FUNCTION Settle( GetList, nPos )
       nEXITState := GE_DOWN
 
    CASE ( nEXITState == GE_BOTTOM )
-      nPos       := LEN( GetList )
+      nPos       := Len( GetList )
       slBumpBot  := .T.
       nEXITState := GE_UP
 
@@ -653,7 +653,7 @@ STATIC PROCEDURE RestoreGetSysVars( aSavSysVars )
 
 STATIC FUNCTION GetReadVar( oGet )
 
-   LOCAL cName := UPPER( oGet:name )
+   LOCAL cName := Upper( oGet:name )
    LOCAL oElement
 
    // The following code includes subscripts in the name RETURNed by
@@ -751,11 +751,11 @@ STATIC PROCEDURE ShowScoreboard()
    LOCAL nCol
 
    IF ( SET( _SET_SCOREBOARD ) )
-      nRow := ROW()
-      nCol := COL()
+      nRow := Row()
+      nCol := Col()
 
       SETPOS( SCORE_ROW, SCORE_COL )
-      DISPOUT( IF( SET( _SET_INSERT ), NationMsg(_GET_INSERT_ON),;
+      DISPOUT( IF( SET( _SET_INSERT ), NationMsg(_GET_INSERT_ON), ;
          NationMsg(_GET_INSERT_OFF)) )
       SETPOS( nRow, nCol )
    ENDIF
@@ -773,8 +773,8 @@ STATIC PROCEDURE DateMsg()
 
    IF ( SET( _SET_SCOREBOARD ) )
 
-      nRow := ROW()
-      nCol := COL()
+      nRow := Row()
+      nCol := Col()
 
       SETPOS( SCORE_ROW, SCORE_COL )
       DISPOUT( NationMsg(_GET_INVD_DATE) )
@@ -784,7 +784,7 @@ STATIC PROCEDURE DateMsg()
       END
 
       SETPOS( SCORE_ROW, SCORE_COL )
-      DISPOUT( SPACE( LEN( NationMsg(_GET_INVD_DATE) ) ) )
+      DISPOUT( Space( Len( NationMsg(_GET_INVD_DATE) ) ) )
       SETPOS( nRow, nCol )
 
    ENDIF
@@ -814,25 +814,25 @@ FUNCTION RangeCheck( oGet, junk, lo, hi )
 
    IF ( SET(_SET_SCOREBOARD) )
 
-      cMsg := NationMsg(_GET_RANGE_FROM) + LTRIM( TRANSFORM( lo, "" ) ) + ;
-         NationMsg(_GET_RANGE_TO) + LTRIM( TRANSFORM( hi, "" ) )
+      cMsg := NationMsg(_GET_RANGE_FROM) + LTRIM( Transform( lo, "" ) ) + ;
+         NationMsg(_GET_RANGE_TO) + LTRIM( Transform( hi, "" ) )
 
-      IF ( LEN( cMsg ) > MAXCOL() )
-         cMsg := SUBSTR( cMsg, 1, MAXCOL() )
+      IF ( Len( cMsg ) > MAXCOL() )
+         cMsg := Substr( cMsg, 1, MAXCOL() )
       ENDIF
 
-      nRow := ROW()
-      nCol := COL()
+      nRow := Row()
+      nCol := Col()
 
-      SETPOS( SCORE_ROW, MIN( 60, MAXCOL() - LEN( cMsg ) ) )
+      SETPOS( SCORE_ROW, MIN( 60, MAXCOL() - Len( cMsg ) ) )
       DISPOUT( cMsg )
       SETPOS( nRow, nCol )
 
       DO WHILE ( NEXTKEY() == 0 )
       END
 
-      SETPOS( SCORE_ROW, MIN( 60, MAXCOL() - LEN( cMsg ) ) )
-      DISPOUT( SPACE( LEN( cMsg ) ) )
+      SETPOS( SCORE_ROW, MIN( 60, MAXCOL() - Len( cMsg ) ) )
+      DISPOUT( Space( Len( cMsg ) ) )
       SETPOS( nRow, nCol )
 
    ENDIF
@@ -898,7 +898,7 @@ STATIC FUNCTION GetLen( oGet )
    CASE oGet:type == "L"
       rval := 3
    CASE oGet:type == "N"
-      IF EMPTY( oGet:picture )
+      IF Empty( oGet:picture )
          rval := Len( LTrim( Str( oGet:varGet() ) ) )
       ELSE
          rval := Len( oGet:picture )

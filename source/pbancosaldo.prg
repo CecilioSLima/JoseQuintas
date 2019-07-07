@@ -27,7 +27,7 @@ PROCEDURE pBancoSaldo
       IF m_tiposd == "B"
          SayScroll( "SALDOS NO BANCO" )
       ELSE
-         SayScroll( "SALDOS EM " + dtoc( m_data ) + " " + "NO SISTEMA" )
+         SayScroll( "SALDOS EM " + Dtoc( m_data ) + " " + "NO SISTEMA" )
       ENDIF
       SayScroll()
       SayScroll( "        CONTA               SALDO C/C       SALDO  APLICAÇÃO       SALDO GERAL  " )
@@ -37,12 +37,12 @@ PROCEDURE pBancoSaldo
       m_tsaldoa = 0
       SET FILTER TO
       GOTO TOP
-      DO WHILE nKey != K_ESC .AND. ! eof()
+      DO WHILE nKey != K_ESC .AND. ! Eof()
          nKey  = Inkey()
          m_saldon = 0
          m_saldoa = 0
          mbaConta = jpbamovi->baconta
-         DO WHILE mbaConta == jpbamovi->baConta .AND. ! eof()
+         DO WHILE mbaConta == jpbamovi->baConta .AND. ! Eof()
             IF ! Empty( jpbamovi->baDatBan)
                IF jpbamovi->baDatBan!= Stod( "29991231" ) .OR. ( jpbamovi->baDatEmi<= m_data .AND. m_tiposd == "S" )
                   IF jpbamovi->baAplic == "S"
@@ -54,15 +54,15 @@ PROCEDURE pBancoSaldo
             ENDIF
             SKIP
          ENDDO
-         SayScroll( mbaConta + " " + transform( m_saldon, PicVal(14,2) ) + " " + ;
-            transform( m_saldoa, PicVal(14,2)) + " " + ;
-            transform( m_saldon+m_saldoa, PicVal(14,2) ) )
+         SayScroll( mbaConta + " " + Transform( m_saldon, PicVal(14,2) ) + " " + ;
+            Transform( m_saldoa, PicVal(14,2)) + " " + ;
+            Transform( m_saldon+m_saldoa, PicVal(14,2) ) )
          m_tsaldon += m_saldon
          m_tsaldoa += m_saldoa
       ENDDO
-      SayScroll( "*** TOTAIS ***  " + transform( m_tsaldon, PicVal(14,2)) + " " + ;
-         transform( m_tsaldoa, PicVal(14,2) ) + " " + ;
-         transform( m_tsaldon+m_tsaldoa, PicVal(14,2) ) )
+      SayScroll( "*** TOTAIS ***  " + Transform( m_tsaldon, PicVal(14,2)) + " " + ;
+         Transform( m_tsaldoa, PicVal(14,2) ) + " " + ;
+         Transform( m_tsaldon+m_tsaldoa, PicVal(14,2) ) )
       IF m_tiposd == "S"
          m_confirm = Mensagem( "+- altera data, B Saldo no banco, ENTER data específica, ESC Sai", "+,-,B, 13, 27" )
       ELSE
@@ -77,7 +77,7 @@ PROCEDURE pBancoSaldo
          m_tiposd = m_confirm
       OTHERWISE
          Mensagem( "Digite data para saldo, ESC sai" )
-         @ row(), col()+2 GET m_data
+         @ Row(), Col()+2 GET m_data
          READ
          Mensagem()
       ENDCASE

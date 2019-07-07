@@ -16,7 +16,7 @@ FUNCTION OkContabil( mContVar )
    cKeyboard := ""
    cReadVar  := Lower( ReadVar() )
    lReturn   := .T.
-   nRow      := row()
+   nRow      := Row()
    DO CASE
    CASE LastKey() == K_CTRL_R .OR. LastKey() == K_CTRL_C .OR. LastKey() == K_CTRL_W
       lReturn = .F.
@@ -53,16 +53,16 @@ FUNCTION OkContabil( mContVar )
       ENDIF
 
    CASE cReadVar $ "mctconta,mctcontad,mctcontac"
-      nRow = row()
+      nRow = Row()
       @ nRow, 40 SAY Space(35)
-      IF lastkey() == K_UP
+      IF LastKey() == K_UP
          lReturn = .T.
-      ELSEIF empty( mContVar )
+      ELSEIF Empty( mContVar )
          lReturn = .F.
       ELSE
          cCodigo = Substr( mContVar, 1, Len( Trim( mContVar ) ) - 1 )
          cDigito = Substr( mContVar, Len( Trim( mContVar ) ), 1 )
-         cContac = pad( cCodigo, 11 ) + cDigito
+         cContac = Pad( cCodigo, 11 ) + cDigito
          IF ! encontra( cContac, "ctplano" )
             MsgWarning( "Conta contábil não cadastrada!")
             lReturn = .F.
@@ -91,12 +91,12 @@ FUNCTION OkContabil( mContVar )
       ENDIF
 
    CASE cReadVar == "mctreduz"
-      IF empty( mContVar )
+      IF Empty( mContVar )
          lReturn = .F.
       ELSEIF " " $ mContVar
          cKeyboard = StrZero( Val( mContVar ), Len( mContVar ) )
          lReturn = .F.
-      ELSEIF ! encontra( str( Val( mContVar ), 6 ), "ctplano", "ctplano2")
+      ELSEIF ! encontra( Str( Val( mContVar ), 6 ), "ctplano", "ctplano2")
          MsgWarning( "Conta não cadastrada!")
          lReturn = .F.
       ENDIF

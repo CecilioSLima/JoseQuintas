@@ -39,11 +39,11 @@ PROCEDURE PCONTNUMDIA
       NEXT
       Mensagem( "Digite campos, ESC abandona todas as alterações" )
       READ
-      IF lastkey() == K_ESC
+      IF LastKey() == K_ESC
          EXIT
       ENDIF
    NEXT
-   IF Lastkey() != K_ESC
+   IF LastKey() != K_ESC
       FOR nCont = 1 TO 96
          m_cMes := StrZero( nCont, 2 )
          DiarioSave( nCont, m_Livro&m_cMes, m_Pagina&m_cMes )

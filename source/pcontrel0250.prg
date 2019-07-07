@@ -141,7 +141,7 @@ STATIC FUNCTION imprime()
    SEEK m_AnoMes SOFTSEEK
    DO WHILE nKey != K_ESC .AND. ! Eof()
       nKey = Inkey()
-      IF Left( DToS( ctlotes->loData ), 6 ) > m_AnoMes
+      IF Left( Dtos( ctlotes->loData ), 6 ) > m_AnoMes
          EXIT
       ENDIF
       IF ctlotes->loLote < m_Lotei .AND. m_DeAte == 2
@@ -161,7 +161,7 @@ STATIC FUNCTION imprime()
       STORE 0 TO m_qtdtot, m_debtot, m_cretot
       STORE 0 TO m_qtdlan, m_deblan, m_crelan
       oPDF:nRow = oPDF:MaxRow()
-      DO WHILE Left( DToS( ctdiari->diData ), 6 ) == m_AnoMes .AND. nKey != K_ESC .AND. ctdiari->diLote = ctlotes->loLote .AND. ! Eof()
+      DO WHILE Left( Dtos( ctdiari->diData ), 6 ) == m_AnoMes .AND. nKey != K_ESC .AND. ctdiari->diLote = ctlotes->loLote .AND. ! Eof()
          nKey = Inkey()
          IF oPDF:nRow > oPDF:MaxRow() - 9
             oPDF:PageHeader()
@@ -177,11 +177,11 @@ STATIC FUNCTION imprime()
             oPDF:DRAWTEXT( oPDF:nRow, 13, Trim( AUXCCUSTOClass():Descricao( ctdiari->diCCusto ) ) + " (" + ctdiari->diCCusto + ")" )
             oPDF:nRow = oPDF:nRow + 1
          ENDIF
-         oPDF:DRAWTEXT( oPDF:nRow, 37, SubStr( ctdiari->diHist, 1, 50 ) )
+         oPDF:DRAWTEXT( oPDF:nRow, 37, Substr( ctdiari->diHist, 1, 50 ) )
          FOR nCont = 2 TO 5
-            IF ! Empty( SubStr( ctdiari->diHist, nCont * 50 - 49, 50 ) )
+            IF ! Empty( Substr( ctdiari->diHist, nCont * 50 - 49, 50 ) )
                oPDF:nRow = oPDF:nRow + 1
-               oPDF:DRAWTEXT( oPDF:nRow, 37, SubStr( ctdiari->diHist, nCont * 50 - 59, 50 ) )
+               oPDF:DRAWTEXT( oPDF:nRow, 37, Substr( ctdiari->diHist, nCont * 50 - 59, 50 ) )
             ENDIF
          NEXT
          IF ctdiari->diDebCre = "D"

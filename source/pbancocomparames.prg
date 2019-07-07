@@ -127,11 +127,11 @@ PROCEDURE pBancoComparaMes
             ColPos++
          ENDIF
 
-      CASE nKey == asc( "R" ) .OR. nKey == asc( "r" )
+      CASE nKey == Asc( "R" ) .OR. nKey == Asc( "r" )
          IF Len( m_Tabela[ m_CodResumo ] ) == 10
             SELECT jpbagrup
             SEEK m_Tabela[ m_CodResumo ]
-            DO WHILE jpbagrup->bgGrupo == m_Tabela[ m_CodResumo ] .AND. ! eof()
+            DO WHILE jpbagrup->bgGrupo == m_Tabela[ m_CodResumo ] .AND. ! Eof()
                RecLock()
                REPLACE jpbagrup->bgMostra WITH iif( jpbagrup->bgMostra == "S", "N", "S" )
                RecUnlock()
@@ -152,27 +152,27 @@ PROCEDURE pBancoComparaMes
          WSave()
          Mensagem( "Aguarde, pesquisando movimentação..." )
          Cls()
-         @ 2, 0 SAY "Grupo:" + Trim( left( m_Tabela[ m_CodResumo ], 10 ) ) + iif( Len( m_Tabela[ m_CodResumo ] ) == 10, "", ;
-            ", Resumo:" + Trim( right( m_Tabela[ m_CodResumo ], 10 ) ) ) + ", mes:" + StrZero( m_TmpMes, 2 ) + "/" + StrZero( m_TmpAno, 4 )
+         @ 2, 0 SAY "Grupo:" + Trim( Left( m_Tabela[ m_CodResumo ], 10 ) ) + iif( Len( m_Tabela[ m_CodResumo ] ) == 10, "", ;
+            ", Resumo:" + Trim( Right( m_Tabela[ m_CodResumo ], 10 ) ) ) + ", mes:" + StrZero( m_TmpMes, 2 ) + "/" + StrZero( m_TmpAno, 4 )
          @ 3, 0 SAY "BANCO EMISS __________HISTORICO__________ ___VALOR (NA DATA)__"
          m_tmpmov := {}
          SELECT jpbagrup
-         SEEK left( m_Tabela[ m_CodResumo ], 10 )
-         DO WHILE jpbagrup->bgGrupo == left( m_Tabela[ m_CodResumo ], 10 ) .AND. ! eof()
+         SEEK Left( m_Tabela[ m_CodResumo ], 10 )
+         DO WHILE jpbagrup->bgGrupo == Left( m_Tabela[ m_CodResumo ], 10 ) .AND. ! Eof()
             GrafProc()
-            IF jpbagrup->bgResumo != right( m_Tabela[ m_CodResumo ], 10 ) .AND. Len( m_Tabela[ m_CodResumo ] ) > 10
+            IF jpbagrup->bgResumo != Right( m_Tabela[ m_CodResumo ], 10 ) .AND. Len( m_Tabela[ m_CodResumo ] ) > 10
                SKIP
                LOOP
             ENDIF
             SELECT jpbamovi
             SEEK jpbagrup->bgResumo + StrZero( m_TmpAno, 4 ) + StrZero( m_TmpMes, 2 )
-            DO WHILE jpbamovi->baResumo = jpbagrup->bgResumo .AND. year( jpbamovi->baDatEmi ) == m_TmpAno .AND. month( jpbamovi->baDatEmi ) == m_TmpMes .AND. ! eof()
+            DO WHILE jpbamovi->baResumo = jpbagrup->bgResumo .AND. Year( jpbamovi->baDatEmi ) == m_TmpAno .AND. Month( jpbamovi->baDatEmi ) == m_TmpMes .AND. ! Eof()
                GrafProc()
                m_Texto  = iif( jpbamovi->baDatBan = Stod( "29991231" ), Space(5), Left( Dtoc( jpbamovi->baDatBan ), 5 ) )
-               m_Texto += Chr(179) + left( dtoc( jpbamovi->baDatEmi ), 5 )
-               m_Texto += Chr(179) + left( jpbamovi->baHist, 26 )
+               m_Texto += Chr(179) + Left( Dtoc( jpbamovi->baDatEmi ), 5 )
+               m_Texto += Chr(179) + Left( jpbamovi->baHist, 26 )
                m_Texto += Chr(179)
-               m_Texto += transform( jpbamovi->bavalor, PicVal(14,2) )
+               m_Texto += Transform( jpbamovi->bavalor, PicVal(14,2) )
                m_Texto += "<" + Chr(179)
                m_Texto += Space(14)
                m_Texto += " "
@@ -260,20 +260,20 @@ STATIC FUNCTION FldBrow2( nCont )
    DO CASE
    CASE nCont == -1
       IF Len( m_Tabela[ m_CodResumo ] ) == 10
-         m_Retorno := "->" + left( m_Tabela[ m_CodResumo ], 10 )
+         m_Retorno := "->" + Left( m_Tabela[ m_CodResumo ], 10 )
       ELSE
-         m_Retorno := "  " + right( m_Tabela[ m_CodResumo ], 10 )
+         m_Retorno := "  " + Right( m_Tabela[ m_CodResumo ], 10 )
       ENDIF
    CASE ( m_Tabela[ m_CodResumo ] == ">ENTRADAS" .OR. m_Tabela[ m_CodResumo] == ">SAIDAS" ) .AND. ! m_MostraTot
       m_Retorno := ""
    CASE m_Tabela[ m_CodResumo ] = ">ENTRADAS"
-      m_Retorno := transform( SomaEntradas( m_TmpAno, m_TmpMes ), PicVal(14,2) )
+      m_Retorno := Transform( SomaEntradas( m_TmpAno, m_TmpMes ), PicVal(14,2) )
    CASE m_Tabela[ m_CodResumo ] = ">SAIDAS"
-      m_Retorno := transform( SomaSaidas( m_TmpAno, m_TmpMes ), PicVal(14,2) )
+      m_Retorno := Transform( SomaSaidas( m_TmpAno, m_TmpMes ), PicVal(14,2) )
    CASE Len(m_Tabela[ m_CodResumo ]) == 10
       m_Retorno := Transform( SomaGrupo( m_Tabela[ m_CodResumo ], m_TmpAno, m_TmpMes ), PicVal(14,2) )
    OTHERWISE
-      m_Retorno := Transform( SomaResumo( right( m_Tabela[ m_CodResumo ], 10 ), m_TmpAno, m_TmpMes ), PicVal(14,2) )
+      m_Retorno := Transform( SomaResumo( Right( m_Tabela[ m_CodResumo ], 10 ), m_TmpAno, m_TmpMes ), PicVal(14,2) )
    ENDCASE
    SELECT ( m_Select )
 
@@ -288,7 +288,7 @@ STATIC FUNCTION TitBrow2()
    @ 3, 1 SAY "Item"
    FOR nCont = 0 TO ( nQtdCols - 1 )
       @ 3, 16 + nCont * 20 SAY Padc( Space(3) + iif( m_Mes - nCont <= 0, ;
-         StrZero( m_Mes - nCont + 12, 2 ) + "/" + StrZero( m_Ano - 1, 4 ),;
+         StrZero( m_Mes - nCont + 12, 2 ) + "/" + StrZero( m_Ano - 1, 4 ), ;
          StrZero( m_Mes - nCont, 2 ) + "/" + StrZero( m_Ano, 4 ) ), 20 )
    NEXT
 
@@ -306,7 +306,7 @@ STATIC FUNCTION SomaEntradas( m_Ano, m_Mes )
       cResumo   := jpbamovi->baResumo
       nTotalTmp := 0
       SEEK cResumo + StrZero( m_Ano, 4 ) + StrZero( m_Mes, 2 )
-      DO WHILE jpbamovi->baResumo = cResumo .AND. year( jpbamovi->baDatEmi ) == m_Ano .AND. month( jpbamovi->baDatEmi ) == m_Mes .AND. ! eof()
+      DO WHILE jpbamovi->baResumo = cResumo .AND. Year( jpbamovi->baDatEmi ) == m_Ano .AND. Month( jpbamovi->baDatEmi ) == m_Mes .AND. ! Eof()
          GrafProc()
          IF jpbamovi->baResumo == Pad( "APLIC", 10 ) .OR. jpbamovi->baResumo == Pad( "NENHUM", 10 )
             EXIT
@@ -336,7 +336,7 @@ STATIC FUNCTION SomaSaidas( nAno, nMes )
       cResumo := jpbamovi->baResumo
       nTotalTmp := 0
       SEEK cResumo + StrZero( nAno, 4 ) + StrZero( nMes, 2 )
-      DO WHILE jpbamovi->baResumo = cResumo .AND. year( jpbamovi->baDatEmi ) == nAno .AND. month( jpbamovi->baDatEmi ) == nMes .AND. ! eof()
+      DO WHILE jpbamovi->baResumo = cResumo .AND. Year( jpbamovi->baDatEmi ) == nAno .AND. Month( jpbamovi->baDatEmi ) == nMes .AND. ! Eof()
          GrafProc()
          IF jpbamovi->baResumo == Pad( "APLIC", 10 ) .OR. jpbamovi->baResumo == Pad( "NENHUM", 10 )
             EXIT

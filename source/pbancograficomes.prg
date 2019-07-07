@@ -43,7 +43,7 @@ PROCEDURE pBancoGraficoMes
       Mensagem( "Digite dados a serem apresentados, F9 Pesquisa, ESC Sai" )
       READ
       Mensagem()
-      IF lastkey() == K_ESC
+      IF LastKey() == K_ESC
          CLOSE DATABASES
          EXIT
       ENDIF
@@ -63,7 +63,7 @@ PROCEDURE pBancoGraficoMes
       // pega lista dos meses disponiveis
       OrdSetFocus( "datemi" )
       SEEK Dtos( mDatai ) SOFTSEEK
-      DO WHILE Dtos( jpbamovi->baDatEmi ) <= Dtos( mDataf ) .AND. ! eof()
+      DO WHILE Dtos( jpbamovi->baDatEmi ) <= Dtos( mDataf ) .AND. ! Eof()
          GrafProc()
          IF ascan( acMeses, Left( Dtos( jpbamovi->baDatEmi ), 6 ) ) == 0
             AAdd( acMeses, Left( Dtos( jpbamovi->baDatEmi ), 6 ) )
@@ -78,7 +78,7 @@ PROCEDURE pBancoGraficoMes
 
       anValor := {}
       FOR nCont = 1 TO Len( acResumo )
-         Aadd( anValor, {} )
+         AAdd( anValor, {} )
       NEXT
       OrdSetFocus( "jpbamovi2" )
       // pega totais de cada mes

@@ -17,7 +17,7 @@ PROCEDURE Main
    ENDIF
    DeleteAll( "c:\temp\", @nBytesDeleted, @nFilesDeleted, .F. )
    DeleteHbmk( "d:\", @nBytesDeleted, @nFilesDeleted )
-   ? "Deleted " + Ltrim( Str( nFilesDeleted ) ) + " file(s), Size " + Ltrim( Transform( nBytesDeleted, "@E 999,999,999,999,999" ) )
+   ? "Deleted " + Ltrim( Str( nFilesDeleted ) ) + " File(s), Size " + Ltrim( Transform( nBytesDeleted, "@E 999,999,999,999,999" ) )
    ? "Press ESC to NOT clean ALLGUI Folders"
    IF Inkey(0) == K_ESC
       RETURN
@@ -57,34 +57,34 @@ FUNCTION FormatFiles( cPath, nKey, nBytesDeleted, nFilesDeleted )
          ELSE
             FormatFiles( cPath + cFileName + "\", @nKey, @nBytesDeleted, @nFilesDeleted )
          ENDIF
-      //CASE FileSize( cPath + cFileName ) == 0
-      //   fErase( cPath + cFileName )
-      //CASE Upper( cFileName ) == "WINREG.C" .AND. "HWGUI" $ cPath
-      //   SET COLOR TO R/W
-      //   ? "File NOT used on HWGUI " + cPath + cFileName
-      //   SET COLOR TO W/N
-      //CASE Upper( cFileName ) == ".CVSIGNORE" .OR. ;
-      //      Upper( cFileName ) == "UNINS000.DAT" .OR. ;
-      //      Upper( cFileName ) == "ERRORLOG.HTM" .OR. ;
-      //      ( hb_AScan( { ".A", ".LIB", ".XBP", ".LOG", ".OBJ", ".CDX", ".PPO", ".NTX" }, cExtensao, , , .T. ) != 0 )
-      //   nBytesDeleted += FileSize( cPath + cFileName )
-      //   nFilesDeleted += 1
-      //   ? "Deleting " + cPath + oFile[ F_NAME ]
-      //   fErase( cPath + cFileName )
-      //CASE Upper( cFileName ) == "HBIDE.EXE" .OR. Upper( cFileName ) == "CLEANALL.EXE"
+         //CASE FileSize( cPath + cFileName ) == 0
+         //   fErase( cPath + cFileName )
+         //CASE Upper( cFileName ) == "WINREG.C" .AND. "HWGUI" $ cPath
+         //   SET COLOR TO R/W
+         //   ? "File NOT used on HWGUI " + cPath + cFileName
+         //   SET COLOR TO W/N
+         //CASE Upper( cFileName ) == ".CVSIGNORE" .OR. ;
+         //      Upper( cFileName ) == "UNINS000.DAT" .OR. ;
+         //      Upper( cFileName ) == "ERRORLOG.HTM" .OR. ;
+         //      ( hb_AScan( { ".A", ".LIB", ".XBP", ".LOG", ".OBJ", ".CDX", ".PPO", ".NTX" }, cExtensao, , , .T. ) != 0 )
+         //   nBytesDeleted += FileSize( cPath + cFileName )
+         //   nFilesDeleted += 1
+         //   ? "Deleting " + cPath + oFile[ F_NAME ]
+         //   fErase( cPath + cFileName )
+         //CASE Upper( cFileName ) == "HBIDE.EXE" .OR. Upper( cFileName ) == "CLEANALL.EXE"
       CASE hb_AScan( { ".PRG", ".HBC", ".HBM", ".CH", ".H", ".HBP", ".INI", ".HBM", ".RC", ".HTML", ".HTM", ;
             ".CSS", ".SH", ".XML", ".C", ".TXT", ".URL", ".JS", ".RC", ".FMG", ".MANIFEST", ".RPT" }, cExtensao,,, .T. ) != 0 ;
-           .OR. Upper( cFileName ) == "CHANGELOG" .OR. Upper( cFileName ) == "SUGGESTIONS"
+            .OR. Upper( cFileName ) == "CHANGELOG" .OR. Upper( cFileName ) == "SUGGESTIONS"
          FormatFile( cPath + oFile[ F_NAME ], @nKey )
-      //CASE "\ALLGUI\ALLGUI\" $ Upper( cPath ) .OR. "\ALLGUIPAULO\ALLGUI\" $ Upper( cPath )
-      //CASE cExtensao == ".EXE" .AND. "FIVEWIN" $ Upper( cPath )
-      //CASE hb_AScan( { ".BAT" }, cExtensao,,, .T. ) != 0 .AND. ( "\MIX\" $ Upper( cPath ) .OR. "\SAMPLES\OOHG\" $ cPath )
-      //CASE hb_AScan( { ".HBX", ".IML", ".SCR", "*.IML", ".BC", ".GCC", ".PC", ".VC", ".WC", ".LINUX", ".BAT", ".EXE" }, cExtensao, , , .T. ) != 0 ;
-      //      .OR. Upper( cFileName ) == "HB_OUT.LOG" .OR. Upper( cFileName ) == "MAKEFILE"
-      //   nBytesDeleted += FileSize( cPath + cFileName )
-      //   nFilesDeleted += 1
-      //   ? "Deleting " + cPath + oFile[ F_NAME ]
-      //   fErase( cPath + cFileName )
+         //CASE "\ALLGUI\ALLGUI\" $ Upper( cPath ) .OR. "\ALLGUIPAULO\ALLGUI\" $ Upper( cPath )
+         //CASE cExtensao == ".EXE" .AND. "FIVEWIN" $ Upper( cPath )
+         //CASE hb_AScan( { ".BAT" }, cExtensao,,, .T. ) != 0 .AND. ( "\MIX\" $ Upper( cPath ) .OR. "\SAMPLES\OOHG\" $ cPath )
+         //CASE hb_AScan( { ".HBX", ".IML", ".SCR", "*.IML", ".BC", ".GCC", ".PC", ".VC", ".WC", ".LINUX", ".BAT", ".EXE" }, cExtensao, , , .T. ) != 0 ;
+         //      .OR. Upper( cFileName ) == "HB_OUT.LOG" .OR. Upper( cFileName ) == "MAKEFILE"
+         //   nBytesDeleted += FileSize( cPath + cFileName )
+         //   nFilesDeleted += 1
+         //   ? "Deleting " + cPath + oFile[ F_NAME ]
+         //   fErase( cPath + cFileName )
       ENDCASE
       IF nKey == K_ESC
          EXIT
@@ -129,8 +129,8 @@ FUNCTION DeleteHbmk( cPath, nBytesDeleted, nFilesDeleted )
       CASE Upper( oFile[ F_NAME ] ) == ".."
       CASE "D" $ oFile[ F_ATTR ]
          IF Upper( oFile[ F_NAME ] ) == ".HBMK" .OR. ;
-         ( "\GITHUB\HARBOUR34\" $ Upper( cPath ) .AND. ;
-         ( "\OBJ\WIN\" $  Upper( cPath ) .OR. "\OBJ\LINUX" $ Upper( cPath ) ) )
+               ( "\GITHUB\HARBOUR34\" $ Upper( cPath ) .AND. ;
+               ( "\OBJ\WIN\" $  Upper( cPath ) .OR. "\OBJ\LINUX" $ Upper( cPath ) ) )
             DeleteAll( cPath + oFile[ F_NAME ] + "\", @nBytesDeleted, @nFilesDeleted )
          ELSE
             DeleteHbmk( cPath + oFile[ F_NAME ] + "\", @nBytesDeleted, @nFilesDeleted )

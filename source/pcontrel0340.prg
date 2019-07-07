@@ -115,7 +115,7 @@ STATIC FUNCTION imprime()
       oPDF:DRAWTEXT( oPDF:nRow + 11, 30, "Inscricao Estadual....................: " + jpempre->emInsEst )
       oPDF:DRAWTEXT( oPDF:nRow + 13, 30, "Local de Registro.....................: " + jpempre->emLocReg )
       oPDF:DRAWTEXT( oPDF:nRow + 15, 30, "Numero de Registro....................: " + jpempre->emNumReg )
-      oPDF:DRAWTEXT( oPDF:nRow + 17, 30, "Data de Inscricao.....................: " + DToC( jpempre->emDatReg ) )
+      oPDF:DRAWTEXT( oPDF:nRow + 17, 30, "Data de Inscricao.....................: " + Dtoc( jpempre->emDatReg ) )
       oPDF:DRAWTEXT( oPDF:nRow + 19, 30, "Titular da Empresa....................: " + jpempre->emTitular )
       oPDF:DRAWTEXT( oPDF:nRow + 21, 30, "Cargo do Titular......................: " + jpempre->emCarTit )
       oPDF:DRAWTEXT( oPDF:nRow + 23, 30, "Responsavel pela Contabilidade........: " + jpempre->emContador )
@@ -170,7 +170,7 @@ STATIC FUNCTION imprime()
             oPDF:nRow += 2
             oPDF:DRAWTEXT( oPDF:nRow, 30, "Retrospectivas de Contas..............:" )
          ENDCASE
-         nNumMes = Val( SubStr( jpempre->emRelEmi, m_relat * 3 - 2, 2 ) ) - 1
+         nNumMes = Val( Substr( jpempre->emRelEmi, m_relat * 3 - 2, 2 ) ) - 1
          m_ano = jpempre->emAnoBase
          DO WHILE nNumMes > 12
             nNumMes = nNumMes - 12

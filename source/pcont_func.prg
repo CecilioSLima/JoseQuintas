@@ -98,7 +98,7 @@ FUNCTION SelecionaMesContabil( nLini, nColi, nNumMes )
 
    acTxtAno := {}
    FOR nCont = 1 TO 8
-      Aadd( acTxtAno, StrZero( jpempre->emAnoBase + nCont - 1 , 4 ) )
+      AAdd( acTxtAno, StrZero( jpempre->emAnoBase + nCont - 1 , 4 ) )
    NEXT
    acTxtMes := { "JANEIRO", "FEVEREIRO", "MARCO", "ABRIL", "MAIO", "JUNHO", "JULHO", "AGOSTO", "SETEMBRO", "OUTUBRO", "NOVEMBRO", "DEZEMBRO" }
    nOpcAno := Int( ( nNumMes -1 ) / 12 ) + 1

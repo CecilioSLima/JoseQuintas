@@ -41,7 +41,7 @@ PROCEDURE pBancoRelCCusto
          "Ordem.....: " + acTxtOrdem[ nOpcOrdem ], ;
          "Tipo......: " + acTxtDetalhe[ nOpcDetalhe ], ;
          "Datas.....: " + iif( nOpcData == 1, acTxtData[ 1 ], ;
-         dtoc( m_Datai ) + " A " + dtoc( m_Dataf ) ), ;
+         Dtoc( m_Datai ) + " A " + Dtoc( m_Dataf ) ), ;
          "Saída.....: " + TxtSaida()[ nOpcPrinterType ] }
       FazAchoice( 7, 5, 6 + Len( acTxtGeral ), 44, acTxtGeral, @nOpcGeral )
       nOpcTemp := 1
@@ -56,7 +56,7 @@ PROCEDURE pBancoRelCCusto
       CASE nOpcGeral == nOpcTemp++
          nOpcConf = 2
          WAchoice( nOpcGeral + 6, 25, TxtConf(), @nOpcConf, TxtSalva() )
-         IF nOpcConf == 1 .AND. lastkey() != K_ESC
+         IF nOpcConf == 1 .AND. LastKey() != K_ESC
             GravaCnfRel( { nOpcEmiBan, nOpcOrdem, nOpcDetalhe } )
          ENDIF
 
@@ -94,11 +94,11 @@ STATIC FUNCTION Imprime()
    nKey := 0
    oPDF:acHeader := { "", "" }
    oPDF:acHeader[ 1 ] := "MOVIMENTO POR " + Upper( acTxtOrdem[ nOpcOrdem ] )
-   oPDF:acHeader[ 2 ] := "DT_BANCO   DT_EMISS   ___________H_I_S_T_O_R_"+;
-      "I_C_O____________   ____ENTRADAS____   _____SAIDAS_____  "+;
+   oPDF:acHeader[ 2 ] := "DT_BANCO   DT_EMISS   ___________H_I_S_T_O_R_"+ ;
+      "I_C_O____________   ____ENTRADAS____   _____SAIDAS_____  "+ ;
       " _____SALDOS_____"
    IF nOpcData == 2
-      AAdd( oPDF:acHeader, dtoc( m_Datai ) + " A " + dtoc( m_Dataf ) )
+      AAdd( oPDF:acHeader, Dtoc( m_Datai ) + " A " + Dtoc( m_Dataf ) )
    ENDIF
    mTmpFile := MyTempFile( "CDX" )
    SELECT jpbamovi
@@ -107,8 +107,8 @@ STATIC FUNCTION Imprime()
    ELSE
       SET RELATION TO
    ENDIF
-   INDEX ON iif( nOpcOrdem == 1, "", jpbagrup->bgGrupo ) + jpbamovi->baResumo + dtos( jpbamovi->baDatBan ) + ;
-      dtos( iif(nOpcEmiBan == 1, jpbamovi->baDatEmi, jpbamovi->baDatBan ) ) + jpbamovi->baHist to ( mTmpFile )
+   INDEX ON iif( nOpcOrdem == 1, "", jpbagrup->bgGrupo ) + jpbamovi->baResumo + Dtos( jpbamovi->baDatBan ) + ;
+      Dtos( iif(nOpcEmiBan == 1, jpbamovi->baDatEmi, jpbamovi->baDatBan ) ) + jpbamovi->baHist to ( mTmpFile )
    GOTO TOP
    mTotEnt := mTotSai := 0
    DO WHILE nKey != K_ESC .AND. ! Eof()

@@ -139,7 +139,7 @@ STATIC FUNCTION OkPicture( mPicture )
          DO WHILE ! Eof()
             nTamanhoAtual := Len( Trim( Substr( ctplano->a_Codigo, 1, 11 ) ) )
             IF aScan( aTamanhos, nTamanhoAtual ) == 0
-               Aadd( aTamanhos, nTamanhoAtual )
+               AAdd( aTamanhos, nTamanhoAtual )
             ENDIF
             SKIP
          ENDDO

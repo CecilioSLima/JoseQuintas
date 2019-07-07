@@ -82,6 +82,7 @@ FUNCTION MenuCria( lInterno )
          MenuOption( "Visualiza PDF",                "PDFEGERAPDF" )
          MenuOption( "Inutilizar número CTE",        "PDFECTEINUT" )
          MenuOption( "Inutilizar número NFE",        "PDFENFEINUT" )
+         MenuOption( "Consulta Status NFE/CTE/MDFE", "PDFESTATUS" )
          MenuUnDrop()
       MenuOption( "Preços/Comissões" )
          MenuDrop()
@@ -608,8 +609,8 @@ FUNCTION MenuPrinc( mMenuOpt )
          //wvgSetAppWindow():InvalidateRect()
          wvgSetAppWindow():Refresh()
       CASE nKey == K_ESC .OR. nKey == 0
-          IF ! AppIsMultiThread()
-              EXIT
+         IF nKey == 0 .AND. ! AppIsMultiThread()
+            EXIT
          ENDIF
          SairDoSistema()
          LOOP

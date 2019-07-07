@@ -62,13 +62,13 @@ PROCEDURE pContSaldo
       SET KEY K_F8 TO
       Mensagem()
       DO CASE
-      CASE lastkey() == K_ESC
+      CASE LastKey() == K_ESC
          EXIT
       CASE LastKey() == K_F6
          lCodigoNormal = ! lCodigoNormal
          LOOP
       CASE LastKey() == K_F7
-         IF nAnoAtual < int( ( 96 - 1 ) / 12 )
+         IF nAnoAtual < Int( ( 96 - 1 ) / 12 )
             nAnoAtual += 1
          ENDIF
       CASE LastKey() == K_F8

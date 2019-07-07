@@ -24,9 +24,9 @@ PROCEDURE pBancoGrafResumo
    m_dataf := m_datai + 32
    m_dataf := m_dataf - Day( m_dataf )
    @ 3, 0 SAY "Período:" GET m_datai
-   @ row(), col() + 2 SAY "ate':"  GET m_dataf
+   @ Row(), Col() + 2 SAY "ate':"  GET m_dataf
    @ 4, 0 SAY "(G)Grupo ou (R)Resumo:" GET mGrupoResumo PICTURE "!A" VALID mGrupoResumo $ "GR"
-   mensagem( "Digite período a ser apresentado, ESC sai" )
+   Mensagem( "Digite período a ser apresentado, ESC sai" )
    READ
 
    IF LastKey() == K_ESC
@@ -34,7 +34,7 @@ PROCEDURE pBancoGrafResumo
       RETURN
    ENDIF
 
-   mensagem( "Efetuando cálculos..." )
+   Mensagem( "Efetuando cálculos..." )
 
    @ 3, 0 SAY "___RESUMO___        _____ENTRADAS_____  " + "______SAIDAS______  _____DIFERENCA____"
 
@@ -101,7 +101,7 @@ STATIC FUNCTION SomaValores( m_Datai, m_Dataf, lAgrupado )
 
    OrdSetFocus( "jpbamovi2" )
    GOTO TOP
-   DO WHILE nKey != K_ESC .AND. ! eof()
+   DO WHILE nKey != K_ESC .AND. ! Eof()
       grafproc()
       nKey := Inkey()
       IF "SALDO ANTERIOR" $ jpbamovi->baHist
@@ -109,8 +109,8 @@ STATIC FUNCTION SomaValores( m_Datai, m_Dataf, lAgrupado )
          LOOP
       ENDIF
       m_resumo := jpbamovi->baresumo
-      SEEK m_resumo + dtos( m_datai ) SOFTSEEK
-      DO WHILE nKey != K_ESC .AND. jpbamovi->baResumo = m_resumo .AND. dtos( jpbamovi->baDatEmi) <= dtos( m_dataf ) .AND. ! eof()
+      SEEK m_resumo + Dtos( m_datai ) SOFTSEEK
+      DO WHILE nKey != K_ESC .AND. jpbamovi->baResumo = m_resumo .AND. Dtos( jpbamovi->baDatEmi) <= Dtos( m_dataf ) .AND. ! Eof()
          grafproc()
          nKey := Inkey()
          IF jpbamovi->baValor == 0 .OR. "SALDO ANTERIOR" $ jpbamovi->baHist
@@ -153,7 +153,7 @@ STATIC FUNCTION SomaValores( m_Datai, m_Dataf, lAgrupado )
 
 STATIC FUNCTION mostra( m_lin, m_texto, m_entra, m_sai )
 
-   @ m_lin, 0 SAY pad( m_texto, 20 ) + Transform( m_entra, PicVal(14,2) ) + "  " + ;
+   @ m_lin, 0 SAY Pad( m_texto, 20 ) + Transform( m_entra, PicVal(14,2) ) + "  " + ;
       Transform( m_sai, PicVal(14,2) ) + "  " + Transform( m_entra - m_sai, PicVal(14,2) )
 
    RETURN .T.

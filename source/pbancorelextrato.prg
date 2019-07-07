@@ -45,23 +45,23 @@ PROCEDURE pBancoRelExtrato
    nOpcGeral = 1
    acTxtGeral := Array(5)
 
-   WOpen( 5, 4, 7+len(acTxtGeral), 45, "Opções disponíveis" )
+   WOpen( 5, 4, 7+Len(acTxtGeral), 45, "Opções disponíveis" )
 
    DO WHILE .T.
 
       acTxtGeral := { ;
          TxtImprime(), ;
          "Datas.....: " + iif( nOpcData == 1, acTxtData[1], ;
-         dtoc(m_DataI)+" A " + dtoc(m_DataF) ), ;
+         Dtoc(m_DataI)+" A " + Dtoc(m_DataF) ), ;
          "Conta.....: " + acTxtConta[nOpcConta], ;
          "Totais....: " + acTxtTotais[ nOpcTotais ], ;
          "Saída.....: " + TxtSaida()[ nOpcPrinterType ] }
 
-      FazAchoice( 7, 5, 6+len(acTxtGeral), 44, acTxtGeral, @nOpcGeral )
+      FazAchoice( 7, 5, 6+Len(acTxtGeral), 44, acTxtGeral, @nOpcGeral )
 
       nOpcTemp := 1
       DO CASE
-      CASE lastkey() == K_ESC
+      CASE LastKey() == K_ESC
          EXIT
 
       CASE nOpcGeral == nOpcTemp++
@@ -108,7 +108,7 @@ STATIC FUNCTION Imprime()
    AAdd( oPDF:acHeader, "DT.BANCO DT.EMISS --RESUMO-- ---------------HISTORICO" + "----------------- -----ENTRADAS---- ------SAIDAS----- " + "------SALDO------ US$" )
 
    GOTO TOP
-   DO WHILE nKey != K_ESC .AND. ! eof()
+   DO WHILE nKey != K_ESC .AND. ! Eof()
       grafproc()
       nKey = Inkey()
       DO CASE
@@ -194,7 +194,7 @@ STATIC FUNCTION Filtro()
       RETURN .F.
    CASE Dtos( jpbamovi->baDatBan ) > Dtos( m_DataF ) .AND. jpbamovi->baDatBan != Stod( "29991231" )
       RETURN .F.
-   CASE dtos( jpbamovi->baDatEmi ) > Dtos( m_DataF )
+   CASE Dtos( jpbamovi->baDatEmi ) > Dtos( m_DataF )
       RETURN .F.
    ENDCASE
 

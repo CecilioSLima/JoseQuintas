@@ -34,7 +34,7 @@ PROCEDURE PCONTREL0390
       FazAchoice( 7, 5, 9, 44, m_TxtMenu, @m_Menu )
 
       DO CASE
-      CASE lastkey() == K_ESC
+      CASE LastKey() == K_ESC
          EXIT
 
       CASE m_Menu == 1
@@ -50,7 +50,7 @@ PROCEDURE PCONTREL0390
          @ 10, 7 SAY "Dt.Final:" GET m_DataFe     VALID ! Empty( m_DataFe )
          READ
          wClose()
-         IF lastkey() == K_ESC
+         IF LastKey() == K_ESC
             LOOP
          ENDIF
          IF ConfirmaImpressao()
@@ -114,7 +114,7 @@ FUNCTION TermoLivroDiario( m_Termo, m_TPag, aDataList, nNumMes )
    oPDF:acHeader := { "LIVRO DIARIO" }
    oPDF:nPageNumber = iif( m_Termo == "ABERTURA", 0, m_TPag - 1 )
    oPDF:PageHeader()
-   oPDF:DrawText( 9, 0 + int( ( ( oPDF:MaxCol() + 1 ) - Len( "TERMO  DE  " + m_Termo ) ) / 2 ), "TERMO  DE  " + m_Termo )
+   oPDF:DrawText( 9, 0 + Int( ( ( oPDF:MaxCol() + 1 ) - Len( "TERMO  DE  " + m_Termo ) ) / 2 ), "TERMO  DE  " + m_Termo )
    oPDF:nRow = 12
    IF jpempre->emDiaTer $ " 1"
       p390_ImpCentralizado( "NOME DO LIVRO: LIVRO DIARIO" )
@@ -153,22 +153,22 @@ FUNCTION TermoLivroDiario( m_Termo, m_TPag, aDataList, nNumMes )
 
    m_Texto = Trim( jpempre->emCidade ) + ", " + Extenso( mData )
 
-   oPDF:DrawText( oPDF:nRow + 5, 63 + int( ( 54 - Len( m_Texto ) ) / 2 ), m_Texto )
+   oPDF:DrawText( oPDF:nRow + 5, 63 + Int( ( 54 - Len( m_Texto ) ) / 2 ), m_Texto )
 
    oPDF:DrawText( oPDF:nRow + 15, 21, "----------------------------------------" )
    oPDF:DrawText( oPDF:nRow + 15, 71, "----------------------------------------" )
 
    m_Texto = Trim( jpempre->emTitular )
-   oPDF:DrawText( oPDF:nRow + 16, 21 + int( ( 40 - Len( m_Texto ) ) / 2 ), m_Texto )
+   oPDF:DrawText( oPDF:nRow + 16, 21 + Int( ( 40 - Len( m_Texto ) ) / 2 ), m_Texto )
 
    m_Texto = Trim( jpempre->emContador )
-   oPDF:DrawText( oPDF:nRow + 16, 71 + int( ( 40 - Len( m_Texto ) ) / 2 ), m_Texto )
+   oPDF:DrawText( oPDF:nRow + 16, 71 + Int( ( 40 - Len( m_Texto ) ) / 2 ), m_Texto )
 
    m_Texto = Trim( jpempre->emCarTit)
-   oPDF:DrawText( oPDF:nRow + 17, 21 + int( ( 40 - Len( m_Texto ) ) / 2 ), m_Texto )
+   oPDF:DrawText( oPDF:nRow + 17, 21 + Int( ( 40 - Len( m_Texto ) ) / 2 ), m_Texto )
 
    m_Texto = Trim( Pad( Trim( jpempre->emCarCon ) + " - CRC:" + Trim( jpempre->emCrcCon ) + ": " + Trim( jpempre->emUfCrc ), 40 ) )
-   oPDF:DrawText( oPDF:nRow + 17, 71 + int( ( 40 - Len( m_Texto ) ) / 2 ), m_Texto )
+   oPDF:DrawText( oPDF:nRow + 17, 71 + Int( ( 40 - Len( m_Texto ) ) / 2 ), m_Texto )
 
    //oPDF:PageFooter()
    oPDF:acHeader := aClone( mTemp )

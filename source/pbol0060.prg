@@ -33,11 +33,11 @@ PROCEDURE PBOL0060
    m_TxtM     := 0               // Multa Atraso
    m_TxtAc    := "NAO"
    m_Notai    := m_Notaf := Space( 6 )
-   mDataDoc   := CToD( "" )
+   mDataDoc   := Ctod( "" )
    mDocto     := Space( 10 )
    mValor     := 0
    mCliente   := Space( 6 )
-   mVencto    := CToD( "" )
+   mVencto    := Ctod( "" )
    mParcela   := Space( 1 )
    mnfFilial  := Space( 6 )
    mnfNotFisI := Space( 9 )
@@ -187,7 +187,7 @@ STATIC FUNCTION ImpBolAvu()
    mTexto[ 6 ]  := mValor // Valor
    mTexto[ 11 ] := m_txt5 // Mens5
    ImpBoleto( mBanco )
-   GravaOcorrencia( ,, "Boleto Avulso " + mDocto + ", " + DToC( mVencto ) + ", " + LTrim( Str( mValor ) ) )
+   GravaOcorrencia( ,, "Boleto Avulso " + mDocto + ", " + Dtoc( mVencto ) + ", " + LTrim( Str( mValor ) ) )
 
    RETURN NIL
 
@@ -259,7 +259,7 @@ FUNCTION Boleto001() // Banco do Brasil (BHM)
    m_Lin += 2
    @ m_Lin, 50 SAY mTexto[ 6 ] PICTURE "@E 999,999,999.99" // Valor
    m_Lin += 1
-   @ m_Lin, 0  SAY "VENCIMENTO: " + DToC( mTexto[ 2 ] ) + "  VALOR: R$ " + LTrim( Transform( mTexto[ 6 ], "@E 999,999,999.99" ) )
+   @ m_Lin, 0  SAY "VENCIMENTO: " + Dtoc( mTexto[ 2 ] ) + "  VALOR: R$ " + LTrim( Transform( mTexto[ 6 ], "@E 999,999,999.99" ) )
    m_lin += 1
    @ m_Lin++, 0 SAY mTexto[ 7 ]
    @ m_Lin++, 0 SAY mTexto[ 8 ]
@@ -291,7 +291,7 @@ FUNCTION Boleto038() // Banestado
    m_Lin += 1
    @ m_Lin, 50 SAY mTexto[ 6 ] PICTURE "@E 999,999,999.99" // Valor
    m_Lin += 4
-   @ m_Lin, 0  SAY "VENCIMENTO: " + DToC( mTexto[ 2 ] ) + "  VALOR: R$ " + LTrim( Transform( mTexto[ 6 ], "@E 999,999,999.99" ) )
+   @ m_Lin, 0  SAY "VENCIMENTO: " + Dtoc( mTexto[ 2 ] ) + "  VALOR: R$ " + LTrim( Transform( mTexto[ 6 ], "@E 999,999,999.99" ) )
    m_lin += 1
    @ m_Lin++, 0 SAY mTexto[ 7 ]
    @ m_Lin++, 0 SAY mTexto[ 8 ]
@@ -322,7 +322,7 @@ FUNCTION Boleto347() // Sudameris (Parecido America do Sul) (Vivitek)
    m_Lin += 1
    @ m_Lin, 49 SAY mTexto[ 6 ] PICTURE "@E 999,999,999.99" // Valor
    m_Lin += 3
-   @ m_Lin, 1  SAY "VENCIMENTO: " + DToC( mTexto[ 2 ] ) + "  VALOR: R$ " + LTrim( Transform( mTexto[ 6 ], "@E 999,999,999.99" ) )
+   @ m_Lin, 1  SAY "VENCIMENTO: " + Dtoc( mTexto[ 2 ] ) + "  VALOR: R$ " + LTrim( Transform( mTexto[ 6 ], "@E 999,999,999.99" ) )
    m_lin += 1
    @ m_Lin++, 1 SAY mTexto[ 7 ]
    @ m_Lin++, 1 SAY mTexto[ 8 ]
@@ -353,7 +353,7 @@ FUNCTION Boleto237() // Bradesco
    m_Lin += 1
    @ m_Lin, 52 SAY mTexto[ 6 ] PICTURE "@E 999,999,999.99" // Valor
    m_Lin += 3
-   @ m_Lin, 2  SAY "VENCIMENTO: " + DToC( mTexto[ 2 ] ) + "  VALOR: R$ " + LTrim( Transform( mTexto[ 6 ], "@E 999,999,999.99" ) )
+   @ m_Lin, 2  SAY "VENCIMENTO: " + Dtoc( mTexto[ 2 ] ) + "  VALOR: R$ " + LTrim( Transform( mTexto[ 6 ], "@E 999,999,999.99" ) )
    m_lin += 1
    @ m_Lin++, 2 SAY mTexto[ 7 ]
    @ m_Lin++, 2 SAY mTexto[ 8 ]
@@ -390,7 +390,7 @@ FUNCTION Boleto341() // Itau (Cordeiro)
    m_Lin += 2
    @ m_Lin, 49 SAY mTexto[ 6 ] PICTURE "@E 999,999,999.99" // Valor
    m_Lin += 2
-   @ m_Lin, 0  SAY "VENCIMENTO: " + DToC( mTexto[ 2 ] ) + "  VALOR: R$ " + LTrim( Transform( mTexto[ 6 ], "@E 999,999,999.99" ) )
+   @ m_Lin, 0  SAY "VENCIMENTO: " + Dtoc( mTexto[ 2 ] ) + "  VALOR: R$ " + LTrim( Transform( mTexto[ 6 ], "@E 999,999,999.99" ) )
    m_lin += 1
    @ m_Lin++, 0 SAY mTexto[ 7 ]
    @ m_Lin++, 0 SAY mTexto[ 8 ]
@@ -421,7 +421,7 @@ FUNCTION Boleto353() // Santander
    m_Lin += 2
    @ m_Lin, 51 SAY mTexto[ 6 ] PICTURE "@E 999,999,999.99" // Valor
    m_Lin += 2
-   @ m_Lin, 2  SAY "VENCIMENTO: " + DToC( mTexto[ 2 ] ) + "  VALOR: R$ " + LTrim( Transform( mTexto[ 6 ], "@E 999,999,999.99" ) )
+   @ m_Lin, 2  SAY "VENCIMENTO: " + Dtoc( mTexto[ 2 ] ) + "  VALOR: R$ " + LTrim( Transform( mTexto[ 6 ], "@E 999,999,999.99" ) )
    m_lin += 2
    @ m_Lin++, 2 SAY mTexto[ 7 ]
    @ m_Lin++, 2 SAY mTexto[ 8 ]
@@ -452,7 +452,7 @@ FUNCTION Boleto399() // HSBC (Vivitek)
    m_Lin += 2
    @ m_Lin, 55 SAY mTexto[ 6 ] PICTURE "@E 999,999,999.99" // Valor
    m_Lin += 2
-   @ m_Lin, 1  SAY "VENCIMENTO: " + DToC( mTexto[ 2 ] ) + "  VALOR: R$ " + LTrim( Transform( mTexto[ 6 ], "@E 999,999,999.99" ) )
+   @ m_Lin, 1  SAY "VENCIMENTO: " + Dtoc( mTexto[ 2 ] ) + "  VALOR: R$ " + LTrim( Transform( mTexto[ 6 ], "@E 999,999,999.99" ) )
    m_lin += 1
    @ m_Lin++, 1 SAY mTexto[ 7 ]
    @ m_Lin++, 1 SAY mTexto[ 8 ]
@@ -484,7 +484,7 @@ FUNCTION Boleto409() // Unibanco (Vivitek)
    m_Lin += 2
    @ m_Lin, 50 SAY mTexto[ 6 ] PICTURE "@E 999,999,999.99" // Valor
    m_Lin += 2
-   @ m_Lin, 0  SAY "VENCIMENTO: " + DToC( mTexto[ 2 ] ) + "  VALOR: R$ " + LTrim( Transform( mTexto[ 6 ], "@E 999,999,999.99" ) )
+   @ m_Lin, 0  SAY "VENCIMENTO: " + Dtoc( mTexto[ 2 ] ) + "  VALOR: R$ " + LTrim( Transform( mTexto[ 6 ], "@E 999,999,999.99" ) )
    m_lin += 1
    @ m_Lin++, 0 SAY mTexto[ 7 ]
    @ m_Lin++, 0 SAY mTexto[ 8 ]
@@ -515,7 +515,7 @@ FUNCTION Boleto422() // Safra (Vivitek)
    m_Lin += 1
    @ m_Lin, 49 SAY mTexto[ 6 ] PICTURE "@E 999,999,999.99" // Valor
    m_Lin += 2
-   @ m_Lin, 0  SAY "VENCIMENTO: " + DToC( mTexto[ 2 ] ) + "  VALOR: R$ " + LTrim( Transform( mTexto[ 6 ], "@E 999,999,999.99" ) )
+   @ m_Lin, 0  SAY "VENCIMENTO: " + Dtoc( mTexto[ 2 ] ) + "  VALOR: R$ " + LTrim( Transform( mTexto[ 6 ], "@E 999,999,999.99" ) )
    m_lin += 1
    @ m_Lin++, 0 SAY mTexto[ 7 ]
    @ m_Lin++, 0 SAY mTexto[ 8 ]
@@ -546,7 +546,7 @@ FUNCTION Boleto479() // BankBoston (Vivitek)
    m_Lin += 1
    @ m_Lin, 49 SAY mTexto[ 6 ] PICTURE "@E 999,999,999.99" // Valor
    m_Lin += 3
-   @ m_Lin, 0  SAY "VENCIMENTO: " + DToC( mTexto[ 2 ] ) + "  VALOR: R$ " + LTrim( Transform( mTexto[ 6 ], "@E 999,999,999.99" ) )
+   @ m_Lin, 0  SAY "VENCIMENTO: " + Dtoc( mTexto[ 2 ] ) + "  VALOR: R$ " + LTrim( Transform( mTexto[ 6 ], "@E 999,999,999.99" ) )
    m_lin += 1
    @ m_Lin++, 0 SAY mTexto[ 7 ]
    @ m_Lin++, 0 SAY mTexto[ 8 ]

@@ -27,7 +27,7 @@ PROCEDURE pBancoConsolida
    OrdSetFocus("jpbamovi3")
    GOTO TOP
    m_Saldo = 0
-   DO WHILE ! eof()
+   DO WHILE ! Eof()
       Grafproc()
       m_saldo += jpbamovi->bavalor
       RecLock()
@@ -74,7 +74,7 @@ PROCEDURE pBancoConsolida
       { " ",             { || ReturnValue( " ", vSay( 2, 0, "CONTA " + jpbamovi->baConta ) ) } } }
    DO WHILE .T.
       dbView( 4, 0, MaxRow() - 3, MaxCol(), oTBrowse, { | b, k | DigBancoLanca( b, k ) } )
-      IF lastkey() == K_ESC
+      IF LastKey() == K_ESC
          EXIT
       ENDIF
    ENDDO

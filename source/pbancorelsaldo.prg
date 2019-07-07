@@ -38,12 +38,12 @@ PROCEDURE pBancoRelSaldo
       m_tsaldon := 0
       m_tsaldoa := 0
       GOTO TOP
-      DO WHILE nKey != K_ESC .AND. ! eof()
+      DO WHILE nKey != K_ESC .AND. ! Eof()
          nKey     := Inkey()
          m_saldon := 0
          m_saldoa := 0
          mbaConta := jpbamovi->baconta
-         DO WHILE mbaConta == jpbamovi->baconta .AND. ! eof()
+         DO WHILE mbaConta == jpbamovi->baconta .AND. ! Eof()
             IF ! Empty( jpbamovi->baDatBan)
                IF jpbamovi->baDatBan!= Stod( "29991231" ) .OR. ( jpbamovi->baDatEmi <= Date() .AND. m_tiposd == "S" )
                   IF jpbamovi->aplic == "S"

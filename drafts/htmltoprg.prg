@@ -27,7 +27,7 @@ PROCEDURE Main
                aNcm  := PegaNcm( cXmlColList[ 3 ] )
                cDesc := XmlNode( cXmlColList[ 4 ], "p" )
                FOR EACH oElement IN aNcm
-                  cTxt += [   Aadd( aList, { ]
+                  cTxt += [   AAdd( aList, { ]
                   cTxt += ["] + SoNumeros( cCest ) + [", ]
                   cTxt += ["] + Pad( SoNumeros( oElement ), 8, "X" ) + [", ]
                   cTxt += ["] + AllTrim( StrTran( cDesc, ["], "" ) ) + [" } )]

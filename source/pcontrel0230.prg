@@ -149,13 +149,13 @@ STATIC FUNCTION imprime()
          oPDF:DRAWTEXT( oPDF:nRow, 104, Pad( AUXCCUSTOClass():Descricao( ctlanca->laCCusto ), 25 ) )
          oPDF:nRow += 1
          IF Val( ctlanca->laHisPad ) == 0
-            oPDF:DRAWTEXT( oPDF:nRow, 31, SubStr( ctlanca->laHisto, 1, 100 ) )
+            oPDF:DRAWTEXT( oPDF:nRow, 31, Substr( ctlanca->laHisto, 1, 100 ) )
             oPDF:nRow += 1
-            IF ! Empty( SubStr( ctlanca->laHisto, 101 ) )
-               oPDF:DRAWTEXT( oPDF:nRow, 31, SubStr( ctlanca->laHisto, 101, 100 ) )
+            IF ! Empty( Substr( ctlanca->laHisto, 101 ) )
+               oPDF:DRAWTEXT( oPDF:nRow, 31, Substr( ctlanca->laHisto, 101, 100 ) )
                oPDF:nRow += 1
-               IF ! Empty( SubStr( ctlanca->laHisto, 201 ) )
-                  oPDF:DRAWTEXT( oPDF:nRow, 31, SubStr( ctlanca->laHisto, 201 ) )
+               IF ! Empty( Substr( ctlanca->laHisto, 201 ) )
+                  oPDF:DRAWTEXT( oPDF:nRow, 31, Substr( ctlanca->laHisto, 201 ) )
                   oPDF:nRow += 1
                ENDIF
             ENDIF
@@ -165,13 +165,13 @@ STATIC FUNCTION imprime()
                oPDF:DRAWTEXT( oPDF:nRow, 31, "*** historico nao cadastrado ***" )
                oPDF:nRow += 1
             ELSE
-               oPDF:DRAWTEXT( oPDF:nRow, 31, SubStr( cthisto->hiDescri, 1, 100 ) )
+               oPDF:DRAWTEXT( oPDF:nRow, 31, Substr( cthisto->hiDescri, 1, 100 ) )
                oPDF:nRow += 1
-               IF Len( Trim( SubStr( cthisto->hiDescri, 101, 100 ) ) ) <> 0
-                  oPDF:DRAWTEXT( oPDF:nRow, 31, SubStr( cthisto->hiDescri, 101, 100 ) )
+               IF Len( Trim( Substr( cthisto->hiDescri, 101, 100 ) ) ) <> 0
+                  oPDF:DRAWTEXT( oPDF:nRow, 31, Substr( cthisto->hiDescri, 101, 100 ) )
                   oPDF:nRow += 1
-                  IF Len( Trim( SubStr( cthisto->hiDescri, 201 ) ) ) <> 0
-                     oPDF:DRAWTEXT( oPDF:nRow, 31, SubStr( cthisto->hiDescri, 201 ) )
+                  IF Len( Trim( Substr( cthisto->hiDescri, 201 ) ) ) <> 0
+                     oPDF:DRAWTEXT( oPDF:nRow, 31, Substr( cthisto->hiDescri, 201 ) )
                      oPDF:nRow += 1
                   ENDIF
                ENDIF

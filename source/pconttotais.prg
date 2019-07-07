@@ -37,8 +37,8 @@ PROCEDURE pContTotais
       m_submov = 0
       m_sublot = 0
 
-      mMes := Left( DToS( ctlotes->loData ), 6 )
-      DO WHILE mMes == Left( DToS( ctlotes->loData ), 6 ) .AND. ! Eof()
+      mMes := Left( Dtos( ctlotes->loData ), 6 )
+      DO WHILE mMes == Left( Dtos( ctlotes->loData ), 6 ) .AND. ! Eof()
          m_subdeb = Round( m_subdeb + ctlotes->loDebCal, 2 )
          m_subcre = Round( m_subcre + ctlotes->loCreCal, 2 )
          m_submov = Round( m_submov + ctlotes->loQtdCal, 0 )
@@ -46,7 +46,7 @@ PROCEDURE pContTotais
          SKIP
       ENDDO
 
-      m_texto = SubStr( mMes, 5, 2 ) + "/" + SubStr( mMes, 1, 4 )
+      m_texto = Substr( mMes, 5, 2 ) + "/" + Substr( mMes, 1, 4 )
       m_texto = m_texto + " " + Transform( m_sublot, "99999" )
       m_texto = m_texto + " " + Transform( m_submov, PicVal( 9, 0 ) )
       m_texto = m_texto + " " + Transform( m_subdeb, PicVal( 14, 2 ) )

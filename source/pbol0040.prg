@@ -25,7 +25,7 @@ PROCEDURE PBOL0040
       ENDIF
    NEXT
 
-   mFileTxt := "I" + SubStr( DToS( Date() ), 3 )
+   mFileTxt := "I" + Substr( Dtos( Date() ), 3 )
    mLetra := 65 // "A"
    DO WHILE File( mDirItau + mFileTxt + Chr( mLetra ) + ".txt" )
       mLetra += 1
@@ -53,7 +53,7 @@ PROCEDURE PBOL0040
 
    mPrimeira := .T.
    mTaxaBoleto := 0
-   mDatVen := CToD( "" )
+   mDatVen := Ctod( "" )
 
    mDocBanco := StrZero( Val( LeCnf( "BOLETO NOSSO" ) ) + 1, 6 )
    DO WHILE .T.
@@ -137,8 +137,8 @@ STATIC FUNCTION TxtItau( mTipoReg )
       ?? Pad( "COBRANCA", 15 )
       ?? mAgencia
       ?? "00"
-      ?? SubStr( mConta, 1, Len( mConta ) - 1 )
-      ?? SubStr( mConta, Len( mConta ), 1 )
+      ?? Substr( mConta, 1, Len( mConta ) - 1 )
+      ?? Substr( mConta, Len( mConta ), 1 )
       ?? Space( 8 )
       ?? Pad( AppEmpresaNome(), 30 )
       ?? "341"
@@ -159,8 +159,8 @@ STATIC FUNCTION TxtItau( mTipoReg )
       ?? StrZero( Val( SoNumeros( jpempre->emCnpj ) ), 14 )
       ?? mAgencia
       ?? "00"
-      ?? SubStr( mConta, 1, Len( mConta ) - 1 )
-      ?? SubStr( mConta, Len( mConta ), 1 )
+      ?? Substr( mConta, 1, Len( mConta ) - 1 )
+      ?? Substr( mConta, Len( mConta ), 1 )
       ?? Space( 4 )
       ?? Space( 4 ) // Nota 27
       ?? Pad( "SUPORTE", 25 )

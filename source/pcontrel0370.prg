@@ -125,14 +125,14 @@ STATIC FUNCTION imprime()
          oPDF:PageHeader()
       ENDCASE
       oPDF:DRAWTEXT( oPDF:nRow, 8, cthisto->hiHisPad )
-      oPDF:DRAWTEXT( oPDF:nRow, 22, SubStr( cthisto->hiDescri, 1, 100 ) )
-      IF Len( Trim( SubStr( cthisto->hiDescri, 101, 100 ) ) ) <> 0
+      oPDF:DRAWTEXT( oPDF:nRow, 22, Substr( cthisto->hiDescri, 1, 100 ) )
+      IF Len( Trim( Substr( cthisto->hiDescri, 101, 100 ) ) ) <> 0
          oPDF:nRow++
-         oPDF:DRAWTEXT( oPDF:nRow, 22, SubStr( cthisto->hiDescri, 101, 100 ) )
+         oPDF:DRAWTEXT( oPDF:nRow, 22, Substr( cthisto->hiDescri, 101, 100 ) )
       ENDIF
-      IF Len( Trim( SubStr( cthisto->hiDescri, 201, 50 ) ) ) <> 0
+      IF Len( Trim( Substr( cthisto->hiDescri, 201, 50 ) ) ) <> 0
          oPDF:nRow++
-         oPDF:DRAWTEXT( oPDF:nRow, 22, SubStr( cthisto->hiDescri, 201 ) )
+         oPDF:DRAWTEXT( oPDF:nRow, 22, Substr( cthisto->hiDescri, 201 ) )
       ENDIF
       oPDF:nRow += 2
       SKIP

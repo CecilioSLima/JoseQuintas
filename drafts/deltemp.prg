@@ -14,7 +14,7 @@ PROCEDURE Main
    CLS
    DeleteAll( "c:\temp\", @nBytesDeleted, @nFilesDeleted, .F. )
    DeleteHbmk( "d:\", @nBytesDeleted, @nFilesDeleted )
-   ? "Deleted " + Ltrim( Str( nFilesDeleted ) ) + " file(s), Size " + Ltrim( Transform( nBytesDeleted, "@E 999,999,999,999,999" ) )
+   ? "Deleted " + Ltrim( Str( nFilesDeleted ) ) + " File(s), Size " + Ltrim( Transform( nBytesDeleted, "@E 999,999,999,999,999" ) )
 
    RETURN
 

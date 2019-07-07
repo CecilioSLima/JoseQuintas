@@ -19,8 +19,8 @@ PROCEDURE pContFcont
 
    mFileSped := "EXPORTA\SPEDFCONT"
 
-   mRefIni     := CToD( "01/01/" + StrZero( Year( Date() ) - 1, 4 ) )
-   mRefFim     := CToD( "31/12/" + StrZero( Year( Date() ) - 1, 4 ) )
+   mRefIni     := Ctod( "01/01/" + StrZero( Year( Date() ) - 1, 4 ) )
+   mRefFim     := Ctod( "31/12/" + StrZero( Year( Date() ) - 1, 4 ) )
    mQualiPj    := "10"
    mFormTribut := "1"
    @ 4, 5 SAY ""
@@ -116,7 +116,7 @@ PROCEDURE pContFcont
    SayScroll( "Plano de Contas" )
    SpedI050() // Plano de Contas // Este Chama 051 e 052
 
-   mDatIni := mDatFim := CToD( "" )
+   mDatIni := mDatFim := Ctod( "" )
    mFechaAtu := 0
    mFechaAnt := 0
    SayScroll( "Saldos Periódicos" )
@@ -275,7 +275,7 @@ STATIC FUNCTION SpedI050()
       ?? SEPARADOR
       ?? "I050" + SEPARADOR // REG
       ?? FormatoData( mRefIni ) + SEPARADOR // Inclusão/Alteração // DT_ALT
-      ?? "0" + SubStr( "1234", At( ctplano->a_Grupo, "APLR" ), 1 ) + SEPARADOR // Natureza // COD_NAT
+      ?? "0" + Substr( "1234", At( ctplano->a_Grupo, "APLR" ), 1 ) + SEPARADOR // Natureza // COD_NAT
       ?? ctplano->a_Tipo + SEPARADOR // Analítica/Sintética // IND_CTA
       ?? LTrim( Str( ctplano->a_Grau ) ) + SEPARADOR // Nivel da conta // NIVEL
       ?? Trim( PicConta( ctplano->a_Codigo ) ) + SEPARADOR // Codigo da conta // COD_CTA
@@ -684,7 +684,7 @@ STATIC FUNCTION Totais( cNumero )
    mTotal := 0
    hb_Default( @cNumero, "T" )
    FOR mCont = 1 TO Len( mTotais )
-      IF cNumero == "T" .OR. cNumero == SubStr( mTotais[ mCont, 1 ], 1, 1 )
+      IF cNumero == "T" .OR. cNumero == Substr( mTotais[ mCont, 1 ], 1, 1 )
          mTotal := mTotal + mTotais[ mCont, 2 ]
       ENDIF
    NEXT
@@ -713,9 +713,9 @@ STATIC FUNCTION SetaContabil( mNumMes, mDatIni, mDatFim, mFechaAtu, mFechaAnt )
       mMes := mMes - 12
       mAno += 1
    ENDDO
-   mDatIni := CToD( "01/" + StrZero( mMes, 2 ) + "/" + StrZero( mAno, 4 ) )
+   mDatIni := Ctod( "01/" + StrZero( mMes, 2 ) + "/" + StrZero( mAno, 4 ) )
    mDatFim := UltDia( mDatIni )
-   mDatIni := CToD( "01/" + StrZero( mMes - jpempre->emFecha + 1, 2 ) + "/" + Str( mAno, 4 ) )
+   mDatIni := Ctod( "01/" + StrZero( mMes - jpempre->emFecha + 1, 2 ) + "/" + Str( mAno, 4 ) )
    mFechaAnt := Int( ( mNumMes - 1 ) / jpempre->emFecha ) * jpempre->emFecha
    mFechaAtu := mFechaAnt + jpempre->emFecha
 
@@ -757,7 +757,7 @@ STATIC FUNCTION SaldoConta( mSaldoAnt, mDebMes, mCreMes, mNumMes, mFechado )
       ENDIF
    ENDIF
    // Apuracao de lucro geral
-   IF SubStr( ctplano->a_Codigo, 1, 11 ) $ jpempre->emCodAcu
+   IF Substr( ctplano->a_Codigo, 1, 11 ) $ jpempre->emCodAcu
       FOR mCont = 1 TO mFechaAnt
          mSaldoAnt := mSaldoAnt + AppLucroDebito()[ mCont ] - AppLucroCredito()[ mCont ]
       NEXT

@@ -91,25 +91,24 @@ FUNCTION ExcelConnection( cFileName )
       [Provider=Microsoft.ACE.OLEDB.12.0;Data Source=] + cFileName + ;
       [;Extended Properties="Excel ] + iif( ".xlsx" $ Lower( cFileName ), ;
       [12.0 Xml], [8.0] ) + [;HDR=YES";]
-   //;
+   // ;
    //   [Provider=Microsoft.Jet.OLEDB.4.0;Data Source=] + cFileName + ;
    //   [;Extended Properties="] + iif( ".xlsx" $ Lower( cFileName ), [Excel.12.0 Xml], [Excel 8.0] ) + [";] // HDR=Yes;IMEX=1";] // alterado em 16/10 pra teste
 
    RETURN oConexao
 
+   /*
+   a) OLEDB Provider Access/Excel “Microsoft.ACE.OLEDB.12.0”
 
-/*
-a) OLEDB Provider Access/Excel “Microsoft.ACE.OLEDB.12.0”
+   Excel add the appropriate Extended Properties of the OLEDB
 
-Excel add the appropriate Extended Properties of the OLEDB
+   File Type (extension)                    Extended Properties
+   ---------------------------------------------------------------------------------------------
+   Excel 97-2003 Workbook (.xls)            "Excel 8.0"
+   Excel Workbook (.xlsx)                   "Excel 12.0 Xml"
+   Excel Macro-enabled workbook (.xlsm)     "Excel 12.0 Macro"
+   Excel Non-XML binary workbook (.xlsb)    "Excel 12.0"
 
-File Type (extension)                    Extended Properties
----------------------------------------------------------------------------------------------
-Excel 97-2003 Workbook (.xls)            "Excel 8.0"
-Excel Workbook (.xlsx)                   "Excel 12.0 Xml"
-Excel Macro-enabled workbook (.xlsm)     "Excel 12.0 Macro"
-Excel Non-XML binary workbook (.xlsb)    "Excel 12.0"
-
-b) ODBC Provider
-Access data, “Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=path to mdb/accdb file”
-Excel data,  “Driver={Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)};DBQ=path to xls/xlsx/xlsm/xlsb file”
+   b) ODBC Provider
+   Access data, “Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=path to mdb/accdb file”
+   Excel data,  “Driver={Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)};DBQ=path to xls/xlsx/xlsm/xlsb file”

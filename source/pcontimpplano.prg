@@ -61,7 +61,7 @@ STATIC FUNCTION ImportaCTPLANO( m_Empresa )
       FOR m_Cont = 1 TO 96
          m_TxtDeb := "ctplano->a_Deb" + StrZero( m_Cont, 2 )
          m_TxtCre := "ctplano->a_Cre" + StrZero( m_Cont, 2 )
-         IF type(m_TxtDeb) == "N"
+         IF Type(m_TxtDeb) == "N"
             REPLACE &m_TxtDeb WITH 0, &m_TxtCre WITH 0
          ENDIF
       NEXT
@@ -76,10 +76,10 @@ STATIC FUNCTION ImportaCTPLANO( m_Empresa )
       m_LenAnt = 0
       DO WHILE .T.
          LOCATE FOR ctplano->a_grau = m_grau
-         IF eof()
+         IF Eof()
             EXIT
          ENDIF
-         m_lenatu = Len( Trim( left( ctplano->a_codigo, 11 ) ) )
+         m_lenatu = Len( Trim( Left( ctplano->a_codigo, 11 ) ) )
          mPicture = mPicture + iif( m_lenant == 0, "", "." ) + Replicate( "9", m_lenatu - m_lenant )
          m_grau   = m_grau + 1
          m_lenant = m_lenatu

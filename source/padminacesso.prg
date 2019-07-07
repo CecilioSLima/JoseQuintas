@@ -486,7 +486,7 @@ STATIC FUNCTION SelecionaUsuarios( nLeft, mProg )
          ENDIF
          Scroll( 4, nLeft + 11, MaxRow() - 5, nLeft + 36, 0 )
          FazAchoice( 4, nLeft + 11, MaxRow() - 5, nLeft + 36, mOpcUser2, @mOpcao2 )
-         IF Lastkey() == K_ESC
+         IF LastKey() == K_ESC
             EXIT
          ENDIF
          pw_AddUserModule( mOpcUser2[ mOpcao2 ], mProg )
@@ -599,7 +599,7 @@ STATIC FUNCTION SelecionaMembros( cGrupo )
          ENDIF
          Scroll( 4, 27, MaxRow() - 5, 50, 0 )
          FazAchoice( 4, 27, MaxRow() - 5, 50, acNewUserList, @nOpcNewUser )
-         IF Lastkey() == K_ESC
+         IF LastKey() == K_ESC
             EXIT
          ENDIF
          IF Encontra( "G" + pw_Criptografa( acNewUserList[ nOpcNewUser ] ), "jpsenha" )

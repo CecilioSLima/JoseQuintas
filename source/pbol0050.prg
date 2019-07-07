@@ -45,8 +45,8 @@ PROCEDURE PBOL0050
       aTxtList := {}
       DO WHILE Len( mTexto ) > 0
          mPosi  := At( Chr( 13 ), mTexto + Chr( 13 ) )
-         mLinha := SubStr( mTexto, 1, mPosi - 1 )
-         mTexto := SubStr( mTexto, mPosi + 2 )
+         mLinha := Substr( mTexto, 1, mPosi - 1 )
+         mTexto := Substr( mTexto, mPosi + 2 )
          IF Len( AllTrim( mLinha ) ) <> 0
             AAdd( aTxtList, mLinha )
          ENDIF
@@ -62,22 +62,22 @@ PROCEDURE PBOL0050
       mTemFim := .F.
       FOR EACH mTexto IN aTxtList
          oPDF:MaxRowTest()
-         IF SubStr( mTexto, 1, 1 ) == "0"
+         IF Substr( mTexto, 1, 1 ) == "0"
             mTemIni := .T.
-         ELSEIF SubStr( mTexto, 1, 1 ) == "9"
+         ELSEIF Substr( mTexto, 1, 1 ) == "9"
             mTemFim := .T.
-         ELSEIF SubStr( mTexto, 1, 1 ) == "1"
+         ELSEIF Substr( mTexto, 1, 1 ) == "1"
             // mAgencia  := Substr( mTexto, 18, 4 )
             // mConta    := Substr( mTexto, 24, 6 )
-            mDocBanco := SubStr( mTexto, 63, 8 )
-            mDocto    := SubStr( mTexto, 111, 10 )
-            mDatVen   := CToD( Transform( SubStr( mTexto, 121, 6 ), "@R 99/99/99" ) )
-            mValor    := Val( SubStr( mTexto, 127, 13 ) ) / 100
-            mDatEmi   := CToD( Transform( SubStr( mTexto, 151, 6 ), "@R 99/99/99" ) )
-            mJuros    := Val( SubStr( mTexto, 161, 13 ) ) / 100
+            mDocBanco := Substr( mTexto, 63, 8 )
+            mDocto    := Substr( mTexto, 111, 10 )
+            mDatVen   := Ctod( Transform( Substr( mTexto, 121, 6 ), "@R 99/99/99" ) )
+            mValor    := Val( Substr( mTexto, 127, 13 ) ) / 100
+            mDatEmi   := Ctod( Transform( Substr( mTexto, 151, 6 ), "@R 99/99/99" ) )
+            mJuros    := Val( Substr( mTexto, 161, 13 ) ) / 100
             // mCnpj     := FormatCnpj( Substr( mTexto, 221, 14 ) )
-            mNome     := SubStr( mTexto, 235, 30 )
-            mCarteira := SubStr( mTexto, 84, 3 )
+            mNome     := Substr( mTexto, 235, 30 )
+            mCarteira := Substr( mTexto, 84, 3 )
             oPDF:DrawText( oPDF:nRow, 0, mDocBanco )
             oPDF:DrawText( oPDF:nRow, oPDF:nCol + 1, mDocto )
             oPDF:DrawText( oPDF:nRow, oPDF:nCol + 1, mNome )

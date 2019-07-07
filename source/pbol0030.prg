@@ -26,7 +26,7 @@ PROCEDURE PBOL0030
       ENDIF
    NEXT
 
-   mFileTxt := "I" + SubStr( DToS( Date() ), 3 )
+   mFileTxt := "I" + Substr( Dtos( Date() ), 3 )
    mLetra := 65 // "A"
    DO WHILE File( mDirItau + mFileTxt + Chr( mLetra ) + ".txt" )
       mLetra += 1
@@ -123,13 +123,13 @@ PROCEDURE PBOL0030
          SELECT jpfinan
          ordSetFocus( "numbanco" )
          GOTO BOTTOM
-         mDocBanco := StrZero( Val( SubStr( jpfinan->fiNumBan, 1, 6 ) ), 6 )
+         mDocBanco := StrZero( Val( Substr( jpfinan->fiNumBan, 1, 6 ) ), 6 )
          ordSetFocus( "pedido" )
       ENDIF
       GOTO ( mRecNo )
       TxtItau( "D" )
       Scroll( 6, 41, MaxRow() - 3, MaxCol(), 1 )
-      @ MaxRow() - 3, 41 SAY jpfinan->fiParcela + "." + DToC( jpfinan->fiDatVen ) + " " + Pad( jpcadas->cdNome, 15 ) + " " + Transform( jpfinan->fiValor + mTaxaBoleto, "9,999,999.99" )
+      @ MaxRow() - 3, 41 SAY jpfinan->fiParcela + "." + Dtoc( jpfinan->fiDatVen ) + " " + Pad( jpcadas->cdNome, 15 ) + " " + Transform( jpfinan->fiValor + mTaxaBoleto, "9,999,999.99" )
       SELECT jpfinan
       RecLock()
       REPLACE jpfinan->fiNumBan WITH  mDocBanco
@@ -175,8 +175,8 @@ STATIC FUNCTION TxtItau( mTipoReg )
       ?? Pad( "COBRANCA", 15 )
       ?? mAgencia
       ?? "00"
-      ?? SubStr( mConta, 1, Len( mConta ) - 1 )
-      ?? SubStr( mConta, Len( mConta ), 1 )
+      ?? Substr( mConta, 1, Len( mConta ) - 1 )
+      ?? Substr( mConta, Len( mConta ), 1 )
       ?? Space( 8 )
       ?? Pad( AppEmpresaNome(), 30 )
       ?? "341"
@@ -207,8 +207,8 @@ STATIC FUNCTION TxtItau( mTipoReg )
       ENDIF
       ?? mAgencia
       ?? "00"
-      ?? SubStr( mConta, 1, Len( mConta ) - 1 )
-      ?? SubStr( mConta, Len( mConta ), 1 )
+      ?? Substr( mConta, 1, Len( mConta ) - 1 )
+      ?? Substr( mConta, Len( mConta ), 1 )
       ?? Space( 4 )
       ?? Space( 4 ) // Nota 27
       ?? Pad( jpfinan->fiDocAux, 25 )
@@ -226,7 +226,7 @@ STATIC FUNCTION TxtItau( mTipoReg )
       IF jpfinan->fiCliFor == jpfinan->fiSacado
          IF "CARREFOUR" $ jpcadas->cdNome .OR. "ELDORADO S/A" $ jpcadas->cdNome
             IF "/" $ mTxtDocto
-               mTxtDocto := SubStr( mTxtDocto, 1, At( "/", mTxtDocto ) - 1 )
+               mTxtDocto := Substr( mTxtDocto, 1, At( "/", mTxtDocto ) - 1 )
                mTxtDocto := StrZero( Val( mTxtDocto ), 9 ) + " "
             ENDIF
             ?? mTxtDocto
