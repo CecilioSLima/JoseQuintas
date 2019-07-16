@@ -31,9 +31,9 @@ PROCEDURE pTesteConsultaDfe
       IF Len( SoNumeros( cChave ) ) == 44
          oSefaz := SefazClass():New()
          IF DfeModFis( cChave ) == "55"
-            MsgExclamation( oSefaz:NfeConsultaProtocolo( cChave, NomeCertificado( AppEmpresaApelido() ) ) )
+            MsgExclamation( oSefaz:NfeConsultaProtocolo( cChave, NomeCertificado( jpempre->emCnpj ) ) )
          ELSEIF DfeModFis( cChave ) == "58"
-            MsgExclamation( oSefaz:MdfeConsultaProtocolo( cChave, NOmeCertificado( AppEmpresaApelido() ) ) )
+            MsgExclamation( oSefaz:MdfeConsultaProtocolo( cChave, NomeCertificado( jpempre->emCnpj ) ) )
             hb_MemoWrit( "d:\temp\teste.xml", oSefaz:CXmlRetorno )
             //IF MsgYesNo( "Cancela?" )
             //   oSefaz := SefazClass():New()
@@ -42,7 +42,7 @@ PROCEDURE pTesteConsultaDfe
             //      1, ;
             //      935170020402852, ;
             //      "Problemas com Sefaz", ;
-            //      NomeCertificado( AppEmpresaApelido() ) )
+            //      NomeCertificado( jpempre->emCnpj ) )
             //   hb_MemoWrit( "d:\temp\teste2.xml", oSefaz:cXmlRetorno )
             //ENDIF
          ENDIF
