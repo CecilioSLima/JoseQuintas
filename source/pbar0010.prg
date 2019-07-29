@@ -190,7 +190,7 @@ METHOD TelaDados( lEdit ) CLASS PBAR0010Class
    @ Row() + 1, 0 SAY "Num. Lançto.........:" GET mbrNumLan WHEN .F.
    @ Row() + 2, 0 SAY "Cod.Barras Próprio..:" GET mbrCodBar
    @ Row() + 1, 0 SAY "Cod.Barras Forneced.:" GET mbrCodBar2
-   @ Row() + 1, 0 SAY "Produto.............:" GET mbrItem PICTURE "@K 999999" VALID OkAqui( @mbrItem ) .AND. ReturnValue( .T., mbrGarCom := Date() + jpitem->ieGarCom )
+   @ Row() + 1, 0 SAY "Produto.............:" GET mbrItem PICTURE "@K 999999" VALID OkAqui( @mbrItem ) .AND. ReturnTrue( mbrGarCom := Date() + jpitem->ieGarCom )
    Encontra( mbrItem, "jpitem", "item" )
    @ Row(), 32 SAY jpitem->ieDescri
    @ Row()+1, 0 SAY "Pedido de Compra....:" GET mbrPedCom PICTURE "@K 999999" VALID OkAqui( @mbrPedCom )

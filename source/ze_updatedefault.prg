@@ -132,9 +132,9 @@ FUNCTION JPCIDADEDefault()
       RecLock()
       REPLACE ;
          jpcidade->ciNumLan WITH StrZero( oElement:__EnumIndex, 6 ), ;
-         jpcidade->ciNome   WITH oElement[ 1 ], ;
-         jpcidade->ciUf     WITH oElement[ 2 ], ;
-         jpcidade->ciIBGE   WITH oElement[ 3 ]
+         jpcidade->ciNome   WITH oElement[ 3 ], ;
+         jpcidade->ciUf     WITH oElement[ 1 ], ;
+         jpcidade->ciIBGE   WITH oElement[ 2 ]
       RecUnlock()
    NEXT
 

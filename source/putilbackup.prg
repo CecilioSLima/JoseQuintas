@@ -103,7 +103,7 @@ FUNCTION CriaZip( lNovo )
       hb_ZipFile( cZipName, cZipAdicional )
       fErase( cZipAdicional )
    ENDIF
-   IF AppEmpresaApelido() == "DEMONSTRACAO"
+   IF ASCan( { "DEMO", "DEMONSTRACAO" }, AppEmpresaApelido() ) != 0
       RETURN NIL
    ENDIF
    IF Time() > "06:00" .OR. IsMaquinaJPA()
@@ -111,6 +111,9 @@ FUNCTION CriaZip( lNovo )
             "estamos utilizando os backup para testes antecipados de novas versões." + hb_Eol() + ;
             "fica a critério de cada empresa permitir ou não o envio do backup." + hb_Eol() + ;
             "" + hb_Eol() + ;
+            "O backup contém apenas a pasta aonde está instalado o JPA." + hb_Eol() + ;
+            "Se está testando, e a pasta tem arquivos particulares," + hb_Eol() + ;
+            "acabarão sendo transmitidos também." + hb_Eol() + ;
             "O envio será feito em background, ou seja, poderá utilizar o aplicativo normalmente." + hb_Eol() + ;
             "" + hb_Eol() + ;
             "Envia backup pra JPA" )

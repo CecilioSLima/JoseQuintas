@@ -378,7 +378,7 @@ STATIC FUNCTION CadLanc( m_Tipo )
          @ 16, 30 GET m_Hist PICTURE "@K!" VALID ! Empty( m_Hist )
          @ 18, 12 SAY "Entrada"
          @ 18, 50 SAY "Saída"
-         @ 19, 12 GET m_VlEnt PICTURE PicVal(14,2) VALID m_VlEnt >= 0 .AND. ReturnValue( .T., iif( m_VlEnt != 0, m_VlSai := 0, NIL ) )
+         @ 19, 12 GET m_VlEnt PICTURE PicVal(14,2) VALID m_VlEnt >= 0 .AND. ReturnTrue( m_VlSai := iif( m_VlEnt != 0, 0, m_VlSai ) )
          @ 19, 50 GET m_VlSai PICTURE PicVal(14,2) VALID m_VlSai >= 0 WHEN m_VlEnt == 0
          Mensagem( "Digite campos, F9 Pesquisa, ESC abandona" )
          READ

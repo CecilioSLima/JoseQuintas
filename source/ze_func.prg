@@ -249,6 +249,10 @@ FUNCTION OkGetUnidadeExterior( cNcm, cUnidade )
 
    RETURN lOk
 
+FUNCTION ReturnTrue( ... )
+
+   RETURN .T.
+
    /*
    // SaveResource( cResourceName, cFileName )
 
