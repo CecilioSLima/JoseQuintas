@@ -5,6 +5,8 @@ PESTOITEMXLS - PRODUTOS EM EXCEL
 2018.02.08 Campos estoque e reserva do produto
 */
 
+#define XLS_SEP ";"
+
 PROCEDURE pEstoItemXLS
 
    LOCAL cTmpFile
@@ -14,36 +16,69 @@ PROCEDURE pEstoItemXLS
    ENDIF
    SELECT jpitem
 
-   OrdSetFocus( "itemvenda" )
    cTmpFile := MyTempFile( "XLS" )
    SET ALTERNATE TO ( cTmpFile )
    SET ALTERNATE ON
    SET CONSOLE OFF
-
-   ?? "COD" + Chr(9)
-   ?? "DESCRICAO" + Chr(9)
-   ?? "DEP.1" + Chr(9)
-   ?? "DEP.2" + Chr(9)
-   ?? "PRECO VENDA" + Chr(9)
-   ?? "ULT PRECO" + Chr(9)
-   ?? "CUSTO CONTABIL" + Chr(9)
-   ?
-   GOTO TOP
-   DO WHILE ! Eof()
-      ?? jpitem->ieItem + Chr(9)
-      ?? jpitem->ieDescri + Chr(9)
-      ?? LTrim( Str( jpitem->ieQtd1, 16, 2 ) ) + Chr(9)
-      ?? LTrim( Str( jpitem->ieQtd2, 16, 2 ) ) + Chr(9)
-      ?? LTrim( Str( jpitem->ieValor, 16, 2 ) ) + Chr(9)
-      ?? LTrim( Str( jpitem->ieUltPre, 16, 2 ) ) + Chr(9)
-      ?? LTrim( Str( jpitem->ieCusCon, 16, 2 ) ) + Chr(9)
-      ?
-      SKIP
-   ENDDO
+   IF MsgYesNo( "ANP" )
+      GeraAnp()
+   ELSE
+      GeraComercial()
+   ENDIF
    SET CONSOLE ON
    SET ALTERNATE OFF
    SET ALTERNATE TO
-   CLOSE DATABASES
    RUN ( "START " + cTmpFile )
+   CLOSE DATABASES
 
    RETURN
+
+STATIC FUNCTION GeraComercial()
+
+   OrdSetFocus( "itemvenda" )
+
+   ?? "COD" + XLS_SEP
+   ?? "DESCRICAO" + XLS_SEP
+   ?? "DEP.1" + XLS_SEP
+   ?? "DEP.2" + XLS_SEP
+   ?? "PRECO VENDA" + XLS_SEP
+   ?? "ULT PRECO" + XLS_SEP
+   ?? "CUSTO CONTABIL" + XLS_SEP
+   ?
+   GOTO TOP
+   DO WHILE ! Eof()
+      ?? jpitem->ieItem + XLS_SEP
+      ?? jpitem->ieDescri + XLS_SEP
+      ?? LTrim( Str( jpitem->ieQtd1, 16, 2 ) ) + XLS_SEP
+      ?? LTrim( Str( jpitem->ieQtd2, 16, 2 ) ) + XLS_SEP
+      ?? LTrim( Str( jpitem->ieValor, 16, 2 ) ) + XLS_SEP
+      ?? LTrim( Str( jpitem->ieUltPre, 16, 2 ) ) + XLS_SEP
+      ?? LTrim( Str( jpitem->ieCusCon, 16, 2 ) ) + XLS_SEP
+      ?
+      SKIP
+   ENDDO
+
+   RETURN NIL
+
+STATIC FUNCTION GeraAnp()
+
+   ?? "ITEM" + XLS_SEP
+   ?? "NCM" + XLS_SEP
+   ?? "ANP" + XLS_SEP
+   ?? "DESCRICAO" + XLS_SEP
+   ?
+   GOTO TOP
+   DO WHILE ! Eof()
+      IF Empty( jpitem->ieAnp ) .OR. jpitem->ieLibera != "S"
+         SKIP
+         LOOP
+      ENDIF
+      ?? jpitem->ieItem   + XLS_SEP
+      ?? jpitem->ieNCM    + XLS_SEP
+      ?? jpitem->ieAnp    + XLS_SEP
+      ?? jpitem->ieDescri + XLS_SEP
+      ?
+      SKIP
+   ENDDO
+
+   RETURN NIL
