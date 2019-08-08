@@ -170,7 +170,9 @@ FUNCTION ze_UpdateMysql()
          cnMySql:ExecuteCmd( "ALTER TABLE JPPEDI DROP COLUMN PDDEMFIN" )
       ENDIF
    ENDIF
-
+   IF AppVersaoDbfAnt() < 20180820
+      cnMySql:Execute( "ALTER TABLE JPEMANFE CHANGE COLUMN ENEMANFE VARCHAR(250) NULL DEFAULT ''" )
+   ENDIF
    RETURN NIL
 
    // Not Static - called from other routines
@@ -349,7 +351,7 @@ STATIC FUNCTION JPEMANFECreateMySql()
       "IDEMANFE INT(11)      NOT NULL AUTO_INCREMENT, " + ;
       "ENEMINFE CHAR(18)     NOT NULL DEFAULT '', " + ;
       "ENDESNFE CHAR(18)     NOT NULL, " + ;
-      "ENEMANFE VARCHAR(200) NULL DEFAULT '', " + ;
+      "ENEMANFE VARCHAR(250) NULL DEFAULT '', " + ;
       "ENBACKUP CHAR(1) NULL DEFAULT 'S', " + ;
       "ENINFINC VARCHAR(100) NULL DEFAULT '', " + ;
       "ENINFALT VARCHAR(100) NULL DEFAULT '', " + ;

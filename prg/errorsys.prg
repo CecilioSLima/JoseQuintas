@@ -199,7 +199,7 @@ FUNCTION Errorsys_WriteErrorLog( cText, nDetail )
    fSeek( nHandle, 0, 2 )
    fWrite( nHandle, cText + Space(2) + hb_Eol() )
    IF nDetail > 1
-      nCont  := 2
+      nCont  := 1
       nCont2 := 0
       DO WHILE nCont2 < 5
          IF Empty( ProcName( nCont ) )
