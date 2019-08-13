@@ -34,7 +34,7 @@ FUNCTION TelaEntrada()
       DO CASE
       CASE Month( Date() ) == 12
          :cImage := "icoSanta"
-      CASE Day( Date() ) > 11 .AND. Day( Date() ) < 16
+      CASE Day( Date() ) > 13 .AND. Day( Date() ) < 16
          :cImage := "icoanp"
       CASE Month( Date() ) == 7 .AND. Day( Date() ) > 20 .AND. Day( Date() ) < 28
          :cImage := "icoBalloon"
