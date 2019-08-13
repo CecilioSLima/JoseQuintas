@@ -5,7 +5,7 @@ JPA_MENU - MENU DO SISTEMA
 
 #include "hbgtinfo.ch"
 #include "inkey.ch"
-#define IDLE_SECONDS 600
+#define IDLE_SECONDS 6000
 
 MEMVAR m_Prog, nMenuLevel, oMenuOptions
 
@@ -604,7 +604,7 @@ FUNCTION MenuPrinc( mMenuOpt )
       NEXT
       //MenuDesenhoCentral()
       BoxMenu( 3, mColIni[ mOpc ] - 20 + Int( Len( mMenuOpt[ mOpc, 1 ] ) / 2 ), mMenuOpt[ mOpc, 2 ], 1,, .T., .T., aMouseMenu, 1 )
-      nKey := Inkey( IDLE_SECONDS, INKEY_ALL - INKEY_MOVE + HB_INKEY_GTEVENT )
+      nKey := Inkey( IDLE_SECONDS, INKEY_ALL - INKEY_MOVE ) // + HB_INKEY_GTEVENT )
       DO CASE
       CASE nKey == HB_K_RESIZE
          //wvgSetAppWindow():InvalidateRect()
@@ -691,7 +691,7 @@ STATIC FUNCTION BoxMenu( mLini, mColi, mMenuOpt, mOpc, mTitulo, mSaiSetas, mSaiF
          ENDIF
       NEXT
       SetColor( SetColorNormal() )
-      nKey := Inkey(1800, INKEY_ALL - INKEY_MOVE + HB_INKEY_GTEVENT )
+      nKey := Inkey(1800, INKEY_ALL - INKEY_MOVE ) // + HB_INKEY_GTEVENT )
       lExit := .F.
       DO CASE
       CASE nKey == K_ESC .OR. nKey == K_RBUTTONDOWN .OR. nKey == 0

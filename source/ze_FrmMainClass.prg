@@ -266,7 +266,7 @@ METHOD ButtonSelect() CLASS frmGuiClass
 
    ::GUIEnable()
    DO WHILE ! lButtonDown
-      nKey := Inkey( JPA_IDLE, INKEY_ALL - INKEY_MOVE + HB_INKEY_GTEVENT )
+      nKey := Inkey( JPA_IDLE, INKEY_ALL - INKEY_MOVE ) // + HB_INKEY_GTEVENT )
       IF nKey == HB_K_RESIZE
          //wvgSetAppWindow():InvalidateRect()
          wvgSetAppWindow():Refresh()
