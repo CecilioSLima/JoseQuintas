@@ -5,7 +5,7 @@ JPA_MENU - MENU DO SISTEMA
 
 #include "hbgtinfo.ch"
 #include "inkey.ch"
-#define IDLE_SECONDS 6000
+#define INKEY_IDLE 600
 
 MEMVAR m_Prog, nMenuLevel, oMenuOptions
 
@@ -494,7 +494,7 @@ FUNCTION MenuCria( lInterno )
 
    RETURN oMenuOptions
 
-STATIC FUNCTION MenuOption( cCaption, cModule, bCode, cPicture )
+STATIC FUNCTION MenuOption( cCaption, cModule, bCode )
 
    LOCAL nCont, oLastMenu
 
@@ -503,7 +503,7 @@ STATIC FUNCTION MenuOption( cCaption, cModule, bCode, cPicture )
       oLastMenu := oLastMenu[ Len( oLastMenu ) ]
       oLastMenu := oLastMenu[ 2 ]
    NEXT
-   AAdd( oLastMenu, { cCaption, {}, cModule, bCode, cPicture } )
+   AAdd( oLastMenu, { cCaption, {}, cModule, bCode, 1 } )
 
    RETURN NIL
 
@@ -603,8 +603,8 @@ FUNCTION MenuPrinc( mMenuOpt )
          @ 1, mColIni[ mCont ] SAY mMenuOpt[ mCont, 1 ] COLOR iif( mCont == mOpc, SetColorFocus(), SetColorNormal() )
       NEXT
       //MenuDesenhoCentral()
-      BoxMenu( 3, mColIni[ mOpc ] - 20 + Int( Len( mMenuOpt[ mOpc, 1 ] ) / 2 ), mMenuOpt[ mOpc, 2 ], 1,, .T., .T., aMouseMenu, 1 )
-      nKey := Inkey( IDLE_SECONDS, INKEY_ALL - INKEY_MOVE ) // + HB_INKEY_GTEVENT )
+      BoxMenu( 3, mColIni[ mOpc ] - 20 + Int( Len( mMenuOpt[ mOpc, 1 ] ) / 2 ), mMenuOpt[ mOpc, 2 ], @mMenuOpt[ mOpc, 5 ],, .T., .T., aMouseMenu, 1 )
+      nKey := Inkey( INKEY_IDLE, INKEY_ALL - INKEY_MOVE ) // + HB_INKEY_GTEVENT )
       DO CASE
       CASE nKey == HB_K_RESIZE
          //wvgSetAppWindow():InvalidateRect()
@@ -691,7 +691,7 @@ STATIC FUNCTION BoxMenu( mLini, mColi, mMenuOpt, mOpc, mTitulo, mSaiSetas, mSaiF
          ENDIF
       NEXT
       SetColor( SetColorNormal() )
-      nKey := Inkey(1800, INKEY_ALL - INKEY_MOVE ) // + HB_INKEY_GTEVENT )
+      nKey := Inkey( INKEY_IDLE, INKEY_ALL - INKEY_MOVE ) // + HB_INKEY_GTEVENT )
       lExit := .F.
       DO CASE
       CASE nKey == K_ESC .OR. nKey == K_RBUTTONDOWN .OR. nKey == 0
