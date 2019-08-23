@@ -619,7 +619,6 @@ FUNCTION MenuPrinc( mMenuOpt )
          mOpc := iif( mOpc == Len( mMenuOpt ), 1, mOpc + 1 )
       CASE nKey == K_LEFT
          mOpc := iif( mOpc == 1, Len( mMenuOpt ), mOpc - 1 )
-      // Numeros, incluindo Chr(59) nao detectado no Inkey()
       CASE nKey > 48 .AND. nKey < 49 + Len( mMenuOpt ) + iif( Len( mMenuOpt ) > 10, 1, 0 )
          mOpc := Abs( nKey ) - 48
          mOpc := Iif( mOpc > 10, mOpc - 1, mOpc )
@@ -732,6 +731,10 @@ STATIC FUNCTION BoxMenu( mLini, mColi, mMenuOpt, mOpc, mTitulo, mSaiSetas, mSaiF
             KEYBOARD Chr( nKey )
          ENDIF
          EXIT
+      CASE mSaiSetas .AND. ( nKey == K_CTRL_RIGHT .OR. nKey == K_CTRL_LEFT )
+         KEYBOARD Replicate( Chr( K_ESC ), nLevel - 2 ) + ;
+            Chr( iif( nKey == K_CTRL_RIGHT, K_RIGHT, K_LEFT ) )
+         EXIT
       CASE nKey == K_DOWN
          IF mOpc < Len( mMenuOpt )
             IF mMenuOpt[ mOpc + 1, 1 ] == "-"
@@ -752,7 +755,7 @@ STATIC FUNCTION BoxMenu( mLini, mColi, mMenuOpt, mOpc, mTitulo, mSaiSetas, mSaiF
          mOpc := Len( mMenuOpt )
       CASE nKey == K_ENTER
          IF Len( mMenuOpt[ mOpc, 2 ] ) > 0
-            BoxMenu( mLini + iif( Empty( mTitulo ), 0, 1 ) + mOpc, mColi + 5, mMenuOpt[ mOpc, 2 ], 1, mMenuOpt[ mOpc, 1 ], .T., .T., aMouseConv, nLevel + 1 )
+            BoxMenu( mLini + iif( Empty( mTitulo ), 0, 1 ) + mOpc, mColi + 5, mMenuOpt[ mOpc, 2 ], @mMenuOpt[ mOpc, 5 ], mMenuOpt[ mOpc, 1 ], .T., .T., aMouseConv, nLevel + 1 )
          ELSEIF ValType( mMenuOpt[ mOpc, 3 ] ) == "C"
             m_Prog := mMenuOpt[ mOpc, 3 ]
             IF m_Prog == "-"
