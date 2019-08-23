@@ -48,7 +48,7 @@
 
 #define COMPILE_HMG_UNICODE
 
-#include "HMG_UNICODE.h"
+#include "hmg_unicode.h"
 
 #ifndef WINVER
    #define WINVER 0x0501   // minimum requirements: Windows XP

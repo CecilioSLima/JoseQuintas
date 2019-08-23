@@ -1,3 +1,4 @@
-libs=bostaurus xhb hbwin.hbc
+{hb_exe}libs=bostaurus
+libs=hbwin.hbc wvgtst.hbc
 incpaths=.
-libpaths=${hb_install_prefix}/addons/bostaurus/lib/win/${hb_comp}
+libpaths=${hb_install_prefix}/addons/josequintas/win/${hb_comp}

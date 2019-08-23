@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
- HMG Header File --> HMG_UNICODE.h
+ HMG Header File --> hmg_unicode.h
 
  Copyright 2012-2016 by Dr. Claudio Soto (from Uruguay).
 
@@ -228,4 +228,4 @@ HB_FUNC ( BT_GETSYSTEMICONIMAGELIST )
 
 */
 
-void HMG_Trace( const char * file, int line, const char * function, TCHAR * fmt, ... );
+//void HMG_Trace( const char * file, int line, const char * function, TCHAR * fmt, ... );
