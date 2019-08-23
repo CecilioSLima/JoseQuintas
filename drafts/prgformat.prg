@@ -63,7 +63,7 @@ STATIC FUNCTION FormatDir( cPath, nKey, nContYes, nContNo, cFileName )
          FormatDir( cPath + oElement[ F_NAME ] + "\", @nKey, @nContYes, @nContNo )
       CASE Upper( Right( oElement[ F_NAME ], 4 ) ) == ".PRG" .OR. ;
            Upper( Right( oElement[ F_NAME ], 4 ) ) == ".FMG" .OR. ;
-           Upper( RIght( oElement[ F_NAME ], 3 ) ) == ".CH" .OR. ;
+           Upper( Right( oElement[ F_NAME ], 3 ) ) == ".CH" .OR. ;
            Upper( Right( oElement[ F_NAME ], 2 ) ) == ".H" .OR. ;
            Upper( Right( oElement[ F_NAME ], 4 ) ) == ".BAT" .OR. ;
            Upper( Right( oElement[ F_NAME ], 2 ) ) == ".C" .OR. ;
@@ -83,7 +83,7 @@ STATIC FUNCTION FormatDir( cPath, nKey, nContYes, nContNo, cFileName )
 STATIC FUNCTION FormatFile( cFile, nContYes, nContNo )
 
    LOCAL cTxtPrg, cTxtPrgAnt, acPrgLines, oElement, lPrgSource := .T., acTroca
-   LOCAL oFormat := FormatClass():New(), nCont
+   LOCAL oFormat := FormatClass():New(), nCont, lIsPrg
 
    cTxtPrgAnt := MemoRead( cFile )
    IF "HB_INLINE" $ cTxtPrgAnt // C source inside PRG source, but not #pragma begindump
@@ -91,11 +91,12 @@ STATIC FUNCTION FormatFile( cFile, nContYes, nContNo )
       ? Space(3) + " ignored because have HB_INLINE"
       RETURN NIL
    ENDIF
-   cTxtPrg    := cTxtPrgAnt
-   cTxtPrg    := StrTran( cTxtPrg, Chr(9), Space(3) )
-   cTxtPrg    := StrTran( cTxtPrg, Chr(13) + Chr(10), Chr(10) )
-   cTxtPrg    := StrTran( cTxtPrg, Chr(13), Chr(10) )
-   cTxtPrg    := StrTran( cTxtPrg, Chr(10) + Chr(10) + Chr(10), Chr(10) + Chr(10) )
+   cTxtPrg := cTxtPrgAnt
+   cTxtPrg := StrTran( cTxtPrg, Chr(9), Space(3) )
+   cTxtPrg := StrTran( cTxtPrg, Chr(13) + Chr(10), Chr(10) )
+   cTxtPrg := StrTran( cTxtPrg, Chr(13), Chr(10) )
+   cTxtPrg := StrTran( cTxtPrg, Chr(10) + Chr(10) + Chr(10), Chr(10) + Chr(10) )
+   lIsPrg  := ASCan( { ".prg", ".fmg" }, { | e | e == Lower( Right( cFile, 4 ) ) } ) != 0
    acTroca := { ;
       { "lastkey()=27",  "LastKey() == K_ESC" }, ;
       { "LastKey()=27",  "LastKey() == K_ESC" }, ;
@@ -125,9 +126,7 @@ STATIC FUNCTION FormatFile( cFile, nContYes, nContNo )
       aSize( acPrgLines, Len( acPrgLines ) - 1 )
    ENDDO
 
-   IF ".prg" $ Lower( cFile ) ;
-      .AND. ! "menudrop()" $ Lower( cTxtPrg ) ;
-      .AND. ! "indexind" $ Lower( cTxtPrg )
+   IF lIsPrg .AND. ! "menudrop()" $ Lower( cTxtPrg ) .AND. ! "indexind" $ Lower( cTxtPrg )
       FOR EACH oElement IN acPrgLines
          oElement := Trim( oElement )
          DO CASE
