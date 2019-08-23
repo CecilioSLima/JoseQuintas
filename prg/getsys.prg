@@ -145,7 +145,7 @@ PROCEDURE GetReader( oGet, lIsMouse )
 
    // Read the GET IF the WHEN condition is satisfied
 
-   IF ( GetPreValidate( oGet ) )
+   IF GetPreValidate( oGet )
 
       // Activate the GET for reading
       oGet:setFocus()
@@ -153,11 +153,11 @@ PROCEDURE GetReader( oGet, lIsMouse )
       DO WHILE ( oGet:EXITState == GE_NOEXIT )
 
          // Check for initial typeout (no editable positions)
-         IF ( oGet:typeOut )
+         IF oGet:typeOut
             oGet:EXITState := GE_ENTER
          ENDIF
          // Apply keystrokes until EXIT
-         DO WHILE ( oGet:EXITState == GE_NOEXIT )
+         DO WHILE oGet:EXITState == GE_NOEXIT
             nKey := Inkey( JPA_IDLE, INKEY_ALL - INKEY_MOVE ) // + HB_INKEY_GTEVENT ) // Mouse
             nKey := iif( nKey == 0, K_ESC, nKey )
             //nKey := WaitKey()
@@ -165,7 +165,8 @@ PROCEDURE GetReader( oGet, lIsMouse )
          ENDDO
 
          // Disallow EXIT IF the VALID condition is not satisfied
-         IF ! GetPostValidate( oGet )
+         // ***********Alteracao JPA aceita K_UP ************
+         IF nKey != K_UP .AND. ! GetPostValidate( oGet )
             oGet:EXITState := GE_NOEXIT
          ENDIF
          IF ValType( oGet:Cargo ) == "B"
@@ -192,10 +193,10 @@ PROCEDURE GetApplyKey( oGet, nKey, lIsMouse )
    LOCAL nMRow, nMCol // by JPA, adicionado para mouse
    LOCAL nCont
 
-   lIsMouse := iif(lIsMouse==NIL,.F.,.T.)
+   lIsMouse := iif( lIsMouse == NIL, .F., .T. )
 
    IF nKey == K_RBUTTONDOWN
-      KEYBOARD ( K_ESC )
+      KEYBOARD Chr( K_ESC )
       Inkey(0)
       nKey := K_ESC
    ENDIF
@@ -207,39 +208,39 @@ PROCEDURE GetApplyKey( oGet, nKey, lIsMouse )
    ENDIF
 
    DO CASE
-   CASE ( nKey == K_UP )
+   CASE nKey == K_UP
       oGet:EXITState := GE_UP
 
-   CASE ( nKey == K_SH_TAB )
+   CASE nKey == K_SH_TAB
       oGet:EXITState := GE_UP
 
-   CASE ( nKey == K_DOWN )
+   CASE nKey == K_DOWN
       oGet:EXITState := GE_DOWN
 
-   CASE ( nKey == K_TAB )
+   CASE nKey == K_TAB
       oGet:EXITState := GE_DOWN
 
-   CASE ( nKey == K_ENTER )
+   CASE nKey == K_ENTER
       oGet:EXITState := GE_ENTER
 
-   CASE ( nKey == K_ESC )
-      IF ( SET( _SET_ESCAPE ) )
+   CASE nKey == K_ESC
+      IF SET( _SET_ESCAPE )
 
          oGet:undo()
          oGet:EXITState := GE_ESCAPE
 
       ENDIF
 
-   CASE ( nKey == K_PGUP .OR. nKey == K_MWBACKWARD)
+   CASE nKey == K_PGUP .OR. nKey == K_MWBACKWARD
       oGet:EXITState := GE_WRITE
 
-   CASE ( nKey == K_PGDN .OR. nKey == K_MWFORWARD)
+   CASE nKey == K_PGDN .OR. nKey == K_MWFORWARD
       oGet:EXITState := GE_WRITE
 
-   CASE ( nKey == K_CTRL_HOME )
+   CASE nKey == K_CTRL_HOME
       oGet:EXITState := GE_TOP
 
-   CASE ( nkey == K_LBUTTONDOWN )  // Limita mouse na linha
+   CASE nkey == K_LBUTTONDOWN // Limita mouse na linha
       nMRow := MROW()
       NMCol := MCOL()
       IF nMRow == oGet:row .AND. nMCol >= oGet:col .AND. nMCol <= oGet:col + GetLen( oGet )
@@ -254,55 +255,55 @@ PROCEDURE GetApplyKey( oGet, nKey, lIsMouse )
 #ifdef CTRL_END_SPECIAL
 
       // Both ^W and ^End go to the last GET
-   CASE ( nKey == K_CTRL_END )
+   CASE nKey == K_CTRL_END
       oGet:EXITState := GE_BOTTOM
 
 #else
 
       // Both ^W and ^End terminate the READ (the default)
-   CASE ( nKey == K_CTRL_W )
+   CASE nKey == K_CTRL_W
       oGet:EXITState := GE_WRITE
 
 #endif
 
-   CASE ( nKey == K_INS )
+   CASE nKey == K_INS
       Set( _SET_INSERT, ! Set( _SET_INSERT ) )
       ShowScoreboard()
 
-   CASE ( nKey == K_UNDO )
+   CASE nKey == K_UNDO
       oGet:undo()
 
-   CASE ( nKey == K_HOME )
+   CASE nKey == K_HOME
       oGet:home()
 
-   CASE ( nKey == K_END )
+   CASE nKey == K_END
       oGet:end()
 
-   CASE ( nKey == K_RIGHT )
+   CASE nKey == K_RIGHT
       oGet:right()
 
-   CASE ( nKey == K_LEFT )
+   CASE nKey == K_LEFT
       oGet:left()
 
-   CASE ( nKey == K_CTRL_RIGHT )
+   CASE nKey == K_CTRL_RIGHT
       oGet:wordRight()
 
-   CASE ( nKey == K_CTRL_LEFT )
+   CASE nKey == K_CTRL_LEFT
       oGet:wordLeft()
 
-   CASE ( nKey == K_BS )
+   CASE nKey == K_BS
       oGet:backSpace()
 
-   CASE ( nKey == K_DEL )
+   CASE nKey == K_DEL
       oGet:delete()
 
-   CASE ( nKey == K_CTRL_T )
+   CASE nKey == K_CTRL_T
       oGet:delWordRight()
 
-   CASE ( nKey == K_CTRL_Y )
+   CASE nKey == K_CTRL_Y
       oGet:delEnd()
 
-   CASE ( nKey == K_CTRL_BS )
+   CASE nKey == K_CTRL_BS
       oGet:delWordLeft()
 
    OTHERWISE
@@ -317,17 +318,17 @@ PROCEDURE GetApplyKey( oGet, nKey, lIsMouse )
 
          cKey := Chr( nKey )
 
-         IF ( oGet:type == "N" .AND. ( cKey == "." .OR. cKey == "," ) )
+         IF oGet:type == "N" .AND. ( cKey == "." .OR. cKey == "," )
             oGet:toDecPos()
          ELSE
 
-            IF ( Set( _SET_INSERT ) )
+            IF Set( _SET_INSERT )
                oGet:insert( cKey )
             ELSE
                oGet:overstrike( cKey )
             ENDIF
 
-            IF ( oGet:typeOut )
+            IF oGet:typeOut
                IF ( Set( _SET_BELL ) )
                   wapi_MessageBeep()
                ENDIF
@@ -354,7 +355,7 @@ FUNCTION GetPreValidate( oGet )
    LOCAL lSavUpdated
    LOCAL lWhen := .T.
 
-   IF ! ( oGet:preBlock == NIL )
+   IF ! oGet:preBlock == NIL
 
       lSavUpdated := slUpdated
 
@@ -367,7 +368,7 @@ FUNCTION GetPreValidate( oGet )
 
    ENDIF
 
-   IF ( slKillRead )
+   IF slKillRead
 
       lWhen := .F.
       oGet:EXITState := GE_ESCAPE       // Provokes ReadModal() EXIT
@@ -395,11 +396,11 @@ FUNCTION GetPostValidate( oGet )
    LOCAL lSavUpdated
    LOCAL lValid := .T.
 
-   IF ( oGet:EXITState == GE_ESCAPE )
+   IF oGet:EXITState == GE_ESCAPE
       RETURN ( .T. )                   // NOTE
    ENDIF
 
-   IF ( oGet:badDate() )
+   IF oGet:badDate()
       oGet:home()
       DateMsg()
       ShowScoreboard()
@@ -407,7 +408,7 @@ FUNCTION GetPostValidate( oGet )
    ENDIF
 
    // IF editing occurred, assign the new value to the variable
-   IF ( oGet:changed )
+   IF oGet:changed
       oGet:assign()
       slUpdated := .T.
    ENDIF
@@ -416,7 +417,7 @@ FUNCTION GetPostValidate( oGet )
    oGet:reset()
 
    // Check VALID condition IF specified
-   IF ! ( oGet:postBlock == NIL )
+   IF ! oGet:postBlock == NIL
 
       lSavUpdated := slUpdated
 
@@ -440,7 +441,7 @@ FUNCTION GetPostValidate( oGet )
       ENDIF
    ENDIF
 
-   RETURN ( lValid )
+   RETURN lValid
 
    /***
    *  GetDoSetKey()
@@ -452,7 +453,7 @@ PROCEDURE GetDoSetKey( keyBlock, oGet )
    LOCAL lSavUpdated
 
    // IF editing has occurred, assign variable
-   IF ( oGet:changed )
+   IF oGet:changed
       oGet:assign()
       slUpdated := .T.
    ENDIF
@@ -466,7 +467,7 @@ PROCEDURE GetDoSetKey( keyBlock, oGet )
 
    slUpdated := lSavUpdated
 
-   IF ( slKillRead )
+   IF slKillRead
       oGet:EXITState := GE_ESCAPE      // provokes ReadModal() EXIT
    ENDIF
 
@@ -490,7 +491,7 @@ STATIC FUNCTION Settle( GetList, nPos )
    LOCAL nEXITState
    LOCAL nMRow, nMCol, oElement // by JPA, Variaveis para Mouse
 
-   IF ( nPos == 0 )
+   IF nPos == 0
       nEXITState := GE_DOWN
    ELSE
       nEXITState := GetList[ nPos ]:EXITState
@@ -498,7 +499,7 @@ STATIC FUNCTION Settle( GetList, nPos )
 
    // Adicionado este trecho para mouse
 
-   IF ( nEXITState == GE_MOUSEHIT )
+   IF nEXITState == GE_MOUSEHIT
       nMRow := MROW()
       nMCol := MCOL()
       FOR EACH oElement IN GetList
@@ -512,11 +513,11 @@ STATIC FUNCTION Settle( GetList, nPos )
       NEXT
    ENDIF
 
-   IF ( nEXITState == GE_ESCAPE .OR. nEXITState == GE_WRITE )
+   IF nEXITState == GE_ESCAPE .OR. nEXITState == GE_WRITE
       RETURN ( 0 )               // NOTE
    ENDIF
 
-   IF ! ( nEXITState == GE_WHEN )
+   IF ! nEXITState == GE_WHEN
       // Reset state info
       snLastPos := nPos
       slBumpTop := .F.
@@ -528,36 +529,36 @@ STATIC FUNCTION Settle( GetList, nPos )
 
    // Move
    DO CASE
-   CASE ( nEXITState == GE_UP )
+   CASE nEXITState == GE_UP
       nPos--
 
-   CASE ( nEXITState == GE_DOWN )
+   CASE nEXITState == GE_DOWN
       nPos++
 
-   CASE ( nEXITState == GE_TOP )
+   CASE nEXITState == GE_TOP
       nPos       := 1
       slBumpTop  := .T.
       nEXITState := GE_DOWN
 
-   CASE ( nEXITState == GE_BOTTOM )
+   CASE nEXITState == GE_BOTTOM
       nPos       := Len( GetList )
       slBumpBot  := .T.
       nEXITState := GE_UP
 
-   CASE ( nEXITState == GE_ENTER )
+   CASE nEXITState == GE_ENTER
       nPos++
 
    ENDCASE
 
    // Bounce
-   IF ( nPos == 0 )                       // Bumped top
+   IF nPos == 0                        // Bumped top
       IF ! ReadExit() .AND. ! slBumpBot
          slBumpTop  := .T.
          nPos       := snLastPos
          nEXITState := GE_DOWN
       ENDIF
 
-   ELSEIF ( nPos == Len( GetList ) + 1 )  // Bumped bottom
+   ELSEIF nPos == Len( GetList ) + 1  // Bumped bottom
       IF ! ReadExit() .AND. ! nExitState == GE_ENTER .AND. ! slBumpTop
          slBumpBot  := .T.
          nPos       := snLastPos
@@ -570,11 +571,11 @@ STATIC FUNCTION Settle( GetList, nPos )
    // Record EXIT state
    snLastEXITState := nEXITState
 
-   IF ! ( nPos == 0 )
+   IF ! nPos == 0
       GetList[ nPos ]:EXITState := nEXITState
    ENDIF
 
-   RETURN ( nPos )
+   RETURN nPos
 
    /***
    *  PostActiveGet()
@@ -621,7 +622,7 @@ STATIC FUNCTION ClearGetSysVars()
    snReadProcLine  := 0
    slUpdated       := .F.
 
-   RETURN ( aSavSysVars )
+   RETURN aSavSysVars
 
    /***
    *  RestoreGetSysVars()
@@ -660,13 +661,13 @@ STATIC FUNCTION GetReadVar( oGet )
    // this FUNCTIONtion, IF the GET variable is an array element
    // Subscripts are retrieved from the oGet:subscript instance variable
    // NOTE: Incompatible WITH Summer 87
-   IF ! ( oGet:subscript == NIL )
+   IF ! oGet:subscript == NIL
       FOR EACH oElement IN oGet:subscript
          cName += "[" + LTRIM( Str( oElement ) ) + "]"
       NEXT
    END
 
-   RETURN ( cName )
+   RETURN cName
 
    /***
    *              System Services
@@ -703,11 +704,11 @@ FUNCTION GetActive( g )
 
    LOCAL oldActive := soActiveGet
 
-   IF ( PCOUNT() > 0 )
+   IF PCOUNT() > 0
       soActiveGet := g
    ENDIF
 
-   RETURN ( oldActive )
+   RETURN oldActive
 
    /***
    *  Updated()
@@ -721,9 +722,9 @@ FUNCTION Updated()
    *  ReadEXIT()
    */
 
-FUNCTION ReadEXIT( lNew )
+FUNCTION ReadExit( lNew )
 
-   RETURN ( SET( _SET_EXIT, lNew ) )
+   RETURN SET( _SET_EXIT, lNew )
 
    /***
    *  ReadInsert()
@@ -731,7 +732,7 @@ FUNCTION ReadEXIT( lNew )
 
 FUNCTION ReadInsert( lNew )
 
-   RETURN ( SET( _SET_INSERT, lNew ) )
+   RETURN SET( _SET_INSERT, lNew )
 
    /***
    *              Wacky Compatibility Services
@@ -750,7 +751,7 @@ STATIC PROCEDURE ShowScoreboard()
    LOCAL nRow
    LOCAL nCol
 
-   IF ( SET( _SET_SCOREBOARD ) )
+   IF SET( _SET_SCOREBOARD )
       nRow := Row()
       nCol := Col()
 
@@ -771,7 +772,7 @@ STATIC PROCEDURE DateMsg()
    LOCAL nRow
    LOCAL nCol
 
-   IF ( SET( _SET_SCOREBOARD ) )
+   IF SET( _SET_SCOREBOARD )
 
       nRow := Row()
       nCol := Col()
@@ -808,16 +809,16 @@ FUNCTION RangeCheck( oGet, junk, lo, hi )
    xValue := oGet:varGet()
    JUNK   := NIL // por causa do W3
 
-   IF ( xValue >= lo .AND. xValue <= hi )
+   IF xValue >= lo .AND. xValue <= hi
       RETURN ( .T. )          // NOTE
    ENDIF
 
-   IF ( SET(_SET_SCOREBOARD) )
+   IF SET( _SET_SCOREBOARD )
 
       cMsg := NationMsg(_GET_RANGE_FROM) + LTRIM( Transform( lo, "" ) ) + ;
          NationMsg(_GET_RANGE_TO) + LTRIM( Transform( hi, "" ) )
 
-      IF ( Len( cMsg ) > MAXCOL() )
+      IF Len( cMsg ) > MAXCOL()
          cMsg := Substr( cMsg, 1, MAXCOL() )
       ENDIF
 
@@ -828,7 +829,7 @@ FUNCTION RangeCheck( oGet, junk, lo, hi )
       DISPOUT( cMsg )
       SETPOS( nRow, nCol )
 
-      DO WHILE ( NEXTKEY() == 0 )
+      DO WHILE NEXTKEY() == 0
       END
 
       SETPOS( SCORE_ROW, MIN( 60, MAXCOL() - Len( cMsg ) ) )
@@ -837,7 +838,7 @@ FUNCTION RangeCheck( oGet, junk, lo, hi )
 
    ENDIF
 
-   RETURN ( .F. )
+   RETURN .F.
 
    /***
    *  ReadKill()
@@ -847,11 +848,11 @@ FUNCTION ReadKill( lKill )
 
    LOCAL lSavKill := slKillRead
 
-   IF ( PCOUNT() > 0 )
+   IF PCOUNT() > 0
       slKillRead := lKill
    ENDIF
 
-   RETURN ( lSavKill )
+   RETURN lSavKill
 
    /***
    *  ReadUpdated()
@@ -861,11 +862,11 @@ FUNCTION ReadUpdated( lUpdated )
 
    LOCAL lSavUpdated := slUpdated
 
-   IF ( PCOUNT() > 0 )
+   IF PCOUNT() > 0
       slUpdated := lUpdated
    ENDIF
 
-   RETURN ( lSavUpdated )
+   RETURN lSavUpdated
 
    /***
    *  ReadFormat()
@@ -875,11 +876,11 @@ FUNCTION ReadFormat( b )
 
    LOCAL bSavFormat := sbFormat
 
-   IF ( PCOUNT() > 0 )
+   IF PCOUNT() > 0
       sbFormat := b
    ENDIF
 
-   RETURN ( bSavFormat )
+   RETURN bSavFormat
 
    /*
    *   GetLen()
