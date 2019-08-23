@@ -227,3 +227,18 @@ FUNCTION TimeAdd( cTime, cTipo, nQtde )
    ENDIF
 
    RETURN cResultado
+
+FUNCTION ReturnTrue( ... )
+
+   RETURN .T.
+
+FUNCTION FixValueInRange( xValue, xMin, xMax )
+
+   DO CASE
+   CASE ValType( xValue ) != ValType( xMin ) ; xValue := xMin
+   CASE xValue < xMin                        ; xValue := xMin
+   CASE ValType( xMax ) != "N"
+   CASE xValue > xMax                        ; xValue := xMax
+   ENDCASE
+
+   RETURN xValue

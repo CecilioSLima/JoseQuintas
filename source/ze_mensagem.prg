@@ -65,33 +65,16 @@ FUNCTION Mensagem( cTexto, mAceita, mCentral, mBeep )
 
 STATIC FUNCTION MensagemCentral( cTexto, mAceita, mBeep )
 
-   LOCAL nRow, nCol, nRowAnt, nColAnt, nOpc := 1, cResposta, cTexto1, cTexto2, cTexto3
+   LOCAL nRow, nCol, nRowAnt, nColAnt, nOpc := 1, cResposta, aTextList
 
    nRowAnt   := Row()
    nColAnt   := Col()
    wSave( MaxRow() - 1, 0, MaxRow(), MaxCol() )
    Mensagem()
-   cTexto  = cTexto + " "
-   cTexto1 = SubStr( cTexto, 1, RAt( " ", SubStr( cTexto, 1, 39 ) ) - 1 )
-   cTexto  = SubStr( cTexto, Len( cTexto1 ) + 2 )
-   cTexto1 = AllTrim( cTexto1 )
-
-   cTexto2 = SubStr( cTexto, 1, RAt( " ", SubStr( cTexto, 1, 39 ) ) - 1 )
-   cTexto  = SubStr( cTexto, Len( cTexto2 ) + 2 )
-   cTexto2 = AllTrim( cTexto2 )
-
-   cTexto3 = SubStr( cTexto, 1, RAt( " ", SubStr( cTexto, 1, 39 ) ) - 1 )
-   cTexto3 = AllTrim( cTexto3 )
-
-   IF Len( cTexto3 ) == 0
-      IF Len( cTexto2 ) == 0
-         cTexto2 = cTexto1
-         cTexto1 = ""
-      ELSE
-         cTexto3 = cTexto2
-         cTexto2 = ""
-      ENDIF
-   ENDIF
+   aTextList := TextToArray( cTexto, 38, .F. )
+   DO WHILE Len( aTextList ) < 3
+      AAdd( aTextList, "" )
+   ENDDO
 
    nRow = Int( ( MaxRow() - 10 ) / 2 )
    nCol = Int( ( MaxCol() - 45 ) / 2 )
@@ -100,9 +83,9 @@ STATIC FUNCTION MensagemCentral( cTexto, mAceita, mBeep )
    Scroll( nRow - 1, nCol, nRow + 8, nCol + 44, 0 )
    @ nRow - 1, nCol SAY " - " COLOR SetColorTituloBox()
    @ nRow - 1, nCol + 3 SAY Pad( " Atencao", 42 ) COLOR SetColorTituloBox()
-   @ nRow + 2, nCol + 1 SAY PadC( cTexto1, 42 )
-   @ nRow + 3, nCol + 1 SAY PadC( cTexto2, 42 )
-   @ nRow + 4, nCol + 1 SAY PadC( cTexto3, 42 )
+   @ nRow + 2, nCol + 1 SAY PadC( aTextList[ 1 ], 42 )
+   @ nRow + 3, nCol + 1 SAY PadC( aTextList[ 2 ], 42 )
+   @ nRow + 4, nCol + 1 SAY PadC( aTextList[ 3 ], 42 )
    IF mBeep == 1
       wapi_MessageBeep()
    ENDIF

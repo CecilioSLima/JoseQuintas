@@ -183,56 +183,6 @@ FUNCTION OkGetCnpjCpf( cCnpj, lAceitaErrado )
 
    RETURN lOk
 
-FUNCTION TextToArray( cTexto, nLargura, lAjusta )
-
-   LOCAL cLinha, nPos, acTextList := {}
-
-   hb_Default( @lAjusta, .T. )
-   cTexto := AllTrim( cTexto )
-   DO WHILE Len( cTexto ) > nLargura
-      nPos := Rat( " ", Left( cTexto + " ", nLargura ) )
-      IF nPos == 0
-         nPos := nLargura
-      ENDIF
-      cLinha   := Left( cTexto, nPos - 1 )
-      cTexto   := AllTrim( Substr( cTexto, nPos ) )
-      nPos     := At( " ", cLinha )
-      IF lAjusta .AND. nPos != 0
-         DO WHILE Len( cLinha ) < nLargura
-            cLinha := Stuff( cLinha, nPos, 0, " " )
-            DO WHILE Substr( cLinha, nPos, 1 ) == " " .AND. nPos <= Len( cLinha )
-               nPos += 1
-            ENDDO
-            DO WHILE Substr( cLinha, nPos, 1 ) != " " .AND. nPos <= Len( cLinha )
-               nPos += 1
-            ENDDO
-            IF nPos >= Len( cLinha )
-               nPos := At( " ", cLinha )
-            ENDIF
-         ENDDO
-      ENDIF
-      Aadd( acTextList, cLinha )
-   ENDDO
-   IF Len( cTexto ) != 0
-      AAdd( acTextList, cTexto )
-   ENDIF
-   IF Len( acTextList ) == 0
-      acTextList := { "" }
-   ENDIF
-
-   RETURN acTextList
-
-FUNCTION FixValueInRange( xValue, xMin, xMax )
-
-   DO CASE
-   CASE ValType( xValue ) != ValType( xMin ) ; xValue := xMin
-   CASE xValue < xMin                        ; xValue := xMin
-   CASE ValType( xMax ) != "N"
-   CASE xValue > xMax                        ; xValue := xMax
-   ENDCASE
-
-   RETURN xValue
-
 FUNCTION OkGetUnidadeExterior( cNcm, cUnidade )
 
    LOCAL oElement, lOk := .T.
@@ -248,10 +198,6 @@ FUNCTION OkGetUnidadeExterior( cNcm, cUnidade )
    NEXT
 
    RETURN lOk
-
-FUNCTION ReturnTrue( ... )
-
-   RETURN .T.
 
    /*
    // SaveResource( cResourceName, cFileName )

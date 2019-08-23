@@ -98,3 +98,42 @@ FUNCTION FillZeros( cString )
    cString := StrZero( Val( cString ), Len( cString ) )
 
    RETURN .T.
+
+FUNCTION TextToArray( cTexto, nLargura, lAjusta )
+
+   LOCAL cLinha, nPos, acTextList := {}
+
+   hb_Default( @lAjusta, .T. )
+   cTexto := AllTrim( cTexto )
+   DO WHILE Len( cTexto ) > nLargura
+      nPos := Rat( " ", Left( cTexto + " ", nLargura ) )
+      IF nPos == 0
+         nPos := nLargura
+      ENDIF
+      cLinha   := Left( cTexto, nPos - 1 )
+      cTexto   := AllTrim( Substr( cTexto, nPos ) )
+      nPos     := At( " ", cLinha )
+      IF lAjusta .AND. nPos != 0
+         DO WHILE Len( cLinha ) < nLargura
+            cLinha := Stuff( cLinha, nPos, 0, " " )
+            DO WHILE Substr( cLinha, nPos, 1 ) == " " .AND. nPos <= Len( cLinha )
+               nPos += 1
+            ENDDO
+            DO WHILE Substr( cLinha, nPos, 1 ) != " " .AND. nPos <= Len( cLinha )
+               nPos += 1
+            ENDDO
+            IF nPos >= Len( cLinha )
+               nPos := At( " ", cLinha )
+            ENDIF
+         ENDDO
+      ENDIF
+      Aadd( acTextList, cLinha )
+   ENDDO
+   IF Len( cTexto ) != 0
+      AAdd( acTextList, cTexto )
+   ENDIF
+   IF Len( acTextList ) == 0
+      acTextList := { "" }
+   ENDIF
+
+   RETURN acTextList
