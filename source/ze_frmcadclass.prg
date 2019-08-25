@@ -124,11 +124,12 @@ METHOD MovePrevious() CLASS frmCadastroClass
          " ORDER BY " + ::cDataField + " DESC LIMIT 1"
       ::cnMySql:Execute()
       IF ::cnMySql:Eof()
-         MsgExclamation( "Não tem registro anterior" )
+         ::cnMySql:CloseRecordset()
+         ::MoveFirst()
       ELSE
+         ::cnMySql:CloseRecordset()
          ::axKeyValue[ 1 ] := ::cnMySql:Value( ::cDataField )
       ENDIF
-      ::cnMySql:CloseRecordset()
    ENDIF
 
    RETURN NIL
@@ -145,11 +146,12 @@ METHOD MoveNext() CLASS frmCadastroClass
          ValueSQL( ::axKeyValue[ 1 ] ) + " ORDER BY " + ::cDataField + " LIMIT 1"
       ::cnMySql:Execute()
       IF ::cnMySql:Eof()
-         MsgExclamation( "Não tem registro seguinte" )
+         ::cnMySql:CloseRecordset()
+         ::MoveLast()
       ELSE
          ::axKeyValue[ 1 ] := ::cnMySql:Value( ::cDataField )
+         ::cnMySql:CloseRecordset()
       ENDIF
-      ::cnMySql:CloseRecordset()
    ENDIF
 
    RETURN NIL
@@ -167,6 +169,7 @@ METHOD Delete() CLASS frmCadastroClass
    ELSE
       ::cnMySql:cSql := "DELETE FROM " + ::cDataTable + " WHERE " + ::cDataField + "=" + ValueSQL( ::axKeyValue[ 1 ] )
       ::cnMySql:ExecuteCmd()
+      ::cnMySql:MoveNext()
    ENDIF
 
    RETURN NIL
