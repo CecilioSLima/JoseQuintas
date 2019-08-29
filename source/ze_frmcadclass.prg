@@ -127,8 +127,8 @@ METHOD MovePrevious() CLASS frmCadastroClass
          ::cnMySql:CloseRecordset()
          ::MoveFirst()
       ELSE
-         ::cnMySql:CloseRecordset()
          ::axKeyValue[ 1 ] := ::cnMySql:Value( ::cDataField )
+         ::cnMySql:CloseRecordset()
       ENDIF
    ENDIF
 

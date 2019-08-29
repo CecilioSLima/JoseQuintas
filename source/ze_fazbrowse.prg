@@ -9,6 +9,7 @@ Algumas funções da superlib
 
 #include "inkey.ch"
 #include "tbrowse.ch"
+#include "josequintas.ch"
 #define TRACE_ON .F.
 
 MEMVAR m_Prog, cUserScope, cSetFilterOld, oNowSearch
@@ -17,7 +18,6 @@ MEMVAR m_Prog, cUserScope, cSetFilterOld, oNowSearch
 #define SEARCH_FILTER  2
 #define SEARCH_ALIAS   3
 #define SEARCH_TBROWSE 4
-#define INKEY_IDLE   600
 
 FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChangeOrder, cMsgTextAdd )
 
@@ -197,7 +197,7 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
          ENDDO
          oBrowse:ColorRect( { oBrowse:RowPos, /* 1 */ oBrowse:LeftVisible, oBrowse:RowPos, /* oBrowse:ColCount */ oBrowse:RightVisible }, { 3, 3 } ) // linha está com o cursor
          oBrowse:ColorRect( { oBrowse:RowPos, oBrowse:ColPos, oBrowse:RowPos, oBrowse:ColPos }, { 2, 2 } ) // linha/coluna está com o cursor
-         nkey := Inkey( INKEY_IDLE, INKEY_ALL - INKEY_MOVE ) // + HB_INKEY_GTEVENT )
+         nkey := Inkey( INKEY_IDLE, INKEY_ALL - INKEY_MOVE + HB_INKEY_GTEVENT )
          IF nKey == 0
             KEYBOARD Chr( K_ESC )
          ENDIF
@@ -576,7 +576,7 @@ FUNCTION DbView( nTop, nLeft, nBottom, nRight, oTBrowse, bUserFunction, nFixToCo
       IF oBrowse:Stable
          oBrowse:ColorRect( { oBrowse:RowPos, 1, oBrowse:RowPos, oBrowse:ColCount }, { 3, 3 } ) // linha está com o cursor
          oBrowse:ColorRect( { oBrowse:RowPos, oBrowse:ColPos, oBrowse:RowPos, oBrowse:ColPos }, { 2, 2 } ) // linha/coluna está com cursor
-         nkey := Inkey( INKEY_IDLE, INKEY_ALL - INKEY_MOVE ) // + HB_INKEY_GTEVENT )
+         nkey := Inkey( INKEY_IDLE, INKEY_ALL - INKEY_MOVE + HB_INKEY_GTEVENT )
          IF nKey == 0
             KEYBOARD Chr( K_ESC )
             LOOP

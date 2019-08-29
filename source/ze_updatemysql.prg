@@ -51,7 +51,7 @@ FUNCTION ze_UpdateMysql()
       :ExecuteCmd( JPPREHISCreateMySql() )
       :ExecuteCmd( JPPROMIXCreateMySql() )
       :ExecuteCmd( JPUSRMSGCreateMySql() )
-      FOR nCont = 2008 TO Year( Date() )
+      FOR nCont = 2008 TO Year( Date() ) + 1
          :ExecuteCmd( JPXMLCreateMySql( nCont ) )
       NEXT
       :ExecuteCmd( JPAGENDACreateMySql() )

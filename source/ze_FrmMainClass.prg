@@ -11,8 +11,7 @@ ZE_FRMMAINCLASS - CLASSE GENERICA PRA TELAS
 #include "wvgparts.ch"
 #include "hbgtwvg.ch"
 #include "wvtwin.ch"
-
-#define JPA_IDLE 600
+#include "josequintas.ch"
 
 EXTERNAL HB_KEYPUT
 
@@ -266,7 +265,7 @@ METHOD ButtonSelect() CLASS frmGuiClass
 
    ::GUIEnable()
    DO WHILE ! lButtonDown
-      nKey := Inkey( JPA_IDLE, INKEY_ALL - INKEY_MOVE ) // + HB_INKEY_GTEVENT )
+      nKey := Inkey( INKEY_IDLE, INKEY_ALL - INKEY_MOVE + HB_INKEY_GTEVENT )
       IF nKey == HB_K_RESIZE
          //wvgSetAppWindow():InvalidateRect()
          wvgSetAppWindow():Refresh()

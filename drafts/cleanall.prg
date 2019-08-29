@@ -12,7 +12,7 @@ PROCEDURE Main
    SetMode( 33, 100 )
    CLS
    DeleteAll( "c:\temp\", @nBytesDeleted, @nFilesDeleted, .F. )
-   DeleteHbmk( "d:\", @nBytesDeleted, @nFilesDeleted )
+   DeleteHbmk( "\", @nBytesDeleted, @nFilesDeleted )
    ? "Deleted " + Ltrim( Str( nFilesDeleted ) ) + " File(s), Size " + Ltrim( Transform( nBytesDeleted, "@E 999,999,999,999,999" ) )
    ? "Press any key"
    Inkey(10)

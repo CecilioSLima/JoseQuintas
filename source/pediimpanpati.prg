@@ -31,7 +31,7 @@ PROCEDURE pEdiImpAnpAti
    cnExcel := ADOClass():New( ExcelConnection( mFileExcel ) )
    cnExcel:Open()
 
-   cnInternet:ExecuteCmd( "TRUNCATE TABLE JPTABANPATI" )
+   cnInternet:ExecuteCmd( "TRUNCATE TABLE WEBANPATI" )
 
    cSheetName := "[AtividadeEconomica$]"
 
@@ -63,7 +63,7 @@ PROCEDURE pEdiImpAnpAti
       mValAte   := cnExcel:StringSql( 3 )
       IF Val( matCnae ) != 0
          IF Len( cTxt ) == 0
-            cTxt += "INSERT IGNORE INTO JPTABANPATI ( ATCNAE, ATDESCRI, ATVALDE, ATVALATE ) VALUES "
+            cTxt += "INSERT IGNORE INTO WEBANPATI ( ATCNAE, ATDESCRI, ATVALDE, ATVALATE ) VALUES "
             lBegin := .T.
          ENDIF
          IF ! lBegin

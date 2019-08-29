@@ -232,6 +232,8 @@ STATIC FUNCTION IsFileToBackup( cFileName )
    CASE ".LEX" $ cFileName
    CASE ".DAT" $ cFileName
    CASE ".AX" $ cFileName
+   CASE ".MSI" $ cFileName
+   CASE "JPANPMOV" $ cFileName
    CASE cFileName == "AGUARDE.TXT"
    OTHERWISE
       lReturn := .T.

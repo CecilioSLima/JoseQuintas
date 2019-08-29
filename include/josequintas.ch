@@ -5,6 +5,7 @@
 #ifndef AD_STATE_CLOSED
    #define AD_STATE_CLOSED  0
 #endif
+#define INKEY_IDLE      850
 #define DATABASE_DBF      1
 #define DATABASE_HBNETIO  2
 

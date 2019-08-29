@@ -4,6 +4,7 @@ José Quintas
 */
 
 #include "inkey.ch"
+#include "josequintas.ch"
 
 FUNCTION GetSecret( nRow, nCol, nLen )
 
@@ -16,7 +17,7 @@ FUNCTION GetSecret( nRow, nCol, nLen )
    cText = ""
    DO WHILE .T.
       @ nRow, nCol + Len( cText ) SAY ""
-      nKey := Inkey( 600, INKEY_ALL - INKEY_MOVE ) // + HB_INKEY_GTEVENT )
+      nKey := Inkey( INKEY_IDLE, INKEY_ALL - INKEY_MOVE + HB_INKEY_GTEVENT )
       DO CASE
       CASE nKey == 0
          QUIT // KEYBOARD Chr( K_ESC ) + "S"

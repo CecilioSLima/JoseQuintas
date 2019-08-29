@@ -19,7 +19,7 @@ NOTE: compile WITH /m /n /w
 #include "inkey.ch"
 #include "getEXIT.ch"
 #include "set.ch"
-#define JPA_IDLE 600
+#include "josequintas.ch"
 
 /***
 *  Nation Message Constants
@@ -158,7 +158,7 @@ PROCEDURE GetReader( oGet, lIsMouse )
          ENDIF
          // Apply keystrokes until EXIT
          DO WHILE oGet:EXITState == GE_NOEXIT
-            nKey := Inkey( JPA_IDLE, INKEY_ALL - INKEY_MOVE ) // + HB_INKEY_GTEVENT ) // Mouse
+            nKey := Inkey( INKEY_IDLE, INKEY_ALL - INKEY_MOVE + HB_INKEY_GTEVENT )
             nKey := iif( nKey == 0, K_ESC, nKey )
             //nKey := WaitKey()
             GetApplyKey( oGet, nKey, lIsMouse)

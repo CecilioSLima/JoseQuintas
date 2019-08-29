@@ -4,6 +4,7 @@ PBANCOCOMPARAMES - COMPARATIVO MES A MES
 */
 
 #include "inkey.ch"
+#include "josequintas.ch"
 
 PROCEDURE pBancoComparaMes
 
@@ -74,7 +75,7 @@ PROCEDURE pBancoComparaMes
          oBrowse:RefreshCurrent()
          DO WHILE ! oBrowse:Stabilize()
          ENDDO
-         nKey = Inkey(600, INKEY_ALL - INKEY_MOVE ) // + HB_INKEY_GTEVENT)
+         nKey = Inkey( INKEY_IDLE, INKEY_ALL - INKEY_MOVE + HB_INKEY_GTEVENT)
          IF nKey == 0
             KEYBOARD Chr( K_ESC )
             LOOP
