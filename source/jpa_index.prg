@@ -112,10 +112,6 @@ FUNCTION CnfDbfInd()
    IndexInd( "ctplano3", "a_Nome" )
    IndexInd( "ctplano4", "a_CtaAdm+a_CCusto+a_Codigo" )
 
-   IndexDbf( "jpanpmov", "Movimentacao ANP" )
-   IndexInd( "numlan", "amNumLan" )
-   IndexInd( "data",   "Dtos(amDatEmi)+amNumLan" )
-
    IndexDbf( "jpcadas", "Cadastros (Cli/Forn/Transp)" )
    IndexInd( "jpcadas1", "cdTipo + cdCodigo" )
    IndexInd( "jpcadas2", "cdTipo + cdNome + cdCodigo" )

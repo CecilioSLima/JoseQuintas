@@ -26,7 +26,6 @@ FUNCTION ze_UpdateDbf()
    CTLANCACreateDbf()
    CTLOTESCreateDbf()
    CTPLANOCreateDbf()
-   JPANPMOVCreateDbf()
    JPCADASCreateDbf()
    JPCIDADECreateDbf()
    JPCLISTACreateDbf()
@@ -272,50 +271,6 @@ STATIC FUNCTION CTPLANOCreateDbf()
 
    IF ! ValidaStru( "ctplano", mStruOk )
       MsgStop( "ctplano não disponível!" )
-      QUIT
-   ENDIF
-
-   RETURN NIL
-
-STATIC FUNCTION JPANPMOVCreateDbf()
-
-   LOCAL mStruOk
-
-   SayScroll( "JPANPMOV, verificando atualizações" )
-   mStruOk := { ;
-      { "AMNUMLAN",  "C", 6 }, ;
-      { "AMDATREF",  "D", 8 }, ;
-      { "AMANPNUM",  "C", 6 }, ;
-      { "AMNUMDOC",  "C", 7 }, ;
-      { "AMSERDOC",  "C", 2 }, ;
-      { "AMDATEMI",  "D", 8 }, ;
-      { "AMCLIFOR",  "C", 6 }, ;
-      { "AMCNPJ",    "C", 18 }, ;
-      { "AMANPAGE",  "C", 10 }, ;
-      { "AMCIDADE",  "C", 40 }, ;
-      { "AMUF",      "C", 2 }, ;
-      { "AMANPLOC",  "C", 7 }, ;
-      { "AMANPINS",  "C", 7 }, ;
-      { "AMANPATI",  "C", 5 }, ;
-      { "AMANPPAI",  "C", 4 }, ;
-      { "AMCFOP",    "C", 10 }, ;
-      { "AMANPOPE",  "C", 7 }, ;
-      { "AMITEM",    "C", 6 }, ;
-      { "AMANPPRO",  "C", 9 }, ;
-      { "AMPRODES",  "C", 60 }, ;
-      { "AMUNID",    "C", 3 }, ;
-      { "AMANPUNI",  "C", 1 }, ;
-      { "AMNFEKEY",  "C", 44 }, ;
-      { "AMQTD",     "N", 14, 4 }, ;
-      { "AMQTDKG",   "N", 14, 4 }, ;
-      { "AMVALOR",   "N", 14, 4 }, ;
-      { "AMSTATUS",  "C", 1 }, ;
-      { "AMOK",      "C", 1 }, ;
-      { "AMINFINC",  "C", 80 }, ;
-      { "AMINFALT",  "C", 80 } }
-
-   IF ! ValidaStru( "jpanpmov", mStruOk )
-      MsgStop( "jpanpmov não disponível!" )
       QUIT
    ENDIF
 

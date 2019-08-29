@@ -3,6 +3,7 @@ JPA - MAIN
 2013.05 José Quintas
 
 2018.03.26 ***teste*** Fecha ADO antes do NETIO
+ATENCAO! Não apagar pjpdolar, porque é usado pela rotina de cálculo de dolar
 */
 
 #require "hbnetio.hbc"
