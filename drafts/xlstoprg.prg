@@ -16,7 +16,8 @@ REQUEST HB_CODEPAGE_PTISO
 
 PROCEDURE Main
 
-   LOCAL cn, rs, cName, cTxt := "", nCont, oFile, aFileList, cPath := ".\"
+   LOCAL cn, rs, cName, cTxt := "", nCont, oFile, aFileList, cPath := ".\", oCatalog
+   LOCAL aTableList := {}
 
    aFileList := Directory( cPath + "*.xls*" )
 
@@ -26,25 +27,43 @@ PROCEDURE Main
       ? oFile[ F_NAME]
       cn := ExcelConnection( cPath + oFile[ F_NAME ] )
       cn:Open()
-      cName := ExcelSheetName( cn )
-      rs := cn:Execute( "SELECT * FROM [" + cName + "]" )
-      cTxt += [FUNCTION jq_] + hb_FNameName( oFile[ F_NAME ] ) + [()] + hb_Eol()
-      cTxt += hb_Eol()
-      cTxt += [   LOCAL aList := {}] + hb_Eol() + hb_Eol()
-      DO WHILE Inkey() != K_ESC .AND. ! Rs:Eof()
-         cTxt += [   AAdd( aList, { ]
-         FOR nCont = 0 TO rs:Fields:Count() - 1
-            cTxt += ToString( rs:Fields( nCont ):Value ) + iif( nCont == rs:Fields:Count() - 1, "", ", " )
-         NEXT
-         cTxt += [ } )] + hb_Eol()
+      rs := cn:openSchema(20) // adSchemaTables
+      DO WHILE ! Rs:Eof()
+         IF ! "Print_Are" $ rs:Fields( "Table_Name" ):Value .AND. ;
+               ! "FilterDatabase" $ rs:Fields( "Table_Name" ):Value
+            AAdd( aTableList, rs:Fields( "Table_Name" ):Value )
+         ENDIF
          rs:MoveNext()
       ENDDO
       rs:Close()
+      cTxt := ""
+      FOR EACH cName IN aTableList
+         rs := cn:Execute( "SELECT * FROM [" + cName + "]" )
+         cTxt += [// ] + Substr( cName, 1, Len( cName ) - 1 ) + hb_Eol()
+         cTxt += "// "
+         FOR nCont = 0 TO rs:Fields:Count() - 1
+            cTxt += rs:Fields( nCont ):Name + iif( nCont == rs:Fields:Count() - 1, "", ", " )
+         NEXT
+         cTxt += hb_Eol() + hb_Eol()
+         cTxt += [FUNCTION jq_] + hb_FNameName( oFile[ F_NAME ] ) + Ltrim( Str( cName:__EnumIndex ) ) + [()] + hb_Eol()
+         cTxt += hb_Eol()
+         cTxt += [   LOCAL aList := {}] + hb_Eol() + hb_Eol()
+         DO WHILE Inkey() != K_ESC .AND. ! Rs:Eof()
+            cTxt += [   AAdd( aList, { ]
+            FOR nCont = 0 TO rs:Fields:Count() - 1
+               cTxt += ToString( rs:Fields( nCont ):Value ) + iif( nCont == rs:Fields:Count() - 1, "", ", " )
+            NEXT
+            cTxt += [ } )] + hb_Eol()
+            rs:MoveNext()
+         ENDDO
+         rs:Close()
+         cTxt += hb_Eol() + [   RETURN aList]
+         cTxt += hb_Eol() + hb_Eol()
+      NEXT
+      oCatalog := NIL
       cn:Close()
       cn := NIL
-      cTxt += hb_Eol() + [   RETURN aList]
       hb_MemoWrit( cPath + [jq_] + hb_FNameName( oFile[ F_NAME ] ) + [.prg], cTxt )
-      cTxt := ""
    NEXT
 
    RETURN
@@ -112,3 +131,7 @@ FUNCTION ExcelConnection( cFileName )
    b) ODBC Provider
    Access data, “Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=path to mdb/accdb file”
    Excel data,  “Driver={Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)};DBQ=path to xls/xlsx/xlsm/xlsb file”
+*/
+
+FUNCTION AppVersaoExe(); RETURN ""
+FUNCTION AppUserName(); RETURN ""
