@@ -17,7 +17,7 @@ PROCEDURE PBAR0010
       RETURN
    ENDIF
    IF AppcnMySqlLocal() == NIL
-      IF ! AbreArquivos( "jpreguso", "jpbarra", "jpdecret" )
+      IF ! AbreArquivos( "jpreguso", "jpbarra" )
          RETURN
       ENDIF
    ENDIF

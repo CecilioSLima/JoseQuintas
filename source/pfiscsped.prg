@@ -17,11 +17,6 @@ PROCEDURE pFiscSped
       MsgExclamation( "Opção disponível apenas com base MySQL" )
       RETURN
    ENDIF
-   IF ! AppcnMySqlLocal() == NIL
-      IF ! AbreArquivos( "jpdecret" )
-         RETURN
-      ENDIF
-   ENDIF
    IF ! AbreArquivos( "jpitped", "jppedi", "jpestoq", "jpcadas", "jpitem", "jpcidade", "jpempre", "jptabel", "jpnota" )
       RETURN
    ENDIF
@@ -664,35 +659,21 @@ STATIC FUNCTION Bloco0450() // Inf. Adicionais
 
    LOCAL cnJPDECRET := ADOClass():New( AppcnMySqlLocal() )
 
-   IF AppcnMySqlLocal() == NIL
-      SELECT jpdecret
-      GOTO TOP
-      DO WHILE ! Eof()
+   WITH OBJECT cnJPDECRET
+      :cSql := "SELECT * FROM JPDECRET"
+      :Execute()
+      DO WHILE ! :Eof()
          SomaBloco( "0450" )
          ?? SPED_SEPARADOR
          ?? "0450" + SPED_SEPARADOR                                    // 01 REG
-         ?? jpdecret->deNumLan + SPED_SEPARADOR                        // 02 COD_INF
-         ?? Trim( jpdecret->deDescr1 + jpdecret->deDescr2 + jpdecret->deDescr3 + jpdecret->deDescr4 + jpdecret->deDescr5 ) + SPED_SEPARADOR // 03 TXT Descricao
+         ?? :StringSql( "DENUMLAN" ) + SPED_SEPARADOR                        // 02 COD_INF
+         ?? Trim( :StringSql( "DEDESCR1" ) + " " + :StringSql( "DEDESCR2" ) + " " + :StringSql( "DEDESCR3" ) + " " + ;
+            :StringSql( "DEDESCR4" ) + " " + :StringSql( "DEDESCR5" ) ) + SPED_SEPARADOR // 03 TXT Descricao
          ?
-         SKIP
+         :MoveNext()
       ENDDO
-   ELSE
-      WITH OBJECT cnJPDECRET
-         :cSql := "SELECT * FROM JPDECRET"
-         :Execute()
-         DO WHILE ! :Eof()
-            SomaBloco( "0450" )
-            ?? SPED_SEPARADOR
-            ?? "0450" + SPED_SEPARADOR                                    // 01 REG
-            ?? :StringSql( "DENUMLAN" ) + SPED_SEPARADOR                        // 02 COD_INF
-            ?? Trim( :StringSql( "DEDESCR1" ) + " " + :StringSql( "DEDESCR2" ) + " " + :StringSql( "DEDESCR3" ) + " " + ;
-               :StringSql( "DEDESCR4" ) + " " + :StringSql( "DEDESCR5" ) ) + SPED_SEPARADOR // 03 TXT Descricao
-            ?
-            :MoveNext()
-         ENDDO
-         :CloseRecordset()
-      ENDWITH
-   ENDIF
+      :CloseRecordset()
+   ENDWITH
    SomaBloco( "0450" )
    ?? SPED_SEPARADOR
    ?? "0450" + SPED_SEPARADOR                 // 01 REG
@@ -1027,25 +1008,14 @@ STATIC FUNCTION BlocoC110()
       mLei := SubStr( mLeiLst, 1, 6 )
       mLeiLst := SubStr( mLeiLst, 8 )
       IF Val( mLei ) != 0
-         IF AppcnMySqlLocal() == NIL
-            IF Encontra( mLei, "jpdecret", "numlan" )
-               SomaBloco( "C110" )
-               ?? SPED_SEPARADOR
-               ?? "C110" + SPED_SEPARADOR                // 01 REG
-               ?? mLei + SPED_SEPARADOR                  // 02 COD_INF
-               ?? "" + SPED_SEPARADOR
-               ?
-            ENDIF
-         ELSE
-            cnJPDECRET:cSql := "SELECT COUNT(*) AS QTD FROM JPDECRET WHERE DENUMLAN=" + StringSql( mLei )
-            IF cnJPDECRET:ReturnValueAndClose( "QTD" ) > 0
-               SomaBloco( "C110" )
-               ?? SPED_SEPARADOR
-               ?? "C110" + SPED_SEPARADOR                // 01 REG
-               ?? mLei + SPED_SEPARADOR                  // 02 COD_INF
-               ?? "" + SPED_SEPARADOR
-               ?
-            ENDIF
+         cnJPDECRET:cSql := "SELECT COUNT(*) AS QTD FROM JPDECRET WHERE DENUMLAN=" + StringSql( mLei )
+         IF cnJPDECRET:ReturnValueAndClose( "QTD" ) > 0
+            SomaBloco( "C110" )
+            ?? SPED_SEPARADOR
+            ?? "C110" + SPED_SEPARADOR                // 01 REG
+            ?? mLei + SPED_SEPARADOR                  // 02 COD_INF
+            ?? "" + SPED_SEPARADOR
+            ?
          ENDIF
       ENDIF
    ENDDO
