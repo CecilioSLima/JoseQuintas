@@ -468,7 +468,7 @@ METHOD TableList() CLASS ADOClass
 
    LOCAL acTableList := {}
 
-   ::cSql := "SELECT table_name AS TABELA FROM information_schema.TABLES WHERE table_schema=" + StringSql( Lower( AppEmpresaApelido() ) )
+   ::cSql := "SELECT DISTINCT table_name AS TABELA FROM information_schema.TABLES WHERE table_schema=" + StringSql( Lower( AppEmpresaApelido() ) )
    ::Execute()
    DO WHILE ! ::Eof()
       AAdd( acTableList, ::Value( "TABELA" ) )
