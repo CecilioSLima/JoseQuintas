@@ -11,7 +11,7 @@ PROCEDURE PJPCLISTA
    LOCAL oFrm := JPCLISTAClass():New()
 
    IF AppcnMySqlLocal() == NIL
-      IF ! AbreArquivos( "jpreguso" )
+      IF ! AbreArquivos( "jpreguso", "jpdecret" )
          RETURN
       ENDIF
    ENDIF

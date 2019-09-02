@@ -58,6 +58,12 @@ FUNCTION CnfDbfInd()
       //IndexInd( "pedven",  "brPedVen+brItem+brCodBar+brNumLan" )
       //IndexInd( "pedcom",  "brPedCom+brItem+brCodBar+brNumLan" )
 
+      IF File( "jpdecret.dbf" )
+         IndexDbf( "jpdecret", "Decretos/leis" )
+         IndexInd( "numlan", "deNumLan" )
+         IndexInd( "nome",   "deNome" )
+      ENDIF
+
       IF File( "jpibpt.dbf" )
          IndexDbf( "jpibpt", "Tabela IBPT" )
          IndexInd( "numlan", "ibCodigo+ibNcmNbs" )
