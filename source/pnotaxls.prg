@@ -11,7 +11,7 @@ PROCEDURE pNotaXls
    MEMVAR mDatai, mDataf, mFilial, mTransa, mVendedor
 
    IF AppcnMySqlLocal() == NIL
-      IF ! AbreArquivos( "jpreguso" )
+      IF ! AbreArquivos( "jpreguso", "jpdecret" )
          RETURN
       ENDIF
    ENDIF

@@ -33,7 +33,7 @@ FUNCTION GtSetupPalette()
       wapi_Rgb( 248,   0,  38 ), ; // 12 R+  +Red       Vermelho Claro          Alert
       wapi_Rgb(  64,   0,  64 ), ; // 13 RB+ +Magenta   Rosa Claro
       wapi_Rgb( 216, 152,   0 ), ; // 14 GR+ Yellow     Amarelo
-      wapi_Rgb( 255, 255, 255 ) }  // 15 W+  +White     Branco Claro            New GET and Selected Font Color
+      wapi_Rgb( 255, 255, 255 ) }  // 15 W+  +White     Branco Claro            New Get and Selected Font Color
 
    // FOR nCont = 1 TO Len( aPalette )
    // nInfRegistro := Win_RegRead( cRootKey + "Color" + Ltrim( Str( nCont ) ) )

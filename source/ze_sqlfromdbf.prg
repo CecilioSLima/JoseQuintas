@@ -63,13 +63,13 @@ FUNCTION CopyDbfToMySql( cTable, lTransfere, lCria, lZera, cNewTable )
    oStru    := dbStruct()
    cKeyName := Substr( oStru[ DBS_NAME, 1 ], 1, 2 ) + "ID"
    USE
-   cSql := "CREATE TABLE IF NOT EXISTS " + cNewTable + " ( " + cKeyName + " Int(9) NOT NULL AUTO_INCREMENT, "
+   cSql := "CREATE TABLE IF NOT EXISTS " + cNewTable + " ( " + cKeyName + " INT(9) NOT NULL AUTO_INCREMENT, "
    FOR nCont = 1 TO Len( oStru )
       cSql += oStru[ nCont, DBS_NAME ] + " "
       DO CASE
       CASE oStru[ nCont, DBS_TYPE ] == "N"
          IF oStru[ nCont, DBS_DEC ] == 0
-            cSql += " Int( " + Ltrim( Str( oStru[ nCont, DBS_LEN ] ) ) + " ) DEFAULT 0"
+            cSql += " INT( " + Ltrim( Str( oStru[ nCont, DBS_LEN ] ) ) + " ) DEFAULT 0"
          ELSE
             cSql += " DOUBLE( " + Ltrim( Str( oStru[ nCont, DBS_LEN ] ) ) + " , " + Ltrim( Str( oStru[ nCont, DBS_DEC ] ) ) + " ) DEFAULT 0"
          ENDIF

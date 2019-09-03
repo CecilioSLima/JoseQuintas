@@ -18,8 +18,8 @@ PROCEDURE pFiscRel0090
    mDefault := LeCnfRel()
 
    nOpcData = 1
-   m_datai = Ctod( "" )
-   m_dataf = Ctod( "" )
+   m_datai = ctod( "" )
+   m_dataf = ctod( "" )
    acTxtData := { "Todas", "Intervalo" }
 
    nOpcEntSai = iif(mDefault[1] > 3, 3, mDefault[1] )
@@ -30,7 +30,7 @@ PROCEDURE pFiscRel0090
    nOpcGeral = 1
    acTxtGeral := Array(5)
 
-   WOpen( 5, 4, 7+Len(acTxtGeral), 45, "Opções disponíveis" )
+   WOpen( 5, 4, 7+len(acTxtGeral), 45, "Opções disponíveis" )
 
    DO WHILE .T.
 
@@ -38,14 +38,14 @@ PROCEDURE pFiscRel0090
          TxtImprime(), ;
          TxtSalva(), ;
          "Datas.....: " + iif(nOpcData==1,acTxtData[ 1 ], ;
-         Dtoc(m_datai) + " A " + Dtoc(m_dataf) ), ;
+         dtoc(m_datai) + " A " + dtoc(m_dataf) ), ;
          "Tipo......: " + acTxtEntSai[ nOpcEntSai ], ;
          "Saída.....: " + TxtSaida()[ nOpcPrinterType ] }
 
-      FazAchoice( 7, 5, 6+Len(acTxtGeral), 44, acTxtGeral, @nOpcGeral )
+      FazAchoice( 7, 5, 6+len(acTxtGeral), 44, acTxtGeral, @nOpcGeral )
 
       DO CASE
-      CASE LastKey() == K_ESC
+      CASE lastkey() == K_ESC
          EXIT
 
       CASE nOpcGeral == 1
@@ -88,7 +88,7 @@ STATIC FUNCTION imprime()
       oPDF:acHeader[ 2 ] = " "
       SEEK "2" SOFTSEEK
    ELSE
-      oPDF:acHeader[ 2 ] = "Periodo: " + Dtoc( m_datai ) + " a " + Dtoc( m_dataf )
+      oPDF:acHeader[ 2 ] = "Periodo: " + dtoc( m_datai ) + " a " + dtoc( m_dataf )
       SEEK  "2" + Dtos( m_datai ) SOFTSEEK
    ENDIF
    oPDF:acHeader[ 3 ] = jpempre->emNome + " - CNPJ: " + jpempre->emCnpj + ;
@@ -97,7 +97,7 @@ STATIC FUNCTION imprime()
    oPDF:acHeader[ 5 ] = "DATA- ESP. SER NUMERO------ DATA-DOC EMITENTE-------------------------------- --CNPJ ou CPF----- INSCR.ESTADUAL"
    oPDF:acHeader[ 6 ] = "              ---VALOR CONTABIL-- COD. UF IMP. --BASE DE CALCULO-- ALIQ- -IMPOSTO CREDITADO- ------ISENTOS------ -------OUTROS------"
 
-   DO WHILE nKey != K_ESC .AND. nOpcEntSai != 2 .AND. ! Eof()
+   DO WHILE nKey != K_ESC .AND. nOpcEntSai != 2 .AND. ! eof()
       nKey = Inkey()
       GrafProc()
       IF (jplfisc->lfDatLan>m_dataf .AND. nOpcData==2) .OR. jplfisc->lfTipLan != "2"
@@ -125,12 +125,12 @@ STATIC FUNCTION imprime()
       IF Round( jplfisc->lfIcmBas * jplfisc->lfIcmAli / 100, 0 ) != Round( jplfisc->lfIcmVal, 0 )
          m_irreg += "  ( ICMS # BASE * ALIQUOTA )"
       ENDIF
-      IF Empty( m_irreg )
+      IF empty( m_irreg )
          SKIP
          LOOP
       ENDIF
       oPDF:MaxRowTest()
-      oPDF:DrawText( oPDF:nRow,   0, Left( Dtoc( jplfisc->lfDatLan ), 5 ) )
+      oPDF:DrawText( oPDF:nRow,   0, left( dtoc( jplfisc->lfDatLan ), 5 ) )
       oPDF:DrawText( oPDF:nRow,   6, jplfisc->lfModFis )
       oPDF:DrawText( oPDF:nRow,  11, jplfisc->lfDocSer )
       oPDF:DrawText( oPDF:nRow,  15, jplfisc->lfDocIni )
@@ -182,7 +182,7 @@ STATIC FUNCTION imprime()
       oPDF:acHeader[ 2 ] = " "
       SEEK "1" SOFTSEEK
    ELSE
-      oPDF:acHeader[ 2 ] = "Periodo: " + Dtoc( m_datai ) + " a " + Dtoc( m_dataf )
+      oPDF:acHeader[ 2 ] = "Periodo: " + dtoc( m_datai ) + " a " + dtoc( m_dataf )
       SEEK "1" + Dtos( m_datai ) SOFTSEEK
    ENDIF
    oPDF:acHeader[ 3 ] = jpempre->emNome + " - CNPJ: " + jpempre->emCnpj + ;
@@ -190,7 +190,7 @@ STATIC FUNCTION imprime()
    oPDF:acHeader[ 4 ] = Replicate( "-", 132 )
    oPDF:acHeader[ 5 ] = "DATA- ESP. SER NUMERO------ DATA-DOC EMITENTE-------------------------------- --CNPJ ou CPF----- INSCR.ESTADUAL"
    oPDF:acHeader[ 6 ] = "              ---VALOR CONTABIL-- COD. UF IMP. --BASE DE CALCULO-- ALIQ- -IMPOSTO DEBITADO-- ------ISENTOS------ -------OUTROS------"
-   DO WHILE nKey != K_ESC .AND. nOpcEntSai != 1 .AND. ! Eof()
+   DO WHILE nKey != K_ESC .AND. nOpcEntSai != 1 .AND. ! eof()
       nKey = Inkey()
       GrafProc()
       IF (jplfisc->lfDatLan>m_dataf .AND. nOpcData==2) .OR. jplfisc->lfTipLan != "1"
@@ -218,12 +218,12 @@ STATIC FUNCTION imprime()
       IF Round( jplfisc->lfIcmBas * jplfisc->lfIcmAli / 100, 0 ) != Round( jplfisc->lfIcmVal, 0 )
          m_irreg += "  ( ICMS # BASE * ALIQUOTA )"
       ENDIF
-      IF Empty( m_irreg )
+      IF empty( m_irreg )
          SKIP
          LOOP
       ENDIF
       oPDF:MaxRowTest()
-      oPDF:DrawText( oPDF:nRow,   0, Left(Dtoc(jplfisc->lfDatLan),5) )
+      oPDF:DrawText( oPDF:nRow,   0, left(dtoc(jplfisc->lfDatLan),5) )
       oPDF:DrawText( oPDF:nRow,   6, jplfisc->lfModFis )
       oPDF:DrawText( oPDF:nRow,  11, jplfisc->lfDocSer )
       oPDF:DrawText( oPDF:nRow,  15, jplfisc->lfDocIni )

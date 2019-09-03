@@ -108,15 +108,15 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
    oFrm:cOptions  := "C"
    AAdd( oFrm:acMenuOptions, "<Ctrl-PgUp>Primeiro" )
    AAdd( oFrm:acMenuOptions, "<PgUp>Pág.Ant" )
-   AAdd( oFrm:acMenuOptions, "<Up>Sobe" )
+   Aadd( oFrm:acMenuOptions, "<Up>Sobe" )
    AAdd( oFrm:acMenuOptions, "<Down>Desce" )
    AAdd( oFrm:acMenuOptions, "<PgDn>Pág.Seg" )
    AAdd( oFrm:acMenuOptions, "<Ctrl-PgDn>Último" )
-   AAdd( oFrm:acMenuOptions, "<Alt-L>Pesq.Frente" )
-   AAdd( oFrm:acMenuOptions, "<Alt-T>Pesq.Tras" )
-   AAdd( oFrm:acMenuOptions, "<Alt-F>Filtro" )
+   Aadd( oFrm:acMenuOptions, "<Alt-L>Pesq.Frente" )
+   Aadd( oFrm:acMenuOptions, "<Alt-T>Pesq.Tras" )
+   Aadd( oFrm:acMenuOptions, "<Alt-F>Filtro" )
    IF OrdCount() > 1 .AND. lCanChangeOrder
-      AAdd( oFrm:acMenuOptions, "<F5>Ordem" )
+      Aadd( oFrm:acMenuOptions, "<F5>Ordem" )
    ENDIF
    IF TRACE_ON
       FOR nCont = nTop + 7 TO nBottom + 1
@@ -155,7 +155,7 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
    // NEXT
    IF lCanChangeOrder
       mTxtTemp := Alias() + " (Ordem" + lTrim( Str( IndexOrd() ) ) +"): " + OrdKey()
-      mTxtTemp := Trim( Pad( mTxtTemp, ( nRight - nLeft - 1 ) ) )
+      mTxtTemp := Trim( pad( mTxtTemp, ( nRight - nLeft - 1 ) ) )
       //@ nTop, nLeft TO nTop, nRight COLOR SetColorTBrowseFrame()
       @ nTop + 4, nLeft + 1 SAY mTxtTemp
    ENDIF
@@ -255,7 +255,7 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
          LOOP
 
       CASE nkey = K_BS
-         cUserScope := Left( cUserScope, Max( Len( cUserScope ) - 1, Len( cDefaultScope ) ) )
+         cUserScope := left( cUserScope, Max( Len( cUserScope ) - 1, Len( cDefaultScope ) ) )
          IF ! Empty( OrdKey() ) .AND. ValType( &( OrdKey() ) ) == "C"
             dbSeek( cUserScope )
             oBrowse:RefreshAll()
@@ -270,7 +270,7 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
             SET ORDER TO 1
          ENDIF
          mTxtTemp := Alias() + " (Ordem" + LTrim( Str( IndexOrd() ) ) + "): " + OrdKey()
-         mTxtTemp := Pad( mTxtTemp, ( nRight - nLeft - 1 ) )
+         mTxtTemp := pad( mTxtTemp, ( nRight - nLeft - 1 ) )
          @ nTop + 4, nLeft + 1 SAY mTxtTemp COLOR SetColorTitulo()
          IF OrdKey() == "C" .AND. ! Empty( OrdKey() ) .AND. ValType( &( OrdKey() ) ) == "C"
             IF ! dbSeek( cUserScope )
@@ -301,7 +301,7 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
          WRestore()
          oNowSearch[ SEARCH_TEXT ]  := AllTrim( mTexto )
          oLastSearch[ SEARCH_TEXT ] := oNowSearch[ SEARCH_TEXT ]
-         IF LastKey() != K_ESC .AND. ! Empty( oNowSearch[ SEARCH_TEXT ] )
+         IF Lastkey() != K_ESC .AND. ! Empty( oNowSearch[ SEARCH_TEXT ] )
             Mensagem( "Aguarde... Localizando combinacao de palavras... ESC interrompe" )
             mRecNo := RecNo()
             IF mDirecao < 0 .AND. ! Bof()
@@ -343,7 +343,7 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
          SET CURSOR OFF
          Mensagem()
          oNowSearch[ SEARCH_FILTER ] := msFilter
-         IF LastKey() != K_ESC
+         IF Lastkey() != K_ESC
             IF Empty( mSFilter )
                SET FILTER TO &cSetFilterOld
             ELSE
@@ -749,8 +749,8 @@ FUNCTION MBrzMove( oTb, nMRow, nMCol, nTop, nLeft, nBottom, nRight )
       nLeft   := oTb:nLeft
       nRight  := oTb:nRight
    ENDIF
-   nTbCol    := Col()
-   nTbRow    := Row()
+   nTbCol    := COL()
+   nTbRow    := ROW()
    IF nMRow >= nTop .AND. nMRow <= nBottom .AND. nMCol >= nLeft .AND. nMCol <= nRight
       IF nMCol < nTbCol
          lHandled := .T.
@@ -758,7 +758,7 @@ FUNCTION MBrzMove( oTb, nMRow, nMCol, nTop, nLeft, nBottom, nRight )
             oTb:left()
             DO WHILE !oTb:Stabilize()
             ENDDO
-            nTbCol    := Col()
+            nTbCol    := COL()
          ENDDO
       ELSE
          nTbColEnd := nTbCol + oTb:ColWidth( oTb:ColPos ) - 1

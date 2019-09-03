@@ -10,7 +10,7 @@ PROCEDURE pNotaGeraRps
    LOCAL mnfNotFisi, mnfNotFisf, mTxtFile, nVlTotal, GetList := {}, mDatEmi, nQtTotal
 
    IF AppcnMySqlLocal() == NIL
-      IF ! AbreArquivos( "jpreguso" )
+      IF ! AbreArquivos( "jpreguso", "jpdecret" )
          RETURN
       ENDIF
    ENDIF
@@ -90,7 +90,7 @@ PROCEDURE pNotaGeraRps
          ?? StrZero( Val( SoNumeros( jpcadas->cdInsEst ) ), 12 ) // Insc.Est.
          ?? Pad( jpcadas->cdNome, 75 )
          ?? Pad( ".", 3 )
-         ?? Pad( jpcadas->cdEndereco, 50 )
+         ?? pad( jpcadas->cdEndereco, 50 )
          ?? Pad( ".", 10 ) // Numero
          ?? Pad( "", 30 ) // Complemento
          ?? Pad( jpcadas->cdBairro, 30 )

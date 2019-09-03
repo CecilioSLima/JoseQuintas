@@ -12,7 +12,7 @@ FUNCTION RecLock( lForever )
    hb_Default( @lForever, .T. )
    wSave( MaxRow() - 1, 0, MaxRow(), MaxCol() )
    DO WHILE .T.
-      IF RLock()
+      IF rLock()
          SKIP 0
          EXIT
       ENDIF
@@ -24,7 +24,7 @@ FUNCTION RecLock( lForever )
    ENDDO
    WRestore()
 
-   RETURN ( RLock() )
+   RETURN ( rLock() )
 
 FUNCTION RecAppend( lForever )
 

@@ -64,7 +64,7 @@ METHOD Init() CLASS FilterClass
    acStru := dbStruct()
    FOR nCont = 1 TO Len( acStru )
       xValue := EmptyValue( FieldGet( nCont ) )
-      AAdd( ::acFilterConfig, { FieldName( nCont ), COMPARE_NO_FILTER, .F., xValue, xValue, xValue, xValue, xValue } )
+      Aadd( ::acFilterConfig, { FieldName( nCont ), COMPARE_NO_FILTER, .F., xValue, xValue, xValue, xValue, xValue } )
    NEXT
 
    RETURN NIL
@@ -136,7 +136,7 @@ METHOD FilterOptionsAsArray( lIncludeAll ) CLASS FilterClass
          ENDIF
       ENDIF
       IF oElement[ FIELD_COMPARE ] != COMPARE_NO_FILTER .OR. lIncludeAll
-         AAdd( acTxtFiltros, xValue )
+         Aadd( acTxtFiltros, xValue )
       ENDIF
    NEXT
 
@@ -348,7 +348,7 @@ STATIC FUNCTION UDFSelectField( nModo, nElemento, nSelecao )   // Used in METHOD
 
    IF LastKey() == K_SPACE
       acFields[ nElemento ] := iif( Left( acFields[ nElemento ], 1 ) == "*", " ", "*" ) + Substr( acFields[ nElemento ], 2 )
-   ELSEIF LastKey() == K_ESC .OR. LastKey() == K_ENTER
+   ELSEIF LastKey() == K_ESC .OR. Lastkey() == K_ENTER
       RETURN 0
    ENDIF
    HB_SYMBOL_UNUSED( nModo + nSelecao )

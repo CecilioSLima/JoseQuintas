@@ -24,7 +24,7 @@ PROCEDURE pUtilDbase
    DBASE_ODOMETER  := 100
 
    CLOSE DATABASES // pode ter algum aberto
-   MsgWarning( "Atention! IF you don't know Foxpro command, don't use it!" + hb_eol() + ;
+   MsgWarning( "Atention! If you don't know Foxpro command, don't use it!" + hb_eol() + ;
       "Depending on changes, use REINDEX option." + hb_eol() + ;
       "type QUIT when work finished" )
    FOR nCont = 1 TO MaxRow()
@@ -57,7 +57,7 @@ PROCEDURE pUtilDbase
       ENDCASE
       SayScroll()
       cTextCmd := Trim( cTextCmd )
-      AAdd( acCmdList, AllTrim( cTextCmd ) )
+      Aadd( acCmdList, AllTrim( cTextCmd ) )
       nCmdPos := Len( acCmdList )
       GravaOcorrencia( ,, "(*)" + cTextCmd )
       mCmd := Lower( Trim( Left( ExtractParameter( @cTextCmd, " " ), 4 ) ) )
@@ -133,12 +133,12 @@ STATIC FUNCTION ExtractParameter( cTextCmd, mTipo, mLista )
 
    CASE mTipo == "alias"
       cTextCmd := " " + cTextCmd + " "
-      mContini := At( " ALIAS ", cTextCmd )
+      mContini := At( " alias ", cTextCmd )
       IF mContini == 0
          RETURN ""
       ENDIF
       mContfim := mContini + 7
-      DO WHILE Substr( cTextCmd, mContfim, 1 ) == " " .AND. mContfim < Len( cTextCmd )
+      DO WHILE Substr( cTextCmd, mContfim, 1 ) == " " .AND. mContfim < len( cTextCmd )
          mContFim := mContfim + 1
       ENDDO
       mParametro := AllTrim( ExtractParameter( Substr( cTextCmd, mContfim ), " " ) )
@@ -172,7 +172,7 @@ STATIC FUNCTION ExtractParameter( cTextCmd, mTipo, mLista )
             mTemp := mTemp + ","
          ENDDO
          mParametro = mParametro + 1
-         AAdd( mLista, mTemp )
+         Aadd( mLista, mTemp )
       ENDDO
       RETURN mParametro
 
@@ -180,24 +180,24 @@ STATIC FUNCTION ExtractParameter( cTextCmd, mTipo, mLista )
       cTextCmd     := " " + cTextCmd + " "
       mParametro := ""
       IF " to " $ Lower( cTextCmd )
-         mParametro := AllTrim( Lower( Substr( cTextCmd, At( " to ", Lower( cTextCmd ) ) + 4 ) ) )
+         mParametro := AllTrim( Lower( substr( cTextCmd, At( " to ", Lower( cTextCmd ) ) + 4 ) ) )
          IF mParametro == "prin"
             mParametro := "print"
          ENDIF
-         cTextCmd = AllTrim( Substr( cTextCmd, 1, at( " to ", Lower( cTextCmd ) ) - 1 ) )
+         cTextCmd = AllTrim( substr( cTextCmd, 1, at( " to ", Lower( cTextCmd ) ) - 1 ) )
       ENDIF
 
    CASE mTipo == "structure" .OR. mTipo == "status" .OR. mTipo == "Exclusive" .OR. mTipo == "index" .OR. mTipo == "sdf" .OR. mTipo == "extended"
       cTextCmd     := " " + cTextCmd + " "
       mParametro := .F.
       FOR mCont = 4 TO 9
-         m_procu := " " + Substr( mTipo, 1, mCont ) + " "
+         m_procu := " " + substr( mTipo, 1, mCont ) + " "
          IF m_procu $ Lower( cTextCmd )
             mParametro = .T.
             cTextCmd = Stuff( cTextCmd, at( m_procu, Lower( cTextCmd ) ), Len( m_procu ) - 1, "" )
          ENDIF
       NEXT
-      cTextCmd := AllTrim( cTextCmd )
+      cTextCmd := Alltrim( cTextCmd )
 
    OTHERWISE
       CLS
@@ -288,13 +288,13 @@ STATIC FUNCTION cmdEdit( cTextCmd )
    odbStruct := dbStruct()
    m_QtTela  := Int( ( Len( odbStruct ) + mPageRec - 1 ) / mPageRec)
    FOR nCont = 1 TO Len( odbStruct )
-      AAdd( odbStruct[ nCont ], "" ) // picture
-      AAdd( odbStruct[ nCont ], FieldGet( nCont ) ) // value
+      Aadd( odbStruct[ nCont ], "" ) // picture
+      Aadd( odbStruct[ nCont ], FieldGet( nCont ) ) // value
    NEXT
 
    DO WHILE .T.
       IF ! lInsert
-         IF ! RLock()
+         IF ! rLock()
             SayScroll( "Can't lock record" )
             RETURN NIL
          ENDIF
@@ -311,7 +311,7 @@ STATIC FUNCTION cmdEdit( cTextCmd )
          Cls()
          m_ini := m_tela * mPageRec - mPageRec + 1
          m_fim := iif( m_tela = m_qttela, Len( odbStruct ), m_ini + mPageRec - 1 )
-         @ 2, 1 SAY iif( lInsert .OR. Eof(), "INSERT", "EDIT  " ) + " - Registro.: " + Str( RecNo() ) + "   " + iif( Deleted(), "(DELETED)", "" )
+         @ 2, 1 SAY iif( lInsert .OR. Eof(), "INSERT", "EDIT  " ) + " - Registro.: " + STR( RecNo() ) + "   " + iif( Deleted(), "(DELETED)", "" )
          FOR nCont = m_ini TO m_fim
             @ nCont + 3 - m_ini, 1 SAY Pad( odbstruct[ nCont, 1 ], 18, "." ) + ": " GET odbStruct[ nCont, 6 ] PICTURE ( odbStruct[ nCont, 5 ] )
          NEXT
@@ -439,7 +439,7 @@ STATIC FUNCTION cmdListStructure()
    SayScroll()
    nRow := 5
    FOR EACH oElement IN aStructure
-      SayScroll( Str( oElement:__EnumIndex, 3 ) + "  " + Pad( oElement[ 1 ], 14 ) + oElement[ 2 ] + "      " + Str( oElement[ 3 ] ) + "      " + Str( oElement[ 4 ] ) )
+      SayScroll( Str( oElement:__EnumIndex, 3 ) + "  " + pad( oElement[ 1 ], 14 ) + oElement[ 2 ] + "      " + Str( oElement[ 3 ] ) + "      " + Str( oElement[ 4 ] ) )
       nRow += 1
       IF nRow > ( MaxRow() - 8 )
          SayScroll( "Hit any to continue" )
@@ -474,11 +474,11 @@ STATIC FUNCTION cmdListData( cTextCmd )
 
    // prepara lista dos dados
 
-   cTextCmd = AllTrim( cTextCmd )
+   cTextCmd = alltrim( cTextCmd )
    m_Lista := {}
-   IF Len( cTextCmd ) = 0
+   IF len( cTextCmd ) = 0
       FOR nCont = 1 TO FCount()
-         AAdd( m_Lista, FieldName( nCont ) )
+         Aadd( m_Lista, FieldName( nCont ) )
       NEXT
    ELSE
       ExtractParameter( cTextCmd, "par,", @m_lista )
@@ -539,9 +539,9 @@ STATIC FUNCTION cmdModify( cTextCmd )
       SayScroll( "Need more parameters" )
    CASE Len( m_Tipo ) < 4
       SayScroll( "Invalid parameter" )
-   CASE Lower( m_Tipo ) == Substr( "structure", 1, Len( m_Tipo ) )
+   CASE Lower( m_Tipo ) == substr( "structure", 1, len( m_Tipo ) )
       cmdModifyStructure( cTextCmd )
-   CASE Lower( m_Tipo ) == Substr( "command", 1, Len( m_Tipo ) )
+   CASE Lower( m_Tipo ) == substr( "command", 1, len( m_Tipo ) )
       cmdModifyCommand( cTextCmd )
    OTHERWISE
       SayScroll( "Invalid parameter" )
@@ -551,7 +551,7 @@ STATIC FUNCTION cmdModify( cTextCmd )
 
 STATIC FUNCTION cmdModifyCommand( cFileName )
 
-   IF Len( trim( cFileName) ) = 0
+   IF len( trim( cFileName) ) = 0
       SayScroll( "Need filename" )
       RETURN NIL
    ENDIF
@@ -606,8 +606,8 @@ STATIC FUNCTION FuncMemoEdit( Mode, Line, Col )
       * save values to possibly resume edit
       //line_num := line
       //col_num  := col
-      //rel_row  := Row() - 2
-      //rel_col  := Col() - 1
+      //rel_row  := row() - 2
+      //rel_col  := col() - 1
       IF mode == 2
          lChanged = .T.
       ENDIF
@@ -643,8 +643,8 @@ STATIC FUNCTION cmdCreate( cTextCmd )
    ENDIF
    IF " from " $ Lower( " " + cTextCmd + " " )
       m_Posi  = at( " from ", Lower( " " + cTextCmd + " " ) )
-      m_from  = Substr( cTextCmd, m_Posi + 5 )
-      cTextCmd = Substr( cTextCmd, 1, m_Posi - 1 )
+      m_from  = substr( cTextCmd, m_Posi + 5 )
+      cTextCmd = substr( cTextCmd, 1, m_Posi - 1 )
       IF cTextCmd == ""
          SayScroll( "Need filename" )
          RETURN NIL
@@ -705,7 +705,7 @@ STATIC FUNCTION cmdSum( cTextCmd )
    m_Soma := Array( Len( m_Lista ) )
    Afill( m_Soma, 0 )
 
-   IF Len( m_Lista ) == 0 .OR. ( Len( m_Vari ) != 0 .AND. Len( m_Vari ) != Len( m_lista ) ) .OR. Len( cTextCmd ) != 0 // IF anything more
+   IF Len( m_Lista ) == 0 .OR. ( Len( m_Vari ) != 0 .AND. Len( m_Vari ) != Len( m_lista ) ) .OR. len( cTextCmd ) != 0 // if anything more
       SayScroll( "Invalid parameters" )
       RETURN NIL
    ENDIF
@@ -777,7 +777,7 @@ STATIC FUNCTION cmdSetRelation( cComando )
       RETURN NIL
    ENDIF
    cTrecho := ExtractParameter( cComando, " " )
-   IF Lower( cTrecho ) == Substr( "additive", 1, Max( Len( cTrecho ), 4 ) )
+   IF Lower( cTrecho ) == substr( "additive", 1, Max( Len( cTrecho ), 4 ) )
       lAdditive = .T.
       ExtractParameter( @cComando, " " ) // elimina proximo parametro
    ENDIF
@@ -793,11 +793,11 @@ STATIC FUNCTION cmdSetRelation( cComando )
    ENDIF
    // retira parametros to, into
    DO WHILE Len( cComando ) != 0 .AND. Len( acRelationTo ) < 8
-      AAdd( acRelationTo, Substr( cComando, 1, at( " into ", Lower( cComando) ) - 1 ) )
-      AAdd( acRelationInto, Substr( cComando, at( " into ", Lower( cComando ) ) + 6 ) )
+      Aadd( acRelationTo, substr( cComando, 1, at( " into ", Lower( cComando) ) - 1 ) )
+      Aadd( acRelationInto, substr( cComando, at( " into ", Lower( cComando ) ) + 6 ) )
    ENDDO
 
-   // valida relacoes, valida ALIAS e executa
+   // valida relacoes, valida alias e executa
 
    IF ! lAdditive
       SET RELATION TO
@@ -908,7 +908,7 @@ STATIC FUNCTION cmdAppend( cTextCmd )
    IF ! ExtractForWhile( @cTextCmd )
       RETURN NIL
    ENDIF
-   IF Len( cTextCmd ) != 0 .OR. DBASE_RECORD != 0 .OR. DBASE_NEXT != 0 .OR. DBASE_WHILE != ".T."
+   IF len( cTextCmd ) != 0 .OR. DBASE_RECORD != 0 .OR. DBASE_NEXT != 0 .OR. DBASE_WHILE != ".T."
       SayScroll( "Invalid parameters in APPEND" )
       RETURN NIL
    ENDIF
@@ -940,11 +940,11 @@ STATIC FUNCTION cmdCopy( cTextCmd )
    IF ! ExtractForWhile( @cTextCmd )
       RETURN NIL
    ENDIF
-   IF Len( cTextCmd ) != 0
+   IF len( cTextCmd ) != 0
       SayScroll( "Invalid parameter " + cTextCmd )
       RETURN NIL
    ENDIF
-   IF Len( m_to ) = 0
+   IF len( m_to ) = 0
       SayScroll( "Need destination filename" )
       RETURN NIL
    ENDIF
@@ -1027,11 +1027,11 @@ STATIC FUNCTION cmdReplace( cTextCmd )
    afill( m_name, "" )
    nCont = 1
    DO WHILE Len( cTextCmd ) > 0
-      m_expr   := AllTrim( Substr( cTextCmd, rat( " with ", Lower( cTextCmd ) ) + 5 ) )
-      cTextCmd := AllTrim( Substr( cTextCmd, 1, rat( " with ", Lower( cTextCmd ) ) ) )
+      m_expr   := alltrim( substr( cTextCmd, rat( " with ", Lower( cTextCmd ) ) + 5 ) )
+      cTextCmd := alltrim( substr( cTextCmd, 1, rat( " with ", Lower( cTextCmd ) ) ) )
       cTextCmd := "," + cTextCmd
-      m_campo  := AllTrim( Substr( cTextCmd, rat( ",", Lower( cTextCmd ) ) + 1 ) )
-      cTextCmd := AllTrim( Substr( cTextCmd, 2, rat( ",", Lower( cTextCmd ) ) - 2 ) )
+      m_campo  := alltrim( substr( cTextCmd, rat( ",", Lower( cTextCmd ) ) + 1 ) )
+      cTextCmd := alltrim( substr( cTextCmd, 2, rat( ",", Lower( cTextCmd ) ) - 2 ) )
       DO CASE
       CASE Type( m_expr ) $ "U,UI,UE"
          SayScroll( "Invalid content" )
@@ -1071,15 +1071,15 @@ STATIC FUNCTION cmdReplace( cTextCmd )
       m_Contreg = m_Contreg + 1
       IF &( DBASE_FOR )
          DO WHILE .T.
-            IF RLock()
+            IF rLock()
                EXIT
             ENDIF
-            @ Row(), 0 SAY Space(79)
-            @ Row(), 0 SAY "Waiting lock record " + Str( RecNo() )
+            @ Row(), 0 SAY space(79)
+            @ Row(), 0 SAY "Waiting lock record " + str( recno() )
          ENDDO
 
          FOR nCont = 1 TO 100
-            IF Len( m_name[ nCont ] ) = 0
+            IF len( m_name[ nCont ] ) = 0
                EXIT
             ENDIF
             m_campo = m_name[ nCont ]
@@ -1089,7 +1089,7 @@ STATIC FUNCTION cmdReplace( cTextCmd )
 
          m_Contrep = m_Contrep + 1
          IF Mod( m_Contrep, DBASE_ODOMETER ) = 0
-            @ Row(), 0 SAY Str( m_Contrep ) + " record(s) updated"
+            @ Row(), 0 SAY str( m_Contrep ) + " record(s) updated"
          ENDIF
       ENDIF
       IF DBASE_RECORD != 0
@@ -1100,7 +1100,7 @@ STATIC FUNCTION cmdReplace( cTextCmd )
          EXIT
       ENDIF
    ENDDO
-   @ Row(), 0 SAY Str( m_Contrep ) + " record(s) updated"
+   @ Row(), 0 SAY str( m_Contrep ) + " record(s) updated"
    IF LastKey() = K_ESC
       SayScroll( "Cancelled" )
    ENDIF
@@ -1117,7 +1117,7 @@ STATIC FUNCTION cmdLocate( cTextCmd )
       RETURN NIL
    ENDIF
 
-   IF Len( cTextCmd ) != 0 .OR. DBASE_RECORD != 0
+   IF len( cTextCmd ) != 0 .OR. DBASE_RECORD != 0
       SayScroll( "Invalid parameter " + cTextCmd )
       RETURN NIL
    ENDIF
@@ -1171,7 +1171,7 @@ STATIC FUNCTION cmdModifyStructure( cTextCmd )
 
    m_tipos := "CharacterNumeric  Data     Boolean  Memo     "
 
-   IF Len( cTextCmd ) = 0
+   IF len( cTextCmd ) = 0
       cTextCmd   := Alias()
       m_jaexiste := .T.
    ELSE
@@ -1183,7 +1183,7 @@ STATIC FUNCTION cmdModifyStructure( cTextCmd )
    DECLARE acStructure[ 200 ]
    afill( acStructure, "" )
    acStructure[ 1 ] := cEmptyValue
-   @ 5, 20 + Int( ( 38 - Len( cTextCmd ) ) / 2 ) SAY cTextCmd
+   @ 5, 20 + int( ( 38 - len( cTextCmd ) ) / 2 ) Say cTextCmd
 
    IF m_jaexiste
       m_regs := fCount()
@@ -1193,11 +1193,11 @@ STATIC FUNCTION cmdModifyStructure( cTextCmd )
       m_Dec  := Array( m_Regs )
       afields( m_name, m_type, m_len, m_dec )
       FOR nCont = 1 TO m_regs
-         acStructure[ nCont ] = " " + Pad( m_name[ nCont ], 10 ) + " | " + ;
-            Substr( "CharacterNumeric  Boolean  Date     Memo     ", ;
+         acStructure[ nCont ] = " " + pad( m_name[ nCont ], 10 ) + " | " + ;
+            substr( "CharacterNumeric  Boolean  Date     Memo     ", ;
             at( m_type[ nCont ], "CNLDM" ) * 9 - 8, 9 ) + " |  " +  ;
-            Str( m_len[ nCont ], 3 ) + "  | " + ;
-            Str( m_dec[ nCont ], 3 ) + " "
+            str( m_len[ nCont ], 3 ) + "  | " + ;
+            str( m_dec[ nCont ], 3 ) + " "
       NEXT
       acStructure[ m_regs + 1 ] = cEmptyValue
    ENDIF
@@ -1209,21 +1209,21 @@ STATIC FUNCTION cmdModifyStructure( cTextCmd )
    DO WHILE .T.
       achoice( 9, 21, 19, 58, acStructure, .T., { | ... | FuncModiStru( ... ) }, m_opc, m_inivet )
       DO CASE
-      CASE LastKey() == K_ESC .OR. Lower( Chr( LastKey() ) ) == "q"
+      CASE LastKey() == K_ESC .OR. Lower( chr( LastKey() ) ) == "q"
          IF MsgYesNo( "Abort?" )
             EXIT
          ENDIF
 
-      CASE Lower( Chr( LastKey() ) ) == "d"
+      CASE Lower( chr( LastKey() ) ) == "d"
          m_row := Row()
          IF acStructure[ m_opc ] # cEmptyValue
             adel( acStructure, m_opc )
-            Scroll( m_row, 21, 19, 58, 1 )
-            @ 19, 21 SAY cEmptyValue
+            scroll( m_row, 21, 19, 58, 1 )
+            @ 19, 21 Say cEmptyValue
             m_mudou = .T.
          ENDIF
 
-      CASE Lower( Chr( LastKey() ) ) = "s"
+      CASE Lower( chr( LastKey() ) ) = "s"
          IF acStructure[ 1 ] == cEmptyValue .OR. ! m_mudou
             EXIT
          ENDIF
@@ -1236,10 +1236,10 @@ STATIC FUNCTION cmdModifyStructure( cTextCmd )
             IF acStructure[ nCont ] == cEmptyValue
                nCont := 200
             ELSE
-               m_name := Substr( acStructure[ nCont ], 2, 10 )
-               m_type := Substr( acStructure[ nCont ], 15, 1 )
-               m_len  := Val( Substr( acStructure[ nCont ], 28, 3 ) )
-               m_dec  := Val( Substr( acStructure[ nCont ], 35, 3 ) )
+               m_name := substr( acStructure[ nCont ], 2, 10 )
+               m_type := substr( acStructure[ nCont ], 15, 1 )
+               m_len  := val( substr( acStructure[ nCont ], 28, 3 ) )
+               m_dec  := val( substr( acStructure[ nCont ], 35, 3 ) )
                APPEND BLANK
                REPLACE field_name WITH m_name, ;
                   field_type with m_type, ;
@@ -1265,29 +1265,29 @@ STATIC FUNCTION cmdModifyStructure( cTextCmd )
          fErase( mTempFile )
          EXIT
 
-      CASE Lower( Chr( LastKey() ) ) == "i" .OR. LastKey() == K_ENTER
-         m_row = Row()
-         IF Lower( Chr( LastKey() ) ) == "i" .OR. ;
+      CASE Lower( chr( LastKey() ) ) == "i" .OR. LastKey() == K_ENTER
+         m_row = ROW()
+         IF Lower( chr( LastKey() ) ) == "i" .OR. ;
                acStructure[ m_opc ] = cEmptyValue
             IF m_row < 19
-               Scroll( m_row, 21, 19, 58, -1 )
-               @ m_row, 21 SAY cEmptyValue
+               scroll( m_row, 21, 19, 58, -1 )
+               @ m_row, 21 Say cEmptyValue
             ENDIF
             ains( acStructure, m_opc )
             acStructure[ m_opc ] = cEmptyValue
          ENDIF
-         m_name := Substr( acStructure[ m_opc ], 2, 10 )
-         m_type := Substr( acStructure[ m_opc ], 15, 1 )
-         m_len  := Val( Substr( acStructure[ m_opc ], 28, 3 ) )
-         m_dec  := Val( Substr( acStructure[ m_opc ], 35, 3 ) )
-         m_row  := Row()
+         m_name := substr( acStructure[ m_opc ], 2, 10 )
+         m_type := substr( acStructure[ m_opc ], 15, 1 )
+         m_len  := val( substr( acStructure[ m_opc ], 28, 3 ) )
+         m_dec  := val( substr( acStructure[ m_opc ], 35, 3 ) )
+         m_row  := row()
          @ m_row, 22 GET m_name PICTURE "@!"  VALID StruNameOk()
          @ m_row, 35 GET m_type PICTURE "!A"  VALID StruTypeOk( m_Type, @m_Len, @m_Dec )
          @ m_row, 48 GET m_len  PICTURE "999" VALID StruLenOk( m_Len, m_Type )
          @ m_row, 56 GET m_dec  PICTURE "99"  VALID StruDecimalsOk( m_Dec, m_Type )
          READ
          IF LastKey() # K_ESC
-            acStructure[ m_opc ] = " " + m_name + " | " + Substr( m_tipos, at( m_type, m_tipos ), 9 ) + " |  " + Str( m_len, 3 ) + "  | " + Str( m_dec, 3 ) + " "
+            acStructure[ m_opc ] = " " + m_name + " | " + substr( m_tipos, at( m_type, m_tipos ), 9 ) + " |  " + str( m_len, 3 ) + "  | " + str( m_dec, 3 ) + " "
             m_mudou := .T.
          ELSE
             adel( acStructure, m_opc )
@@ -1315,7 +1315,7 @@ STATIC FUNCTION FuncModiStru( Modo, Opc, IniVet )
       RETURN 2
    CASE LastKey() == K_ESC .OR. LastKey() == K_ENTER
       RETURN 0
-   CASE Lower( Chr( LastKey() ) ) $ "qsid"
+   CASE Lower( chr( LastKey() ) ) $ "qsid"
       RETURN 0
    ENDCASE
 
@@ -1337,7 +1337,7 @@ STATIC FUNCTION StruNameOk()
       DO CASE
       CASE acStructure[ nCont ] = cEmptyValue
          nCont = 200
-      CASE Substr( acStructure[ nCont ], 2, 10 ) == m_name .AND. nCont != m_opc
+      CASE substr( acStructure[ nCont ], 2, 10 ) == m_name .AND. nCont != m_opc
          RETURN .F.
       ENDCASE
    NEXT
@@ -1354,7 +1354,7 @@ STATIC FUNCTION StruTypeOk( cType, nLen, nDecimais )
    CASE cType == "C"
       @ m_Row, 35 SAY "Character"
    CASE cType == "N"
-      @ m_Row, 35 SAY "Numeric"
+      @ m_Row, 35 Say "Numeric"
    CASE cType == "L"
       @ m_Row, 35 SAY "Boolean"
       nLen      := 1
@@ -1364,7 +1364,7 @@ STATIC FUNCTION StruTypeOk( cType, nLen, nDecimais )
       nLen      := 8
       nDecimais := 0
    CASE cType == "M"
-      @ m_Row, 35 SAY "Memo"
+      @ m_Row, 35 Say "Memo"
       nLen      := 10
       nDecimais := 0
    OTHERWISE
@@ -1736,7 +1736,7 @@ STATIC FUNCTION cmdDir( cTextCmd )
             nLin := 0
          ENDIF
       NEXT
-      SayScroll( "Total " + Str( Len( acTmpFile ) ) + " File(s) " + Transform( nTotalSize, PicVal( 9 ) ) + " byte(s)" )
+      SayScroll( "Total " + Str( Len( acTmpFile ) ) + " file(s) " + Transform( nTotalSize, PicVal( 9 ) ) + " byte(s)" )
    ELSE
       acTmpFile := Directory( cTextCmd )
       nTotalSize := 0
@@ -1744,7 +1744,7 @@ STATIC FUNCTION cmdDir( cTextCmd )
          SayScroll( Pad( oElement[ F_NAME ], 15 ) + Transform( oElement[ F_SIZE ], PicVal( 12 ) ) + " " + Dtoc( oElement[ F_DATE ] ) + " " + oElement[ F_TIME ] )
          nTotalSize += oElement[ F_SIZE ]
       NEXT
-      SayScroll( "Total " + Str( Len( acTmpFile ) ) + " File(s) " + Transform( nTotalSize, PicVal( 12 ) ) + " byte(s)" )
+      SayScroll( "Total " + Str( Len( acTmpFile ) ) + " file(s) " + Transform( nTotalSize, PicVal( 12 ) ) + " byte(s)" )
    ENDIF
 
    RETURN NIL

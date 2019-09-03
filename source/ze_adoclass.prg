@@ -5,9 +5,9 @@ ZE_ADOCLASS - ROTINAS ADO
 
 // anotacao
 // Table Schemma é case sensitive
-// User ID=root;Password=myPassword;Host=localhost;Port=3306;Database=myDataBase ;
-// Direct=true;Protocol=TCP;Compress=false ;
-// Pooling=true;Min Pool Size=0;Max Pool Size=100;Connection Lifetime=0
+// User ID=root;Password=myPassword;Host=localhost;Port=3306;Database=myDataBase;
+// Direct=true;Protocol=TCP;Compress=false;
+// Pooling=true;Min Pool Size=0;Max Pool Size=100;Connection Lifetime=0;
 
 #require "hbwin.hbc"
 #include "hbclass.ch"
@@ -228,7 +228,7 @@ METHOD ExecuteCmd( cSql, lError ) CLASS ADOClass
          cMensagem += iif( "SELECT" $ cSql, "Tentativa 1: ", "" ) + " Erro executando comando:" + LTrim( Str( ::Cn:Errors( 0 ):Number( ) ) ) + " " + ::Cn:Errors( 0 ):Description()
          Errorsys_WriteErrorLog( cMensagem, 3 )
          Errorsys_WriteErrorLog( cSql, 3 )
-         IF "SELECT " $ Upper( cSql )
+         IF "SELECT " $ upper( cSql )
             BEGIN SEQUENCE WITH __BreakBlock()
                Rs := ::cn:Execute( cSql )
                lOk := .T.
@@ -635,7 +635,7 @@ FUNCTION MySqlConnection( cServer, cDatabase, cUser, cPassword, nPort, nVersion 
    cnConnection:= win_OleCreateObject( "ADODB.Connection" )
    cnConnection:ConnectionString := iif( win_OsIs10(), "Provider=MSDASQL;", "" ) + "Driver={MySQL ODBC " + iif( nVersion == 3, "3.51", "5.3 ANSI" ) + " Driver};Server=" + cServer + ";" + "Port=" + Ltrim( Str( nPort ) ) + ;
       ";Stmt=;Database=" + cDatabase + ";User=" + cUser + ";Password=" + cPassword + ";Collation=latin1;" + ;
-      "AUTO_RECONNECT=1;COMPRESSED_PROTO=0;PAD_SPACE=1" // usando compactação impede certas checagens // Option=131072 ;
+      "AUTO_RECONNECT=1;COMPRESSED_PROTO=0;PAD_SPACE=1" // usando compactação impede certas checagens // Option=131072;
    cnConnection:CursorLocation    := AD_USE_CLIENT
    cnConnection:CommandTimeOut    := 600 // seconds
    cnConnection:ConnectionTimeOut := 600 // seconds
@@ -708,7 +708,7 @@ FUNCTION MySqlConnection( cServer, cDatabase, cUser, cPassword, nPort, nVersion 
    ; The Advantage Local Server DLL (for Windows) and SO (for Linux) reads
    ; this configuration file when the DLL/SO is loaded. Values input
    ; after the keyword and equal sign are used to configure the DLL/SO.
-   ; IF no value is inserted after a keyword and equal sign, the default
+   ; If no value is inserted after a keyword and equal sign, the default
    ; is used. This file should be located in the same directory as your
    ; Advantage Local Server DLL (adsloc32.dll) or SO (libadsloc.so).
    ;
@@ -720,7 +720,7 @@ FUNCTION MySqlConnection( cServer, cDatabase, cUser, cPassword, nPort, nVersion 
    ; Default = 50; Range = 1 - No upper limit
    TABLES=100
    ;
-   ; Number of INDEX Files
+   ; Number of Index Files
    ; Default = 75; Range = 1 - No upper limit
    INDEXES=100
    ;
@@ -739,7 +739,7 @@ FUNCTION MySqlConnection( cServer, cDatabase, cUser, cPassword, nPort, nVersion 
    ; ANSI Character Set
    ; Default = Use the currently configured ANSI character set that is active
    ;           on the workstation.
-   ; IF you do not wish to use the ANSI character set that is active on the
+   ; If you do not wish to use the ANSI character set that is active on the
    ;   current workstation, the available ANSI character sets to be used are:
    ;     Danish, Dutch, Engl(Amer), Engl(UK), Engl(Can), Finnish, French,
    ;     French Can, German, Icelandic, Italian, Norwegian, Portuguese, Spanish,

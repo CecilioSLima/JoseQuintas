@@ -155,7 +155,7 @@ METHOD MainExecute() CLASS MessageClass
                   :QueryAdd( "MSOKTO", "S" )
                   :QueryAdd( "MSDATETO", Transform( Dtos( Date() ), "@R 9999-99-99" ) + " " + Time() )
                   :QueryExecute( "JPUSRMSG", "MSNUMLAN=" + NumberSql( cnMySql:NumberSql( "MSNUMLAN" ) ) )
-               ENDWITH
+               END WITH
             ENDIF
             cnMySql:MoveNext()
          ENDDO
@@ -262,7 +262,7 @@ METHOD SendMessage() CLASS MessageClass
          :QueryAdd( "MSMSTEXT",   cText )
          :QueryAdd( "MSINFINC",   LogInfo() )
          :QueryExecuteInsert( "JPUSRMSG" )
-      ENDWITH
+      END WITH
       //cnMySql:CloseConnection()
       AAdd( ::acMessage, { cDateFrom, cText } )
    END SEQUENCE

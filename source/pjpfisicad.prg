@@ -16,9 +16,8 @@ PROCEDURE PJPFISICAD
    ENDIF
    WITH OBJECT cnMySql
       :cSql := "SELECT * FROM JPFISICA WHERE FSQTDDIG1 <> FSQTDJPA1 OR FSQTDDIG2 <> FSQTDJPA2 OR FSQTDDIG3 <> FSQTDJPA3"
-      :Execute()
       cTmpFile := :SqlToDbf()
-   ENDWITH
+   END WITH
    USE ( cTmpFile ) ALIAS JPFISICA
    oTBrowse := { ;
       { "PRODUTO", { || Pad( jpfisica->fsItem + '-' + jpfisica->fsDescri, 30 ) } }, ;

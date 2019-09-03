@@ -101,7 +101,7 @@ PROCEDURE Pesquisa
       JPVEICULClass():GridSelection()
 
    CASE cVarName $ "mimpiscst,mippiscst,mimcofcst,mipcofcst" ;
-         .OR. ( cVarName == "maxcodigo" .AND. m_Prog == "PLEISPISCST" )
+      .OR. ( cVarName == "maxcodigo" .AND. m_Prog == "PLEISPISCST" )
       SELECT jptabel
       FazBrowse(,, AUX_PISCST )
       cKeyboard := Trim( jptabel->axCodigo )
@@ -163,7 +163,7 @@ PROCEDURE Pesquisa
          { "CONTA", { || PicConta( ctdiari->diCConta ) } }, ;
          { "VALOR", { || Transform( ctdiari->diValor, "@E 9999999,999,999.99" ) + ctdiari->diDebCre } } } )
       cKeyboard = iif( cVarName == "mctnumlan", "", Chr(5) ) + Chr(5) + Chr(5) + Chr(5) + ;
-         StrZero( Month( ctdiari->diData ), 2 ) + Chr( 13 ) + StrZero( Year( ctdiari->diData ), 4 ) + Chr( 13 )+ ;
+         StrZero( Month( ctdiari->diData ), 2 ) + Chr( 13 ) + StrZero( Year( ctdiari->diData ), 4 ) + Chr( 13 )+;
          ctdiari->diLote + Chr( 13 ) + ctdiari->diLanc + Chr( 13 ) + ctdiari->diMov
 
    CASE cVarName $ "mhihispad,mhihispadi,mhihispadf,mlahispad" .OR. ( cVarName == "m_chisto" .AND. m_Prog $ "PCONTLANCINCLUI" )
@@ -198,7 +198,9 @@ PROCEDURE Pesquisa
       cKeyboard := SoNumeros( ctplano->a_Codigo )
 
    CASE cVarName $ "mlei1,mlei2,mlei3,mlei4,mlei5"
-      JPDECRETClass():GridSelection()
+      SELECT jpdecret
+      FazBrowse()
+      cKeyboard := jpdecret->deNumLan
 
    CASE cVarName $ "memtriemp" .OR. ( cVarName == "maxcodigo" .AND. m_Prog == "PLEISTRIEMP" )
       EscolheTab( AUX_TRIEMP, mRow, mCol )
@@ -295,7 +297,7 @@ PROCEDURE Pesquisa
    CASE cVarName $ "mcdcidade,mcdcidcob,mcdcident,mmocidade,mcidade"
       JPCIDADEClass():GridSelection( "NOME" )
 
-   CASE cVarName $ "cclientei,cclientef,mcliente,mclientei,mclientef,mrevenda,mrevendai,memitente,mdestinat,mclientei,mclientef,mpdcdcli,mtaclient,"+ ;
+   CASE cVarName $ "cclientei,cclientef,mcliente,mclientei,mclientef,mrevenda,mrevendai,memitente,mdestinat,mclientei,mclientef,mpdcdcli,mtaclient,"+;
          "mdfrevenda,mvfrevenda,mvfcliente,mfisacado,mficlifor,mesclifor,mlfclifor,mpdclifor,mfornec,mforneci,mfornecf,moscliente,mosfornec,mcdcodigo,mpccadas," + ;
          "mcoclicod,mcofor1cod,mcofor2cod,mmdcliente"
       JPCADAS1Class():GridSelection()
@@ -410,7 +412,7 @@ PROCEDURE Pesquisa
       GOTO TOP
       mNomeCta := {}
       GOTO TOP
-      DO WHILE ! Eof()
+      DO WHILE ! eof()
          AAdd( mNomeCta, jpbamovi->baConta )
          SEEK jpbamovi->baConta + "ZZZ" SOFTSEEK
       ENDDO
@@ -441,7 +443,7 @@ PROCEDURE Pesquisa
       AUXCARCORClass():GridSelection()
 
    CASE cVarName $ "mpdcfop,mescfop,mlfcfop,mcfcfopi,mcfcfopf,mcfcfop,mimcfop,mipcfop" ;
-         .OR. ( cVarName = "maxcodigo" .AND. m_Prog == "PLEISCFOP" )
+      .OR. ( cVarName = "maxcodigo" .AND. m_Prog == "PLEISCFOP" )
       SELECT jptabel
       cOrdSetFocus := OrdSetFocus( "numlan" )
       FazBrowse(,, AUX_CFOP )
@@ -479,7 +481,7 @@ PROCEDURE Pesquisa
    ENDCASE
 
    IF Len( cKeyboard ) != 0
-      IF LastKey() != K_ESC // .AND. ! Eof()
+      IF Lastkey() != K_ESC // .AND. ! Eof()
          KEYBOARD ( cKeyboard ) + Chr(13)
       ENDIF
    ENDIF

@@ -16,14 +16,14 @@ ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
 FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; IF not, write to the Free Software
+along with this program; If not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor Boston, MA 02110-1301, USA
 (or visit their web site at http://www.gnu.org/).
 
 As a special exception, you have permission for additional uses of the text
 contained in this release of BOS TAURUS.
 
-The exception is that, IF you link the BOS TAURUS library with other
+The exception is that, if you link the BOS TAURUS library with other
 files to produce an executable, this does not by itself cause the resulting
 executable to be covered by the GNU General Public License.
 Your use of that executable is in no way restricted on account of linking the
@@ -87,7 +87,7 @@ FUNCTION BT_InfoName()
 
 FUNCTION BT_InfoVersion()
 
-   RETURN AllTrim( Str( _BT_INFO_MAJOR_VERSION_ ) ) + "." + AllTrim( Str( _BT_INFO_MINOR_VERSION_ ) ) + "." + AllTrim( Str( _BT_INFO_PATCHLEVEL_ ) )
+   RETURN AllTrim( Str( _BT_INFO_MAJOR_VERSION_ ) ) + "." + Alltrim( Str( _BT_INFO_MINOR_VERSION_ ) ) + "." + Alltrim( Str( _BT_INFO_PATCHLEVEL_ ) )
 
 FUNCTION BT_InfoAuthor()
 

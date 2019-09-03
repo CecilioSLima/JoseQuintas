@@ -97,7 +97,7 @@ METHOD Especifico( lExiste ) CLASS AUXIPICSTClass
 METHOD Valida( cCst, nAliquota ) CLASS AUXIPICSTClass
 
    IF ! Encontra( AUX_IPICST + cCst, "jptabel", "numlan" ) ;
-         .AND. ! Encontra( AUX_IPICST + "0000" + cCst, "jptabel", "numlan" )
+      .AND. ! Encontra( AUX_IPICST + "0000" + cCst, "jptabel", "numlan" )
       MsgStop( "CST de IPI não cadastrado!" )
       RETURN .F.
    ENDIF

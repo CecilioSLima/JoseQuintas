@@ -49,14 +49,14 @@ FUNCTION TelaEntrada()
    //   :lImageResize := .T.
    //   :nImageAlignment := BS_RIGHT
    //   :Create( , , { -25, -90 }, { -2.5, -15 } )
-   //ENDWITH
+   //END WITH
    //WITH OBJECT oControl := wvgTstPushButton():New()
    //   :oImage := IconFromCaption( "<ESC>Sair" )
    //   :Caption := "Sair"
    //   :lImageResize := .T.
    //   :nImageAlignment := BS_RIGHT
    //   :Create( , , { -28, -90 }, { -2.5, -15 } )
-   //ENDWITH
+   //END WITH
    AAdd( aControlList, oControl )
    SetColor( cCorAnt )
    PegaSenha( Row() + 2, 34, 64 )

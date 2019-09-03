@@ -131,9 +131,7 @@ FUNCTION ExcelConnection( cFileName )
    b) ODBC Provider
    Access data, “Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=path to mdb/accdb file”
    Excel data,  “Driver={Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)};DBQ=path to xls/xlsx/xlsm/xlsb file”
-   */
+*/
 
 FUNCTION AppVersaoExe(); RETURN ""
-
 FUNCTION AppUserName(); RETURN ""
-

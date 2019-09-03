@@ -7,23 +7,26 @@ ZE_UPDATE2016 - conversões 2016
 
 FUNCTION ze_Update2016()
 
-   Update001() // DBFs opcionais com default
-   IF AppVersaoDbfAnt() < 20160101; Update002();        ENDIF // Default jpdecret
+   Update20160101() // DBFs opcionais com default
    IF AppVersaoDbfAnt() < 20160829; Update20160901();   ENDIF // MYSQL.JPREGUSO - aumento de campo
    IF AppVersaoDbfAnt() < 20160908; Update20160908();   ENDIF // MYSQL.JPEDICFG
    IF AppVersaoDbfAnt() < 20161209; Update20161209();   ENDIF // Campo CDCONTRIB em MYSQL.JPCADAS
 
    RETURN NIL
 
-STATIC FUNCTION Update001()
+STATIC FUNCTION Update20160101()
 
    IF AppcnMySqlLocal() == NIL
       JPREGUSOCreateDbf()
+      JPDECRETCreateDbf()
       JPIBPTCreateDbf()
       RETURN NIL
    ENDIF
    IF File( "jpreguso.cdx" )
       fErase( "jpreguso.cdx" )
+   ENDIF
+   IF File( "jpdecret.cdx" )
+      fErase( "jpdecret.cdx" )
    ENDIF
    IF File( "jpibpt.cdx" )
       fErase( "jpibpt.cdx" )
@@ -31,6 +34,11 @@ STATIC FUNCTION Update001()
    IF File( "jpreguso.dbf" )
       CopyDbfToMySql( "JPREGUSO", .T. )
       fErase( "jpreguso.dbf" )
+   ENDIF
+   IF File( "jpdecret.dbf" )
+      JPDECRETCreateDbf()
+      CopyDbfToMySql( "JPDECRET", .T. )
+      fErase( "jpdecret.dbf" )
    ENDIF
    IF File( "jpibpt.dbf" )
       JPIBPTCreateDbf()
@@ -41,47 +49,31 @@ STATIC FUNCTION Update001()
 
    RETURN NIL
 
-STATIC FUNCTION Update002()
+STATIC FUNCTION JPDECRETCreateDbf()
 
-   LOCAL oElement, oRecList, cnMySql := ADOClass():New( AppcnMySqlLocal() )
+   LOCAL mStruOk
 
-   IF AppcnMySqlLocal() == NIL
+   IF ! ( File( "jpdecret.dbf" ) .OR. AppVersaoDbfAnt() < 20160101 )
       RETURN NIL
    ENDIF
-   oRecList := { ;
-      { "ST FABRICANTE",           "CST 010/070: RECOLHIMENTO DO ICMS POR SUBSTITUICAO TRIBUTARIA ARTIGO 313 DO RICMS/SP. O DESTINATARIO " + ;
-      "DEVERA ESCRITURAR O DOCUMENTO FISCAL NOS TERMOS DO ARTIGO 278 DO RICMS.; " }, ;
-      { "ST COMERCIO",             "CST 060: ICMS RECOLHIDO POR SUBSTITUICAO TRIBUTARIA PELO FABRICANTE, CONFORME ARTIGO 412 DO RICMS " + ;
-      "DECRETO 45.490-2000 DE 30-11-2000.;" }, ;
-      { "COMBUSTIVEL ONU 3082",    "ONU 3082 (SUBSTANCIA QUE APRESENTA RISCOS PARA O MEIO AMBIENTE, LIQUIDA, N.E. OLEO COMBUSTIVEL) " + ;
-      "CLASSE DE RISCO 9 (SUBSTANCIAS E ARTIGOS PERIGOSOS DIVERSOS), EMBALAGEM III (BAIXO RISCO).;" }, ;
-      { "COMBUSTIVEL ONU 1202",    "MISTURA DIESEL/BIODIESEL ONU 1202 (OLEO DIESEL) CLASSE DE RISCO 3 (LIQUIDO INFLAMAVEL) EMBALAGEM III " + ;
-      "(BAIXO RISCO).;" }, ;
-      { "COMBUSTIVEL DECLARACAO",  "DECLARO QUE OS PRODUTOS PERIGOSOS ESTAO ADEQUADAMENTE CLASSIFICADOS, EMBALADOS, " + ;
-      "IDENTIFICADOS, E ESTIVADOS PARA SUPORTAR OS RISCOS DAS OPERACOES DE TRANSPORTE E QUE ATENDEM AS EXIGENCIAS " + ;
-      "DA REGULAMENTACAO" }, ;
-      { "COMBUSTIVEL CONFERIR",    "ANTES DE DESCARREGAR O CARRO TANQUE CONFIRA AS QUANTIDADES E EXAMINE A QUALIDADE. APOS O DESCARREGAMENTO " + ;
-      "EXIJA O ESCORRIMENTO.; QUALQUER IRREGULARIDADE DEVERA SER RECLAMADA ANTES DO DESCARREGAMENTO." }, ;
-      { "CONFERIR MERCADORIA",     "CONFIRA A MERCADORIA RECEBIDA. NAO ACEITAMOS RECLAMACOES POSTERIORES.;" }, ;
-      { "ARROZ FEIJAO CONS.FINAL", "ARROZ E/OU FEIJAO ISENTO PRA CONSUMIDOR FINAL CONFORME DECRETO 61.745/2015;" }, ;
-      { "TRANSP ARROZ FEIJAO",     "TRANSPORTE DE ARROZ E/OU FEIJAO ISENTO PARA CONSUMIDOR FINAL CONFORME DECRETO 61.746/2015;" } }
-
-   IF cnMySql:RecCount( "JPDECRET" ) == 0
-      FOR EACH oElement IN oRecList
-         WITH OBJECT cnMySql
-            :QueryCreate()
-            :QueryAdd( "DENUMLAN", StrZero( oElement:__EnumIndex, 6 ) )
-            :QueryAdd( "DENOME",   oElement[ 1 ] )
-            :QueryAdd( "DEDESCR1",  Substr( oElement[ 2 ], 1, 250 ) )
-            :QueryAdd( "DEDESCR2",  Substr( oElement[ 2 ], 251, 250 ) )
-            :QueryAdd( "DEDESCR3",  Substr( oElement[ 2 ], 501, 250 ) )
-            :QueryAdd( "DEDESCR4",  Substr( oElement[ 2 ], 750, 250 ) )
-            :QueryAdd( "DEDESCR5",  Substr( oElement[ 2 ], 1001, 250 ) )
-            :QueryExecuteInsert( "JPDECRET" )
-         ENDWITH
-      NEXT
+   SayScroll( "JPDECRET, verificando atualizações" )
+   mStruOk := { ;
+      { "DENUMLAN",  "C", 6 }, ;
+      { "DENOME",    "C", 30 }, ;
+      { "DEDESCR1",  "C", 250 }, ;
+      { "DEDESCR2",  "C", 250 }, ;
+      { "DEDESCR3",  "C", 250 }, ;
+      { "DEDESCR4",  "C", 250 }, ;
+      { "DEDESCR5",  "C", 250 }, ;
+      { "DEINFINC",  "C", 80 }, ;
+      { "DEINFALT",  "C", 80 } }
+   IF ! ValidaStru( "jpdecret", mStruOk )
+      MsgStop( "JPDECRET não disponível!" )
+      QUIT
    ENDIF
-   CLOSE DATABASES
+   IF AppVersaoDbfAnt() < 20150101
+      JPDECRETDefault()
+   ENDIF
 
    RETURN NIL
 
@@ -196,6 +188,6 @@ STATIC FUNCTION Update20161209()
          :AddField( "CDCONTRIB", "JPCADAS", "VARCHAR(1) NOT NULL DEFAULT ''" )
       ENDIF
       :ExecuteCmd( "ALTER TABLE JPCADAS MODIFY CDCONTRIB VARCHAR(1) NOT NULL DEFAULT ''" )
-   ENDWITH
+   END WITH
 
    RETURN NIL

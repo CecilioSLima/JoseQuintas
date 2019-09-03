@@ -48,7 +48,7 @@ FUNCTION RotinaHelp( Param1 )
    Mensagem( "Utilize as setas para consulta, ESC retorna ao sistema" )
    mTextoEdit := MemoEdit( mTexto, 1, 0, MaxRow()-2, MaxCol(), AppUserLevel() == 0 )
    WClose()
-   IF ! mTexto == mTextoEdit .AND. LastKey() != K_ESC
+   IF ! mTexto == mTextoEdit .AND. Lastkey() != K_ESC
       WITH OBJECT cnInternet
          :cSql := "UPDATE WEBHELP SET HLOLD='S' WHERE HLMODULO=" + StringSql( m_Prog )
          :ExecuteCmd()
@@ -59,7 +59,7 @@ FUNCTION RotinaHelp( Param1 )
             :QueryAdd( "HLINFINC", LogInfo() )
             :QueryExecuteInsert( "WEBHELP" )
          ENDIF
-      ENDWITH
+      END WITH
    ENDIF
    cnInternet:CloseConnection()
    KEYBOARD Chr( 205 )

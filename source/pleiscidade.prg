@@ -146,7 +146,7 @@ METHOD TelaDados( lEdit ) CLASS JPCIDADEClass
       //   :QueryAdd( "CINUMLAN", mciNumLan )
       //   :QueryAdd( "CIINFINC", LogInfo() )
       //   :QueryExecuteInsert( "JPCIDADE" )
-      //ENDWITH
+      //END WITH
    ENDIF
    RecLock()
    REPLACE ;

@@ -142,7 +142,7 @@ STATIC FUNCTION FormatFile( cFile, nContYes, nContNo )
       FOR nCont = 2 TO Len( acPrgLines )
          IF Empty( AllTrim( acPrgLines[ nCont ] ) )
             IF Right( Trim( acPrgLines[ nCont - 1 ] ), 1 ) == ";"
-               acPrgLines[ nCont - 1 ] := Left( acPrgLines[ nCont - 1 ], Len( Trim( acPrgLines[ nCont - 1 ] ) ) - 1 )
+               acPrgLines[ nCont - 1 ] := Left( acPrgLines[ nCont - 1], Len( Trim( acPrgLines[ nCont - 1 ] ) ) - 1 )
             ENDIF
          ENDIF
       NEXT
@@ -184,9 +184,6 @@ FUNCTION FormatIndent( cLinePrg, oFormat )
    ENDIF
    IF cLinePrg == "END CLASS"
       cLinePrg := "ENDCLASS"
-   ENDIF
-   IF cLinePrg == "END WITH"
-      cLinePrg := "ENDWITH"
    ENDIF
    IF Left( cLinePrg, 8 ) == "DO WHIL "
       cLinePrg := StrTran( cLinePrg, "DO WHIL ", "DO WHILE " )

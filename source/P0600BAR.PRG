@@ -68,7 +68,7 @@ STATIC FUNCTION P0600BarrasVendas()
             :MoveNext()
          ENDDO
          :CloseRecordset()
-      ENDWITH
+      END WITH
       mDigitaGarantia := MsgYesNo( "Digitação manual de garantia?" )
       DO WHILE .T.
          Scroll( 13, 0, MaxRow() - 3, MaxCol(), 0 )
@@ -143,7 +143,7 @@ STATIC FUNCTION P0600BarrasVendas()
                GravaOcorrencia( "JPPEDI", jppedi->pdPedido, "REGISTRADO COD BARRAS " + Trim( mbrCodBar ) + ", " + Trim( mbrCodBar2 ) )
             ENDIF
             :CloseRecordset()
-         ENDWITH
+         END WITH
       ENDDO
    ENDDO
 
@@ -217,7 +217,7 @@ STATIC FUNCTION P0600BarrasOutros()
          Encontra( jppedi->pdTransa, "jptransa", "numlan" )
          GravaOcorrencia( "JPBARRA", :StringSql( "BRNUMLAN" ), Trim( jptransa->trDescri ) + " Pedido " + jppedi->pdPedido + ", " + jpcadas->cdNome )
          :CloseRecordset()
-      ENDWITH
+      END WITH
       GravaOcorrencia( "JPPEDI", jppedi->pdPedido, "REGISTRADO COD BARRAS " + Trim( mbrCodBar ) + ", " + Trim( mbrCodBar2 ) )
    ENDDO
 
@@ -253,7 +253,7 @@ STATIC FUNCTION P0600BarrasCompras()
          :MoveNext()
       ENDDO
       :CloseRecordset()
-   ENDWITH
+   END WITH
    P0600BarrasComprasTelaDados()
    @  Row(), Col() + 2 SAY jppedi->pdDatEmi
    @  9, 0 SAY "Fornecedor..........: " + jppedi->pdCliFor
@@ -330,7 +330,7 @@ STATIC FUNCTION P0600BarrasCompras()
                :QueryAdd( "BRPEDCOM", jppedi->pdPedido )
                :QueryAdd( "BRINFINC", LogInfo() )
                :QueryExecuteInsert( "JPBARRA" )
-            ENDWITH
+            END WITH
             P0600BarrasComprasBaixaDigitacao( mItem )
             Encontra( jppedi->pdTransa, "jptransa", "numlan" )
             GravaOcorrencia( "JPBARRA", mbrNumLan, Trim( jptransa->trDescri ) + " Pedido " + jppedi->pdPedido + ", " + jpcadas->cdNome )

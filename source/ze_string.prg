@@ -127,7 +127,7 @@ FUNCTION TextToArray( cTexto, nLargura, lAjusta )
             ENDIF
          ENDDO
       ENDIF
-      AAdd( acTextList, cLinha )
+      Aadd( acTextList, cLinha )
    ENDDO
    IF Len( cTexto ) != 0
       AAdd( acTextList, cTexto )

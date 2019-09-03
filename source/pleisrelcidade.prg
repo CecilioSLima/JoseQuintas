@@ -41,7 +41,7 @@ PROCEDURE pLeisRelCidade
       nOpcTemp := 1
 
       DO CASE
-      CASE LastKey() == K_ESC
+      CASE lastkey() == K_ESC
          EXIT
 
       CASE nOpcGeral == nOpcTemp++
@@ -55,14 +55,14 @@ PROCEDURE pLeisRelCidade
          WOpen( nOpcGeral + 6, 25, nOpcGeral + 10, 65, "Intervalo" )
          DO WHILE .T.
             FazAchoice( nOpcGeral + 8, 26, nOpcGeral + 9, 64, acTxtDeAte, @nOpcDeAte )
-            IF LastKey() != K_ESC .AND. nOpcDeAte == 2
+            IF lastkey() != K_ESC .AND. nOpcDeAte == 2
                WOpen( nOpcGeral + 9, 45, nOpcGeral + 13, 65, "Código" )
                @ nOpcGeral + 11, 47 GET mcinumlani PICTURE "@K 999999"
                @ nOpcGeral + 12, 47 GET mcinumlanf PICTURE "@K 999999"
                Mensagem( "Digite código da cidade, F9 pesquisa, ESC sai" )
                READ
                WClose()
-               IF LastKey() == K_ESC
+               IF lastkey() == K_ESC
                   LOOP
                ENDIF
             ENDIF
@@ -102,7 +102,7 @@ STATIC FUNCTION imprime()
       SEEK mcinumlani
    ENDIF
 
-   DO WHILE nKey != K_ESC .AND. ! Eof()
+   DO WHILE nKey != K_ESC .AND. ! eof()
       GrafProc()
       nKey = Inkey()
       DO CASE

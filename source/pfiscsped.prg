@@ -49,10 +49,10 @@ PROCEDURE pFiscSped
 
    IF mTipoSped == "P"
       mLayout := "003" // 2.01A
-      mFileSped := "EXPORTA\SPPC" + Substr( Dtos( mDatFim ), 3, 4 ) + ".TXT"
+      mFileSped := "EXPORTA\SPPC" + SubStr( DToS( mDatFim ), 3, 4 ) + ".TXT"
    ELSE
       mLayOut := "006"
-      mFileSped := "EXPORTA\SPFI" + Substr( Dtos( mDatFim ), 3, 4 ) + ".TXT"
+      mFileSped := "EXPORTA\SPFI" + SubStr( DToS( mDatFim ), 3, 4 ) + ".TXT"
    ENDIF
 
    SET ALTERNATE TO ( mFileSped )
@@ -582,7 +582,7 @@ STATIC FUNCTION BLoco0205() // Alteração de item
       ?? SPED_SEPARADOR
       ?? "0205" + SPED_SEPARADOR                             // 01 REG
       ?? "" + SPED_SEPARADOR                                 // 02 DESCR_ANT_ITEM Descricao anterior
-      ?? FormatoData( Ctod( "01/01/2011" ) ) + SPED_SEPARADOR    // 03 DT_INI Data de inicio de utilizacao
+      ?? FormatoData( CToD( "01/01/2011" ) ) + SPED_SEPARADOR    // 03 DT_INI Data de inicio de utilizacao
       ?? "" + SPED_SEPARADOR                                 // 04 DT_FIM Data de final
       ?? "" + SPED_SEPARADOR                                 // 05 COD_ANT_ITEM Codigo anterior
       ?
@@ -693,7 +693,7 @@ STATIC FUNCTION Bloco0500() // Plano de Contas
       SomaBloco( "0500" )
       ?? SPED_SEPARADOR
       ?? "0500" + SPED_SEPARADOR                             // 01 REG
-      ?? FormatoData( Ctod( "01/01/80" ) ) + SPED_SEPARADOR      // 02 DT_ALT Data inclusão/alteração
+      ?? FormatoData( CToD( "01/01/80" ) ) + SPED_SEPARADOR      // 02 DT_ALT Data inclusão/alteração
       ?? "09" + SPED_SEPARADOR                               // 03 COD_NAT_CC 01-Ativo 02-Passivo 03-Patrimônio 04-Resultado 05-Compensação 09-Outras
       ?? "S"                                                 // 04 IND_CTA S-Sintética A-Analítica
       ?? "00000" + SPED_SEPARADOR                            // NIVEL Nivel da conta
@@ -712,7 +712,7 @@ STATIC FUNCTION Bloco0600() // Centros de Custo
       SomaBloco( "0600" )
       ?? SPED_SEPARADOR
       ?? "0600" + SPED_SEPARADOR                              // 01 REG
-      ?? FormatoData( Ctod( "01/01/80" ) ) + SPED_SEPARADOR       // 02 DT_ALT Inclusão/Alteração
+      ?? FormatoData( CToD( "01/01/80" ) ) + SPED_SEPARADOR       // 02 DT_ALT Inclusão/Alteração
       ?? "" + SPED_SEPARADOR                                  // 03 COD_CCUS Codigo do CCusto
       ?? "" + SPED_SEPARADOR                                  // 04 CCUST Nome do CCusto
       ?
@@ -846,7 +846,7 @@ STATIC FUNCTION BlocoC100()
       SomaBloco( "C100" )
       ?? SPED_SEPARADOR
       ?? "C100" + SPED_SEPARADOR                                   // 01 REG
-      IF Substr( jpnota->nfCfOp, 1, 1 ) < "5"
+      IF SubStr( jpnota->nfCfOp, 1, 1 ) < "5"
          ?? "0" + SPED_SEPARADOR                                   // 02 IND_OPER 0=Entrada
       ELSE
          ?? "1" + SPED_SEPARADOR                                   // 02 IND_OPER 1=Saida
@@ -936,7 +936,7 @@ STATIC FUNCTION BlocoC100()
       SomaBloco( "C100" )
       ?? SPED_SEPARADOR
       ?? "C100" + SPED_SEPARADOR                           // 01 REG
-      IF Substr( jpitped->ipCfOp, 1, 1 ) < "5"
+      IF SubStr( jpitped->ipCfOp, 1, 1 ) < "5"
          ?? "0" + SPED_SEPARADOR                           // 02 IND_OPER 0=Entrada
       ELSE
          ?? "1" + SPED_SEPARADOR                           // 02 IND_OPER 1=Saida
@@ -1005,8 +1005,8 @@ STATIC FUNCTION BlocoC110()
 
    mLstLei := Trim( jpnota->nfLeis )
    DO WHILE Len( mLstLei ) > 0
-      mLei := Substr( mLeiLst, 1, 6 )
-      mLeiLst := Substr( mLeiLst, 8 )
+      mLei := SubStr( mLeiLst, 1, 6 )
+      mLeiLst := SubStr( mLeiLst, 8 )
       IF Val( mLei ) != 0
          cnJPDECRET:cSql := "SELECT COUNT(*) AS QTD FROM JPDECRET WHERE DENUMLAN=" + StringSql( mLei )
          IF cnJPDECRET:ReturnValueAndClose( "QTD" ) > 0

@@ -69,10 +69,10 @@ METHOD AddDelete( xFile ) CLASS ze_SendMailClass
 
    IF ValType( xFile ) == "A"
       FOR EACH oElement IN xFile
-         AAdd( ::acDeleteFile, oElement )
+         Aadd( ::acDeleteFile, oElement )
       NEXT
    ELSE
-      AAdd( ::acDeleteFile, xFile )
+      Aadd( ::acDeleteFile, xFile )
    ENDIF
 
    RETURN NIL
@@ -109,7 +109,7 @@ METHOD AddAttachment( xFileName ) CLASS ze_SendMailClass
       xFileName := { xFileName }
    ENDIF
    FOR EACH oElement IN xFileName
-      AAdd( ::acAttachment, oElement )
+      Aadd( ::acAttachment, oElement )
    NEXT
 
    RETURN NIL
@@ -236,7 +236,7 @@ METHOD SendUsingBlatEXE() CLASS ze_SendMailClass
    cTxt += [-x "X-JPAID: ] + DriveSerial() + ["] + hb_eol()
    cTxt += "-html" + hb_eol()
    cBlatCfg := MyTempFile( "bla" )
-   AAdd( ::acDeleteFile, cBlatCfg )
+   Aadd( ::acDeleteFile, cBlatCfg )
    HB_MemoWrit( cBlatCfg, cTxt )
    cCmd := hb_DirBase() + "Blat " + ::cFileBody + " -of " + cBlatCfg
    RUN ( cCmd )

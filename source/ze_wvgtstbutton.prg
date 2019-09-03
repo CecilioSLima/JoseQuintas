@@ -59,7 +59,7 @@ METHOD wvgtstPushbutton:new( oParent, oOwner, aPos, aSize, aPresParams, lVisible
    ::className   := "BUTTON"
    ::objType     := objTypePushButton
 
-   RETURN SELF
+   RETURN Self
 
    // https://msdn.microsoft.com/en-us/library/windows/desktop/bb761822(v=vs.85).aspx
    // Windows Vista and Upper, can show image + text. Need do not set BS_ICON or BS_BITMAP
@@ -119,7 +119,7 @@ METHOD wvgtstPushbutton:create( oParent, oOwner, aPos, aSize, aPresParams, lVisi
 
    ::Repaint()
 
-   RETURN SELF
+   RETURN Self
 
 METHOD wvgtstPushbutton:handleEvent( nMessage, aNM )
 
@@ -160,7 +160,7 @@ METHOD wvgtstPushbutton:handleEvent( nMessage, aNM )
          RETURN ::hBrushBG
       ENDIF
 
-#if 0  /* Must not reach here IF WndProc is not installed */
+#if 0  /* Must not reach here if WndProc is not installed */
    CASE nMessage == HB_GTE_ANY
       IF aNM[ 1 ] == WIN_WM_LBUTTONUP
          IF HB_ISEVALITEM( ::sl_lbClick )
@@ -185,7 +185,7 @@ METHOD wvgtstPushbutton:configure( oParent, oOwner, aPos, aSize, aPresParams, lV
 
    ::Initialize( oParent, oOwner, aPos, aSize, aPresParams, lVisible )
 
-   RETURN SELF
+   RETURN Self
 
 METHOD wvgtstPushbutton:setCaption( xCaption, cDll )
 
@@ -215,7 +215,7 @@ METHOD wvgtstPushbutton:RePaint()
             nWidth := nHeight
          ENDCASE
       ENDIF
-      //IF nWidth < 32 .OR. nHeight < 32 // do not resize IF small area
+      //IF nWidth < 32 .OR. nHeight < 32 // do not resize if small area
       //   nWidth  := 0
       //   nHeight := 0
       //ENDIF
@@ -272,7 +272,7 @@ METHOD wvgtstPushbutton:RePaint()
       ::SendMessage( WIN_WM_SETTEXT, 0, ::caption )
    ENDIF
 
-   RETURN SELF
+   RETURN Self
 
 METHOD wvgtstPushbutton:activate( xParam )
 
@@ -280,7 +280,7 @@ METHOD wvgtstPushbutton:activate( xParam )
       ::sl_lbClick := xParam
    ENDIF
 
-   RETURN SELF
+   RETURN Self
 
 METHOD wvgtstPushbutton:draw( xParam )
 
@@ -288,4 +288,4 @@ METHOD wvgtstPushbutton:draw( xParam )
       ::sl_paint := xParam
    ENDIF
 
-   RETURN SELF
+   RETURN Self
