@@ -48,7 +48,7 @@ PROCEDURE pFiscRel0020
 
       nOpcTemp = 1
       DO CASE
-      CASE lastkey() == K_ESC
+      CASE LastKey() == K_ESC
          EXIT
 
       CASE nOpcMenu == nOpcTemp++
@@ -112,7 +112,7 @@ STATIC FUNCTION TermoFiscalEntradasSaidas( mAberturaEncerramento, dDataAssinatur
       Trim( jpempre->emNome ) + ", estabelecida a " + Trim( jpempre->emEndereco ) + ", em " + Trim( jpempre->emCidade ) + ", " + jpempre->emUf + ;
       ", registrada "
    cTexto = cTexto + Trim( jpempre->emLocReg ) + " do estado de " + Trim( jpuf->ufDescri )
-   cTexto = cTexto + ", sob numero " + Trim( jpempre->emNumReg ) + ", em " + dtoc( jpempre->emDatReg ) + ", no CNPJ numero " + Trim( jpempre->emCnpj ) + ;
+   cTexto = cTexto + ", sob numero " + Trim( jpempre->emNumReg ) + ", em " + Dtoc( jpempre->emDatReg ) + ", no CNPJ numero " + Trim( jpempre->emCnpj ) + ;
       " e inscricao estadual numero " + Trim( jpempre->emInsEst ) + "."
 
    oPDF:acHeader := {Upper( cNomeLivro ),""}
@@ -122,7 +122,7 @@ STATIC FUNCTION TermoFiscalEntradasSaidas( mAberturaEncerramento, dDataAssinatur
       oPDF:nPageNumber := nQtdFolhas - 1
    ENDIF
    oPDF:PageHeader()
-   oPDF:DrawText( oPDF:nRow + 4, 0, PadC( "TERMO DE " + mAberturaEncerramento, oPDF:MaxCol() + 1 ) )
+   oPDF:DrawText( oPDF:nRow + 4, 0, Padc( "TERMO DE " + mAberturaEncerramento, oPDF:MaxCol() + 1 ) )
 
    oPDF:nRow += 15
    DO WHILE .T.
@@ -132,21 +132,21 @@ STATIC FUNCTION TermoFiscalEntradasSaidas( mAberturaEncerramento, dDataAssinatur
          EXIT
       ELSE
          nPos = Rat( " ", Left( cTexto, oPDF:MaxCol() - 20 ) )
-         oPDF:DrawText( oPDF:nRow, 0, padc( Trim( Substr( cTexto, 1, nPos ) ), oPDF:MaxCol() + 1 ) )
+         oPDF:DrawText( oPDF:nRow, 0, Padc( Trim( Substr( cTexto, 1, nPos ) ), oPDF:MaxCol() + 1 ) )
          cTexto  = lTrim( Substr( cTexto, nPos ) )
          oPDF:nRow += 2
       ENDIF
    ENDDO
 
-   oPDF:DrawText( oPDF:nRow + 4, 0, padc( Trim( jpempre->emCidade ) + ", " + Extenso( dDataAssinatura ), oPDF:MaxCol() + 1 ) )
+   oPDF:DrawText( oPDF:nRow + 4, 0, Padc( Trim( jpempre->emCidade ) + ", " + Extenso( dDataAssinatura ), oPDF:MaxCol() + 1 ) )
 
    nMargem := Int( ( oPDF:MaxCol() + 1 - 80 ) / 2 )
    oPDF:DrawText( oPDF:nRow + 14, nMargem + 5, Replicate( "-", 30 ) )
    oPDF:DrawText( oPDF:nRow + 14, nMargem + 5 + 40, Replicate( "-", 30 ) )
-   oPDF:DrawText( oPDF:nRow + 15, nMargem, padc( Trim( jpempre->emTitular ), 40 ) )
-   oPDF:DrawText( oPDF:nRow + 15, nMargem + 40, padc( Trim( jpempre->emContador ), 40 ) )
-   oPDF:DrawText( oPDF:nRow + 16, nMargem, padc( Trim( jpempre->emCarTit), 40 ) )
-   oPDF:DrawText( oPDF:nRow + 16, nMargem + 40, padc( Trim( jpempre->emCarCon ), 40 ) )
+   oPDF:DrawText( oPDF:nRow + 15, nMargem, Padc( Trim( jpempre->emTitular ), 40 ) )
+   oPDF:DrawText( oPDF:nRow + 15, nMargem + 40, Padc( Trim( jpempre->emContador ), 40 ) )
+   oPDF:DrawText( oPDF:nRow + 16, nMargem, Padc( Trim( jpempre->emCarTit), 40 ) )
+   oPDF:DrawText( oPDF:nRow + 16, nMargem + 40, Padc( Trim( jpempre->emCarCon ), 40 ) )
    oPDF:DrawText( oPDF:nRow + 17, nMargem, Padc( "CPF:" + jpempre->emCpfTit, 40 ) )
    oPDF:DrawText( oPDF:nRow + 17, nMargem + 40, Padc( "CRC:" + Trim( jpempre->emCrcCon ) + "/" + jpempre->emUfCrc + " - " + "CPF:" + jpempre->emCpfCon, 40) )
 

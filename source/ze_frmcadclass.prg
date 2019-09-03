@@ -440,7 +440,7 @@ METHOD Init() CLASS RecValuesClass
 
    ::aValues := {}
    FOR nCont = 1 TO FCount()
-      Aadd( ::aValues, FieldGet( nCont ) )
+      AAdd( ::aValues, FieldGet( nCont ) )
    NEXT
 
    RETURN NIL

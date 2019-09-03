@@ -92,7 +92,7 @@ PROCEDURE PBAR0040
                :MoveNext()
             ENDDO
             :CloseRecordset()
-         END WITH
+         ENDWITH
       ENDIF
       IF MsgYesNo( "Registra teste/outros" )
          wOpen( 10, 0, 14, MaxCol(), "Teste/Outros" )
@@ -119,7 +119,7 @@ PROCEDURE PBAR0040
                   :QueryAdd( "RUTEXTO",   cTexto )
                   :QueryAdd( "RUINFINC",  LogInfo() )
                   :QueryExecuteInsert( "JPREGUSO" )
-               END WITH
+               ENDWITH
             ENDIF
          ENDIF
       ENDIF

@@ -82,7 +82,7 @@ METHOD Delete() CLASS JPDECRETClass
       MsgStop( "INVÁLIDO! Decreto usado na nota fiscal " + jpnota->nfNotFis + " de " + Dtoc( jpnota->nfDatEmi ) )
       lExclui := .F.
    ENDIF
-   IF MsgYesNo( "Confirma Exclusao" )
+   IF lExclui .AND. MsgYesNo( "Confirma Exclusao" )
       cnJPDECRET:cSql := "DELETE FROM JPDECRET WHERE DENUMLAN=" + StringSql( ::axKeyValue[ 1 ] )
       cnJPDECRET:Execute()
    ENDIF
@@ -160,51 +160,28 @@ METHOD TelaDados( lEdit ) CLASS JPDECRETClass
          IF ::cOpc == "I"
             mdeNumLan := ::axKeyValue[1]
             IF mdeNumLan == "*NOVO*"
-               IF AppcnMySqlLocal() == NIL
-                  mdeNumLan := NovoCodigo( "jpdecret->deNumLan" )
-               ELSE
-                  mdeNumLan := NovoCodigoMySql( "JPDECRET", "DENUMLAN", 6 )
-               ENDIF
+               mdeNumLan := NovoCodigoMySql( "JPDECRET", "DENUMLAN", 6 )
             ENDIF
-            IF AppcnMySqlLocal() == NIL
-               RecAppend()
-               REPLACE ;
-                  jpdecret->deNumLan WITH mdeNumLan, ;
-                  jpdecret->deInfInc WITH LogInfo()
-               RecUnlock()
-            ELSE
-               WITH OBJECT cnJPDECRET
-                  :QueryCreate()
-                  :QueryAdd( "DENUMLAN", mdeNumLan )
-                  :QueryAdd( "DEINFINC", LogInfo() )
-                  :QueryExecuteInsert( "JPDECRET" )
-               END WITH
-            ENDIF
+            WITH OBJECT cnJPDECRET
+               :QueryCreate()
+               :QueryAdd( "DENUMLAN", mdeNumLan )
+               :QueryAdd( "DEINFINC", LogInfo() )
+               :QueryExecuteInsert( "JPDECRET" )
+            ENDWITH
          ENDIF
-         IF AppcnMySqlLocal() == NIL
-            RecLock()
-            REPLACE ;
-               jpdecret->deNome WITH mdeNome, ;
-               jpdecret->deDescr1 WITH mdeDescr1, ;
-               jpdecret->deDescr2 WITH mdeDescr2, ;
-               jpdecret->deDescr3 WITH mdeDescr3, ;
-               jpdecret->deDescr4 WITH mdeDescr4, ;
-               jpdecret->deDescr5 WITH mdeDescr5
+         WITH OBJECT cnJPDECRET
+            :QueryCreate()
+            :QueryAdd( "DENOME", mdeNome )
+            :QueryAdd( "DEDESCR1", mdeDescr1 )
+            :QueryAdd( "DEDESCR2", mdeDescr2 )
+            :QueryAdd( "DEDESCR3", mdeDescr3 )
+            :QueryAdd( "DEDESCR4", mdeDescr3 )
+            :QueryAdd( "DEDESCR5", mdeDescr3 )
             IF ::cOpc == "A"
-               REPLACE jpdecret->deInfAlt WITH LogInfo()
+               :QueryAdd( "DEINFALT", LogInfo() )
             ENDIF
-            RecUnlock()
-         ELSE
-            cnJPDECRET:cSql := "UPDATE JPDECRET SET DENOME=" + StringSql( mdeNome ) + ", " + ;
-               "DEDESCR1=" + StringSql( mdeDescr1 ) + ", DEDESCR2=" + StringSql( mdeDescr2 ) + ", " + ;
-               "DEDESCR3=" + StringSql( mdeDescr3 ) + ", DEDESCR4=" + StringSql( mdeDescr4 ) + ", " + ;
-               "DEDESCR5=" + StringSql( mdeDescr5 )
-            IF ::cOpc == "A"
-               cnJPDECRET:cSql += ", DEINFALT=" + StringSql( LogInfo() )
-            ENDIF
-            cnJPDECRET:cSql += " WHERE DENUMLAN=" + StringSql( mdeNumLan )
-            cnJPDECRET:ExecuteCmd()
-         ENDIF
+            :QueryExecuteUpdate( "JPDECRET", "DENUMLAN=" + StringSql( mdeNumLan ) )
+         ENDWITH
          ::axKeyValue[ 1 ] := mdeNumLan
       ENDIF
       ::nNumTab := 1
@@ -217,24 +194,16 @@ METHOD GridSelection() CLASS JPDECRETClass
    LOCAL nSelect := Select(), cTmpFile
    LOCAL cnJPDECRET := ADOClass():New( AppcnMySqlLocal() )
 
-   IF AppcnMySqlLocal() == NIL
-      SELECT JPDECRET
-      FazBrowse()
-      IF LastKey() != K_ESC .AND. ! Eof()
-         KEYBOARD JPDECRET->DENUMLAN + Chr( K_ENTER )
-      ENDIF
-   ELSE
-      cnJPDECRET:cSql := "SELECT * FROM JPDECRET"
-      cTmpFile := cnJPDECRET:SqlToDbf()
-      SELECT 0
-      USE ( cTmpFile ) ALIAS JPDECRET
-      FazBrowse()
-      IF LastKey() != K_ESC .AND. ! Eof()
-         KEYBOARD jpdecret->DENUMLAN + Chr( K_ENTER )
-      ENDIF
-      USE
-      fErase( cTmpFile )
+   cnJPDECRET:cSql := "SELECT * FROM JPDECRET"
+   cTmpFile := cnJPDECRET:SqlToDbf()
+   SELECT 0
+   USE ( cTmpFile ) ALIAS JPDECRET
+   FazBrowse()
+   IF LastKey() != K_ESC .AND. ! Eof()
+      KEYBOARD jpdecret->DENUMLAN + Chr( K_ENTER )
    ENDIF
+   USE
+   fErase( cTmpFile )
    SELECT ( nSelect )
 
    RETURN NIL
@@ -249,23 +218,15 @@ METHOD Valida( cDecreto ) CLASS JPDECRETClass
       cDecreto := Space(6)
    ELSE
       cDecreto := StrZero(Val(cDecreto),6)
-      IF AppcnMySqlLocal() == NIL
-         IF ! Encontra( cDecreto, "jpdecret", "numlan" )
-            MsgWarning( "Código de lei/decreto inexistente!" )
-            lOk := .F.
-         ENDIF
-         @ Row(), 32 SAY jpdecret->deNome
+      cnJPDECRET:cSql := "SELECT * FROM JPDECRET WHERE DENUMLAN=" + StringSql( cDecreto )
+      cnJPDECRET:Execute()
+      IF cnJPDECRET:Eof()
+         MsgWarning( "Código de lei/decreto inexistente!" )
+         lOk := .F.
       ELSE
-         cnJPDECRET:cSql := "SELECT * FROM JPDECRET WHERE DENUMLAN=" + StringSql( cDecreto )
-         cnJPDECRET:Execute()
-         IF cnJPDECRET:Eof()
-            MsgWarning( "Código de lei/decreto inexistente!" )
-            lOk := .F.
-         ELSE
-            @ Row(), 32 SAY cnJPDECRET:StringSql( "DENOME", 30 )
-         ENDIF
-         cnJPDECRET:CloseRecordset()
+         @ Row(), 32 SAY cnJPDECRET:StringSql( "DENOME", 30 )
       ENDIF
+      cnJPDECRET:CloseRecordset()
    ENDIF
 
    RETURN lOk
@@ -274,17 +235,12 @@ METHOD MoveFirst() CLASS JPDECRETClass
 
    LOCAL cnJPDECRET := ADOClass():New( AppcnMySqlLocal() )
 
-   IF AppcnMySqlLocal() == NIL
-      ::Super:MoveFirst()
-      ::axKeyValue[ 1 ] := jpdecret->DENUMLAN
-   ELSE
-      cnJPDECRET:cSql := "SELECT DENUMLAN FROM JPDECRET ORDER BY DENUMLAN LIMIT 1"
-      cnJPDECRET:Execute()
-      IF ! cnJPDECRET:Eof()
-         ::axKeyValue[ 1 ] := cnJPDECRET:StringSql( "DENUMLAN" )
-      ENDIF
-      cnJPDECRET:CloseRecordset()
+   cnJPDECRET:cSql := "SELECT DENUMLAN FROM JPDECRET ORDER BY DENUMLAN LIMIT 1"
+   cnJPDECRET:Execute()
+   IF ! cnJPDECRET:Eof()
+      ::axKeyValue[ 1 ] := cnJPDECRET:StringSql( "DENUMLAN" )
    ENDIF
+   cnJPDECRET:CloseRecordset()
 
    RETURN NIL
 
@@ -292,17 +248,12 @@ METHOD MoveLast() CLASS JPDECRETClass
 
    LOCAL cnJPDECRET := ADOClass():New( AppcnMySqlLocal() )
 
-   IF AppcnMySqlLocal() == NIL
-      ::Super:MoveLast()
-      ::axKeyValue[ 1 ] := jpdecret->DENUMLAN
-   ELSE
-      cnJPDECRET:cSql := "SELECT DENUMLAN FROM JPDECRET ORDER BY DENUMLAN DESC LIMIT 1"
-      cnJPDECRET:Execute()
-      IF ! cnJPDECRET:Eof()
-         ::axKeyValue[ 1 ] := cnJPDECRET:StringSql( "DENUMLAN" )
-      ENDIF
-      cnJPDECRET:CloseRecordset()
+   cnJPDECRET:cSql := "SELECT DENUMLAN FROM JPDECRET ORDER BY DENUMLAN DESC LIMIT 1"
+   cnJPDECRET:Execute()
+   IF ! cnJPDECRET:Eof()
+      ::axKeyValue[ 1 ] := cnJPDECRET:StringSql( "DENUMLAN" )
    ENDIF
+   cnJPDECRET:CloseRecordset()
 
    RETURN NIL
 
@@ -310,17 +261,12 @@ METHOD MovePrevious() CLASS JPDECRETClass
 
    LOCAL cnJPDECRET := ADOClass():New( AppcnMySqlLocal() )
 
-   IF AppcnMySqlLocal() == NIL
-      ::Super:MovePrevious()
-      ::axKeyValue[ 1 ] := jpdecret->DENUMLAN
-   ELSE
-      cnJPDECRET:cSql := "SELECT DENUMLAN FROM JPDECRET WHERE DENUMLAN < " + StringSql( ::axKeyValue[ 1] ) + " ORDER BY DENUMLAN DESC LIMIT 1"
-      cnJPDECRET:Execute()
-      IF ! cnJPDECRET:Eof()
-         ::axKeyValue[ 1 ] := cnJPDECRET:StringSql( "DENUMLAN" )
-      ENDIF
-      cnJPDECRET:CloseRecordset()
+   cnJPDECRET:cSql := "SELECT DENUMLAN FROM JPDECRET WHERE DENUMLAN < " + StringSql( ::axKeyValue[ 1] ) + " ORDER BY DENUMLAN DESC LIMIT 1"
+   cnJPDECRET:Execute()
+   IF ! cnJPDECRET:Eof()
+      ::axKeyValue[ 1 ] := cnJPDECRET:StringSql( "DENUMLAN" )
    ENDIF
+   cnJPDECRET:CloseRecordset()
 
    RETURN NIL
 
@@ -328,16 +274,11 @@ METHOD MoveNext() CLASS JPDECRETClass
 
    LOCAL cnJPDECRET := ADOClass():New( AppcnMySqlLocal() )
 
-   IF AppcnMySqlLocal() == NIL
-      ::Super:MoveNext()
-      ::axKeyValue[ 1 ] := jpdecret->DENUMLAN
-   ELSE
-      cnJPDECRET:cSql := "SELECT DENUMLAN FROM JPDECRET WHERE DENUMLAN > " + StringSql( ::axKeyValue[ 1] ) + " ORDER BY DENUMLAN LIMIT 1"
-      cnJPDECRET:Execute()
-      IF ! cnJPDECRET:Eof()
-         ::axKeyValue[ 1 ] := cnJPDECRET:StringSql( "DENUMLAN" )
-      ENDIF
-      cnJPDECRET:CloseRecordset()
+   cnJPDECRET:cSql := "SELECT DENUMLAN FROM JPDECRET WHERE DENUMLAN > " + StringSql( ::axKeyValue[ 1] ) + " ORDER BY DENUMLAN LIMIT 1"
+   cnJPDECRET:Execute()
+   IF ! cnJPDECRET:Eof()
+      ::axKeyValue[ 1 ] := cnJPDECRET:StringSql( "DENUMLAN" )
    ENDIF
+   cnJPDECRET:CloseRecordset()
 
    RETURN NIL

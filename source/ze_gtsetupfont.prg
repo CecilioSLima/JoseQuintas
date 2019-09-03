@@ -43,18 +43,18 @@ FUNCTION GtSetupFont( lSave )
 
    RETURN NIL
 
-/*
-FUNCTION AddExtraFonts()
+   /*
+   FUNCTION AddExtraFonts()
 
    STATIC lAvailable := .F.
 
    IF ! lAvailable
-      lAvailable := AddFontFromMem( ResourceTTFStop() )
+   lAvailable := AddFontFromMem( ResourceTTFStop() )
    ENDIF
 
    RETURN lAvailable
 
-STATIC FUNCTION AddFontFromMem( cFontTxt )
+   STATIC FUNCTION AddFontFromMem( cFontTxt )
 
    LOCAL nQt := 0
 
@@ -62,7 +62,7 @@ STATIC FUNCTION AddFontFromMem( cFontTxt )
 
    RETURN nQt > 0
 
-STATIC FUNCTION ResourceTTFStop()
+   STATIC FUNCTION ResourceTTFStop()
 
    #pragma __binarystreaminclude "..\resource\stopn.ttf"   | RETURN %s
-*/
+   */

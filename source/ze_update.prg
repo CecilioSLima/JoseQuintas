@@ -51,7 +51,7 @@ FUNCTION ze_Update()
       IF AppVersaoDbfAnt() == 0 .AND. ! Eof()
          AppVersaoDbfAnt( Val( Trim( jpconfi->Cnf_Param ) ) )
          IF AppcnMySqlLocal() != NIL
-            cnMySql:ExecuteCmd( "UPDATE JPCONFI SET CNF_PARAM=" + StringSql( Alltrim( NumberSql( AppVersaoDbfAnt() ) ) ) + " WHERE CNF_NOME='VERSAO'" )
+            cnMySql:ExecuteCmd( "UPDATE JPCONFI SET CNF_PARAM=" + StringSql( AllTrim( NumberSql( AppVersaoDbfAnt() ) ) ) + " WHERE CNF_NOME='VERSAO'" )
             GOTO TOP
             DO WHILE ! Eof()
                IF Trim( jpconfi->cnf_Nome ) == "VERSAO"

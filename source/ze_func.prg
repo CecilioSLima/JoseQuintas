@@ -40,7 +40,7 @@ FUNCTION MyDescend( cText )
 
    IF cFrom == NIL .OR. cTo == NIL
       FOR nCont = 1 TO 255
-         Aadd( acAscii, Chr( nCont ) )
+         AAdd( acAscii, Chr( nCont ) )
       NEXT
       ASort( acAscii )
       cFrom := cTo := ""
@@ -199,38 +199,6 @@ FUNCTION OkGetUnidadeExterior( cNcm, cUnidade )
 
    RETURN lOk
 
-   /*
-   // SaveResource( cResourceName, cFileName )
-
-#pragma BEGINDUMP
-#include <Windows.h>
-#include <hbApi.h>
-
-HB_FUNC( SAVERESOURCE )
-{
- static HRSRC hr;
- static HGLOBAL hg;
- static HANDLE hFile;
- static DWORD bytesWritten;
-
- hr = FindResource( NULL, (LPSTR) hb_parc( 1 ), RT_RCDATA );
- if( ! ( hr == 0 ) )
-   {
-    int size = SizeofResource( NULL, hr );
-    hg = LoadResource( NULL, hr );
-    if( ! ( hg == 0 ) )
-      {
-       char *lpRcData=( char *)LockResource( hg );
-       hFile = CreateFile( (LPSTR) hb_parc( 2 ),GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, 0, NULL );
-       WriteFile( hFile, lpRcData, size, &bytesWritten, NULL );
-       CloseHandle( hFile );
-      }
-   }
-}
-
-#pragma ENDDUMP
-   */
-
    // hb_waEval() -> Executa codeblock pra cada área em uso
    // hb_wEval( { || nCont++ } ) -> Pra retornar quantidade
 
@@ -289,43 +257,43 @@ HB_FUNC( SAVERESOURCE )
 
    RETURN aMapList
    */
-/*
-FUNCTION TrechoJust( mTexto, mColunas )
+   /*
+   FUNCTION TrechoJust( mTexto, mColunas )
 
    LOCAL nPos, mTexto2
 
    nPos = Rat( " ", Left( mTexto + " ", mColunas+1 ) )
    IF nPos == 0
-      nPos = mColunas + 1
+   nPos = mColunas + 1
    ENDIF
    mTexto2 = Left( mTexto, nPos - 1 )
    mTexto  = LTrim( Substr( mTexto, nPos ) )
    IF Len( mTexto ) != 0 // Se ainda tem mais linhas
-      Justifica( @mTexto2, mColunas )
+   Justifica( @mTexto2, mColunas )
    ENDIF
 
    RETURN mTexto2
-*/
+   */
 
-/*
-FUNCTION Justifica( mTexto, mColunas )
+   /*
+   FUNCTION Justifica( mTexto, mColunas )
 
    LOCAL mEspaco := at( " ", mTexto )
 
    IF mEspaco != 0
-      DO WHILE Len( mTexto ) < mColunas
-         mTexto = Stuff( mTexto, mEspaco, 0, " " )
-         DO WHILE Substr( mTexto, mEspaco, 1 ) == " " .AND. mEspaco <= Len( mTexto )
-            mEspaco += 1
-         ENDDO
-         DO WHILE Substr( mTexto, mEspaco, 1 ) != " " .AND. mEspaco <= Len( mTexto )
-            mEspaco += 1
-         ENDDO
-         IF mEspaco >= Len( mTexto )
-            mEspaco = At( " ", mTexto )
-         ENDIF
-      ENDDO
+   DO WHILE Len( mTexto ) < mColunas
+   mTexto = Stuff( mTexto, mEspaco, 0, " " )
+   DO WHILE Substr( mTexto, mEspaco, 1 ) == " " .AND. mEspaco <= Len( mTexto )
+   mEspaco += 1
+   ENDDO
+   DO WHILE Substr( mTexto, mEspaco, 1 ) != " " .AND. mEspaco <= Len( mTexto )
+   mEspaco += 1
+   ENDDO
+   IF mEspaco >= Len( mTexto )
+   mEspaco = At( " ", mTexto )
+   ENDIF
+   ENDDO
    ENDIF
 
    RETURN mTexto
-*/
+   */

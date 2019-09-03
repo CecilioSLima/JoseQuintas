@@ -115,7 +115,7 @@ STATIC FUNCTION DigOcorr( ... )
                :QueryAdd( "RUTEXTO",   mLinha1 )
                :QueryAdd( "RUINFINC",  LogInfo() )
                :QueryExecuteInsert( "JPREGUSO" )
-            END WITH
+            ENDWITH
          ENDIF
          KEYBOARD Chr( K_CTRL_PGUP )
       ENDIF
@@ -161,7 +161,7 @@ STATIC FUNCTION DigOcorr( ... )
                :QueryCreate()
                :QueryAdd( "RUTEXTO", mLinha1 )
                :QueryExecuteUpdate( "JPREGUSO", "RUARQUIVO=" + StringSql( mruArquivo ) + " AND RUCODIGO=" + StringSql( mruCodigo ) + " AND RUID=" + NumberSql( temp->RUID ) )
-            END WITH
+            ENDWITH
          ENDIF
       ENDIF
       WClose()
@@ -199,7 +199,7 @@ FUNCTION GravaOcorrencia( cArquivo, cCodigo, cTexto )
             :QueryAdd( "RUTEXTO",   Trim( Pad( cTexto, 100 ) ) )
             :QueryAdd( "RUINFINC",  LogInfo() )
             :QueryExecuteInsert( "JPREGUSO" )
-         END WITH
+         ENDWITH
       ENDIF
       cTexto := Substr( cTexto, 101 )
    ENDDO

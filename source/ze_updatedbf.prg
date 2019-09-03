@@ -1089,8 +1089,8 @@ STATIC FUNCTION JPNOTACreateDbf()
       { "NFINFALT",  "C", 80 } }
 
    IF AppVersaoDbfAnt() < 99999999
-      Aadd( mStruOk, { "NFMODFIS",  "C", 2 } )
-      Aadd( mStruOk, { "NFCADEMI",  "C", 6 } ) // 0 = propria empresa
+      AAdd( mStruOk, { "NFMODFIS",  "C", 2 } )
+      AAdd( mStruOk, { "NFCADEMI",  "C", 6 } ) // 0 = propria empresa
    ENDIF
 
    IF ! ValidaStru( "jpnota", mStruOk )

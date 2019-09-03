@@ -19,8 +19,8 @@ PROCEDURE pNotaServico
    SELECT jpcadas
    m_dataf  := Date()
    m_Dataf  := Iif( Day( m_Dataf ) < 10, m_Dataf, m_Dataf + 25 )
-   m_dataf  := m_dataf - day( m_dataf )
-   m_datai  := m_dataf - day( m_dataf ) + 1
+   m_dataf  := m_dataf - Day( m_dataf )
+   m_datai  := m_dataf - Day( m_dataf ) + 1
    m_DocDat := Date()
    m_DocVen := Date() - Day( Date() ) + 15
    m_DocTot := 0
@@ -28,9 +28,9 @@ PROCEDURE pNotaServico
    @  4, 5 SAY "Período.....: " GET m_datai
    @ Row(), Col() + 2 SAY "a"
    @ Row(), Col() + 2 GET m_dataf
-   mensagem( "Digite período, ESC Sai" )
+   Mensagem( "Digite período, ESC Sai" )
    READ
-   mensagem()
+   Mensagem()
    IF LastKey() == K_ESC
       RETURN
    ENDIF

@@ -37,7 +37,7 @@ FUNCTION TempFileArray( nQtd, cExt )
    LOCAL acFileName := {}, nCont
 
    FOR nCont = 1 TO nQtd
-      Aadd( acFileName, MyTempFile( cExt ) )
+      AAdd( acFileName, MyTempFile( cExt ) )
    NEXT
 
    RETURN acFileName

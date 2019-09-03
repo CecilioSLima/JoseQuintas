@@ -95,7 +95,7 @@ STATIC FUNCTION ListaOpcoes( mOpcoes, nLevel, cSelecao, acMenu, cnInternet )
          cModule := ""
       ENDIF
       cDescription := oElement[ 1 ]
-      Aadd( acMenu, Pad( cSelecao + StrZero( nNumOpcao, 2 ) + ".", 15 ) + Space( nLevel * 3 ) + cDescription + iif( Len( cModule ) !=  0, " (" + oElement[ 3 ] + ")", "" ) )
+      AAdd( acMenu, Pad( cSelecao + StrZero( nNumOpcao, 2 ) + ".", 15 ) + Space( nLevel * 3 ) + cDescription + iif( Len( cModule ) !=  0, " (" + oElement[ 3 ] + ")", "" ) )
       IF ! Empty( cModule )
          cnInternet:cSql := "UPDATE WEBHELP SET HLEXISTE='S', HLDESCRICAO=" + StringSql( cDescription ) + " WHERE HLMODULO=" + StringSql( AllTrim( cModule ) )
          cnInternet:ExecuteCmd()

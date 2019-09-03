@@ -43,7 +43,7 @@ PROCEDURE pPreCancel
          :MoveNext()
       ENDDO
       :CloseRecordset()
-   END WITH
+   ENDWITH
    CLOSE DATABASES
 
    RETURN

@@ -13,7 +13,7 @@ Note: Wrong parameters may cause crash. Not all methods have required conversion
 #define RMC_USERWMCOLOR    RMC_COLOR_BLACK  // Color for the watermark
 #define RMC_USERWMLUCENT   30               // Lucent factor between 1(=not visible) and 255(=opaque)
 #define RMC_USERWMALIGN    RMC_TEXTCENTER   // Alignment for the watermark
-#define RMC_USERFONTSIZE   0                // Fontsize; if 0: maximal size is used
+#define RMC_USERFONTSIZE   0                // Fontsize; IF 0: maximal size is used
 
 CREATE CLASS RMChartClass
 
@@ -50,7 +50,7 @@ CREATE CLASS RMChartClass
    METHOD CoText( ... )                    INLINE ::CallDllStd( "RMC_COTEXT", ... )
    METHOD CoVisible( ... )                 INLINE ::CallDllStd( "RMC_COVISIBLE", ... )
    METHOD CreateChart( ... )               INLINE ::CallDllStd( "RMC_CREATECHART", ... )
-   /* METHOD CreateChartOnDc( ... )           INLINE ::CallDllStd( "RMC_CREATECHARONDC", ... )  // uncomment if you know what you are doing */
+   /* METHOD CreateChartOnDc( ... )           INLINE ::CallDllStd( "RMC_CREATECHARONDC", ... )  // uncomment IF you know what you are doing */
    METHOD CreateChartFromFile( ... )       INLINE ::CallDllStd( "RMC_CREATECHARFROMFILE", ... )
    METHOD DeleteChart( ... )               INLINE ::CallDllStd( "RMC_DELETECHART", ... )
    METHOD Draw( ... )                      INLINE ::CallDllStd( "RMC_DRAW", ... )

@@ -26,7 +26,7 @@ PROCEDURE pFiscCorrecao
    mDataCarta := Date()
 
    FOR m_Cont = 1 TO 9
-      m_CCont := str( m_Cont, 1 )
+      m_CCont := Str( m_Cont, 1 )
       m_Irreg&m_CCont := Space(6)
       m_Descr&m_CCont := Space(27)
    NEXT
@@ -63,7 +63,7 @@ PROCEDURE pFiscCorrecao
       Mensagem( "Digite dados, F9 Pesquisa, ESC Sai" )
       READ
       Mensagem()
-      IF lastkey() == K_ESC
+      IF LastKey() == K_ESC
          EXIT
       ENDIF
 
@@ -74,13 +74,13 @@ PROCEDURE pFiscCorrecao
             @ 8+m_Cont, 20 GET m_Descr&m_CCont PICTURE "@KS55"
          ELSE
             m_Descr&m_CCont := Space(77)
-            @ 8+m_Cont, 20 SAY left(m_Descr&m_CCont,55)
+            @ 8+m_Cont, 20 SAY Left(m_Descr&m_CCont,55)
          ENDIF
       NEXT
       Mensagem( "Digite as descrições, F9 Pesquisa, ESC Sai" )
       READ
       Mensagem()
-      IF lastkey() == K_ESC
+      IF LastKey() == K_ESC
          EXIT
       ENDIF
 
@@ -123,7 +123,7 @@ STATIC FUNCTION imprime()
    oPDF:nRow += 1
    oPDF:DrawText( oPDF:nRow++, 0, "         Ref.: CONFERENCIA DE DOCUMENTO FISCAL E COMUNICACAO DE INCORRECOES" )
    oPDF:DrawText( oPDF:nRow++, 0, Space(85) + "!" + Space(41) + "!" )
-   oPDF:DrawText( oPDF:nRow++, 0, "            (X) " + iif( m_CliFor == "F", "S", "N" ) + "/ NOTA FISCAL No. " + str( mNfAqui ) + " SERIE " + mSerieAqui + " DE " + dtoc( mDataDoc ) + ;
+   oPDF:DrawText( oPDF:nRow++, 0, "            (X) " + iif( m_CliFor == "F", "S", "N" ) + "/ NOTA FISCAL No. " + Str( mNfAqui ) + " SERIE " + mSerieAqui + " DE " + Dtoc( mDataDoc ) + ;
       Space(23) + "`----------" + Space(21) + "----------'" )
    oPDF:nRow += 1
    oPDF:DrawText( oPDF:nRow++, 0, "      Em face do que determina a legislacao fiscal vigente, vimos pela presente comunicar-lhe(s) que o  documento  em referencia" )
@@ -156,7 +156,7 @@ STATIC FUNCTION imprime()
    oPDF:DrawText( oPDF:nRow++, 0, " ! Codigos com Irregularidades !                   Retificacoes a Serem Consideradas                                           !" )
    oPDF:DrawText( oPDF:nRow++, 0, " !-----------------------------!-----------------------------------------------------------------------------------------------!" )
    FOR m_Cont = 1 TO 9
-      m_CCont = str(m_Cont,1)
+      m_CCont = Str(m_Cont,1)
       oPDF:DrawText( oPDF:nRow++, 0, " !              "+iif( Val( m_irreg&m_CCont ) == 0, "  ", StrZero( Val( m_irreg&m_CCont ), 2 ) ) + "             ! " + Pad( m_descr&m_CCont, 94 ) + "!" )
    NEXT
    oPDF:DrawText( oPDF:nRow++, 0, " `"+ Replicate( "-", 125 ) + "'" )

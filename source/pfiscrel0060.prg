@@ -17,8 +17,8 @@ PROCEDURE pFiscRel0060
    SELECT jplfisc
 
    nOpcData = 1
-   m_Datai = CToD( "" )
-   m_Dataf = CToD( "" )
+   m_Datai = Ctod( "" )
+   m_Dataf = Ctod( "" )
    acTxtData := { "Todas", "Intervalo" }
 
    nOpcOrdem := 1
@@ -40,7 +40,7 @@ PROCEDURE pFiscRel0060
          TxtImprime(), ;
          TxtSalva(), ;
          "Datas.....: " + iif( nOpcData == 1, acTxtData[ 1 ], ;
-         DToC( m_Datai ) + " A " + DToC( m_Dataf ) ), ;
+         Dtoc( m_Datai ) + " A " + Dtoc( m_Dataf ) ), ;
          "Ordem.....: " + acTxtOrdem[ nOpcOrdem ], ;
          "Movimento.: " + acTxtEntSai[ nOpcEntSai ], ;
          "Saída.....: " + txtSaida()[ nOpcPrinterType ] }
@@ -89,7 +89,7 @@ STATIC FUNCTION imprime()
    oPDF:Begin()
    oPDF:acHeader := { "", "", "", "", "", "" }
    oPDF:acHeader[ 1 ] := "LISTAGEM DE CONFERENCIA - LIVROS FISCAIS"
-   oPDF:acHeader[ 2 ] := "Periodo: " + DToC( m_Datai ) + " a " + DToC( m_Dataf )
+   oPDF:acHeader[ 2 ] := "Periodo: " + Dtoc( m_Datai ) + " a " + Dtoc( m_Dataf )
    oPDF:acHeader[ 3 ] := "         ------------- DOCUMENTOS FISCAIS-------------               --CODIFICACAO-- --------ICMS/IPI VALORES FISCAIS--------"
    oPDF:acHeader[ 4 ] := "DATA DO       SERIE               DATA    CLI/     UF       VALOR                     ICMS COD BASE DE CALC.      IMPOSTO"
    oPDF:acHeader[ 5 ] := "LANCTO.  ESP. SUB-S    NUMERO     NF ENT  FORN. LANCTO    CONTABIL   NUM.LCTO FISCAL IPI  (A)  VL.OPERACAO  ALIQ  LANCADO     OBS."

@@ -23,7 +23,7 @@ PROCEDURE pFiscTotais
    fErase( mTmpFile[ 1 ] )
    SELECT 0
    dbCreate( mTmpFile[ 1 ], mStruOk )
-   USE ( mTmpFile[ 1] ) alias temp
+   USE ( mTmpFile[ 1] ) ALIAS temp
    INDEX ON temp->Mes TO ( mTmpFile[ 2 ] )
    SELECT jplfisc
    OrdSetFocus( "jplfisc3" )

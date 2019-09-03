@@ -19,8 +19,8 @@ FUNCTION PrintPreview( cFileName, lCompress )
    AAdd( oFrm:acMenuOptions, "<Up>Sobe" )
    AAdd( oFrm:acMenuOptions, "<Down>Desce" )
    AAdd( oFrm:acMenuOptions, "<F>Folha" )
-   Aadd( oFrm:acMenuOptions, "<M>Email" )
-   Aadd( oFrm:acMenuOptions, "<L>Imprime" )
+   AAdd( oFrm:acMenuOptions, "<M>Email" )
+   AAdd( oFrm:acMenuOptions, "<L>Imprime" )
    oFrm:cOptions       := ""
    oFrm:lPrintCompress := lCompress
    wSave()
@@ -175,7 +175,7 @@ METHOD Print( lIsPrinter ) CLASS PrintPreviewClass
    READ
    wClose()
    Mensagem()
-   IF Lastkey() == K_ESC
+   IF LastKey() == K_ESC
       ::GUIEnable()
       RETURN NIL
    ENDIF

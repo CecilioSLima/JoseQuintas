@@ -54,7 +54,7 @@ FUNCTION ChecaAguarde( lCriaAguarde, cTexto )
       RETURN NIL
    ENDIF
    DO WHILE File( "aguarde.txt" )
-      Cls
+      CLS
       ?
       ? "Atenção!"
       ?
@@ -84,7 +84,7 @@ FUNCTION ChecaAguarde( lCriaAguarde, cTexto )
          QUIT
       ENDIF
    ENDDO
-   Cls
+   CLS
    ?
    ? "Como pode se tratar de uma atualização de versao do programa"
    ? "será necessário carregar o sistema novamente."

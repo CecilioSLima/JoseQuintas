@@ -97,13 +97,13 @@ METHOD Especifico( lExiste ) CLASS AUXPISCSTClass
 METHOD Valida( cCst, lMostra ) CLASS AUXPISCSTClass
 
    hb_Default( @lMostra, .T. )
-   @ Row(), 32 Say EmptyValue( jptabel->axDescri )
+   @ Row(), 32 SAY EmptyValue( jptabel->axDescri )
    IF ! Encontra( AUX_PISCST + cCst, "jptabel", "numlan" )
       MsgStop( "CST PIS não cadastrado!" )
       RETURN .F.
    ENDIF
    IF lMostra
-      @ Row(), 32 Say jptabel->axDescri
+      @ Row(), 32 SAY jptabel->axDescri
    ENDIF
 
    RETURN .T.

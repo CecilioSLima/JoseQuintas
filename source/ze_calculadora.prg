@@ -290,11 +290,11 @@ METHOD Show() CLASS CalculatorClass
 METHOD WriteTape( cFlag, nValue ) CLASS CalculatorClass
 
    IF cFlag == NIL
-      Aadd( ::acTape, Pad( "", ::nWidth - 2 ) )
+      AAdd( ::acTape, Pad( "", ::nWidth - 2 ) )
    ELSEIF Substr( cFlag, 1, 1 ) == "M"
       AAdd( ::acTape, Padl( ValToSTring( nValue ), ::nWidth - 5 ) + " " + cFlag )
    ELSE
-      Aadd( ::acTape, Padl( ValToString( Val( ::cValueDisplay ) ), ::nWidth - 4 ) + " " + cFlag )
+      AAdd( ::acTape, Padl( ValToString( Val( ::cValueDisplay ) ), ::nWidth - 4 ) + " " + cFlag )
    ENDIF
 
    RETURN NIL
@@ -384,7 +384,7 @@ METHOD GUIShow() CLASS CalculatorClass
          //         oControl:Activate := &( [{ || __Keyboard( "] + ::acKeyboard[ nCont, nCont2 ] + [" ) }] )
          oControl:Activate := BuildBlockHB_KeyPut( Asc( ::acKeyboard[ nCont, nCont2 ] ) )
          oControl:ToolTipText( KeyToolTip( oControl:Caption ) )
-         Aadd( ::aGUIButtons, oControl )
+         AAdd( ::aGUIButtons, oControl )
       NEXT
    NEXT
 

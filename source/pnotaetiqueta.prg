@@ -11,7 +11,7 @@ PROCEDURE pNotaEtiqueta
    MEMVAR m_Prog
 
    IF AppcnMySqlLocal() == NIL
-      IF ! AbreArquivos( "jpreguso", "jpdecret" )
+      IF ! AbreArquivos( "jpreguso" )
          RETURN
       ENDIF
    ENDIF
@@ -50,7 +50,7 @@ PROCEDURE pNotaEtiqueta
       Mensagem( "Digite dados, F9 pesquisa, ESC sai" )
       READ
       Mensagem()
-      IF lastkey() == K_ESC
+      IF LastKey() == K_ESC
          EXIT
       ENDIF
       IF ! ConfirmaImpressao()

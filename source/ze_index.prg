@@ -31,7 +31,7 @@ FUNCTION ModuloPackIndex( aDbfInd, lNoUserSelection )
       ELSE
          nOpcAll := MouseMenu( acTxtAll, nOpcAll )
       ENDIF
-      IF lastkey() == K_ESC .OR. nOpcAll == 0
+      IF LastKey() == K_ESC .OR. nOpcAll == 0
          EXIT
       ENDIF
 
@@ -59,7 +59,7 @@ FUNCTION ModuloPackIndex( aDbfInd, lNoUserSelection )
          Mensagem( "Selecione e tecle ENTER, ESC sai (se não souber, é melhor fazer para todos)" )
          nOpcFile = achoice( 8, 21, Min( MaxRow() - 5, 7 + Len( acTxtDbf ) ), 69, acTxtDbf, alMakeIndex )
 
-         IF lastkey() == K_ESC .OR. nOpcFile == 0
+         IF LastKey() == K_ESC .OR. nOpcFile == 0
             EXIT
          ENDIF
 

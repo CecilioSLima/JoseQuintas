@@ -59,7 +59,7 @@ FUNCTION FuncWAchoice( m_modo, m_elem, m_posi )
 
    hb_Default( @m_Posi, 0 )
    hb_Default( @m_Modo, 0 )
-   nLastKey := lastkey()
+   nLastKey := LastKey()
 
    DO CASE
    CASE nLastKey == K_ESC
@@ -110,12 +110,12 @@ FUNCTION WAchoice( nTop, nLeft, aTexto, nOpcao, cTitulo, nTamanho )
       nBottom := MaxRow() - 2
       nTop := Max( 1, nBottom - Len( aTexto ) - iif( Empty( cTitulo ), 1, 2 ) )
    ENDIF
-   IF empty( cTitulo )
+   IF Empty( cTitulo )
       WOpen( nTop, nLeft, nBottom, nLeft + nTamanho )
    ELSE
       WOpen( nTop, nLeft, nBottom, nLeft + nTamanho, cTitulo )
    ENDIF
-   FazAchoice( nTop + iif( empty( cTitulo ), 1, 2 ), nLeft + 1, nBottom - 1, nLeft + nTamanho - 1, aTexto, @nOpcao )
+   FazAchoice( nTop + iif( Empty( cTitulo ), 1, 2 ), nLeft + 1, nBottom - 1, nLeft + nTamanho - 1, aTexto, @nOpcao )
    WClose()
    SetColor( cSetColor )
 
@@ -126,20 +126,20 @@ FUNCTION WAchoiceNoClose( nTop, nLeft, aTexto, nOpcao, cTitulo, nTamanho )
    LOCAL nBottom, cSetColor
 
    cSetColor := SetColor()
-   hb_Default( @nTamanho, int( ( MaxCol() + 1 ) / 2 ) )
+   hb_Default( @nTamanho, Int( ( MaxCol() + 1 ) / 2 ) )
    hb_Default( @cTitulo, "" )
    nBottom := nTop + Len( aTexto ) + iif( Empty( cTitulo ), 1, 2 )
    IF nBottom > MaxRow() - 2
       nBottom := MaxRow() - 2
       nTop := Max( 1, nBottom - Len( aTexto ) - iif( Empty( cTitulo ), 1, 2 ) )
    ENDIF
-   IF empty( cTitulo )
+   IF Empty( cTitulo )
       WOpen( nTop, nLeft, nBottom, nLeft + nTamanho )
    ELSE
       WOpen( nTop, nLeft, nBottom, nLeft + nTamanho, cTitulo )
    ENDIF
    Mensagem( "Selecione e tecle ENTER, ou código, ESC volta" )
-   FazAchoice( nTop + iif( empty( cTitulo ), 1, 2 ), nLeft + 1, nBottom - 1, nLeft + nTamanho - 1, aTexto, @nOpcao )
+   FazAchoice( nTop + iif( Empty( cTitulo ), 1, 2 ), nLeft + 1, nBottom - 1, nLeft + nTamanho - 1, aTexto, @nOpcao )
    SetColor( cSetColor )
 
    RETURN NIL

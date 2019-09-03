@@ -508,7 +508,7 @@ METHOD wvgtstControl:new( oParent, oOwner, aPos, aSize, aPresParams, lVisible )
 
    ::wvgWindow:new( oParent, oOwner, aPos, aSize, aPresParams, lVisible )
 
-   RETURN Self
+   RETURN SELF
 
 METHOD wvgtstControl:create( oParent, oOwner, aPos, aSize, aPresParams, lVisible )
 
@@ -633,6 +633,7 @@ METHOD PROCEDURE wvgtstControl:destroy()
       wvg_DeleteObject( hOldFont )
    ENDIF
    ::wvgWindow:Destroy()
+
    RETURN
 
 METHOD wvgtstControl:configure( oParent, oOwner, aPos, aSize, aPresParams, lVisible )

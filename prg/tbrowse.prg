@@ -12,12 +12,12 @@
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 * GNU General Public License for more details.
 * You should have received a copy of the GNU General Public License
-* along with this software; see the file COPYING.txt.  If not, write to
+* along with this software; see the file COPYING.txt.  IF not, write to
 * the Free Software Foundation, Inc., 59 Temple Place, Suite 330,
 * Boston, MA 02111-1307 USA (or visit the web site https://www.gnu.org/).
 * As a special exception, the Harbour Project gives permission for
 * additional uses of the text contained in its release of Harbour.
-* The exception is that, if you link the Harbour libraries with other
+* The exception is that, IF you link the Harbour libraries with other
 * files to produce an executable, this does not by itself cause the
 * resulting executable to be covered by the GNU General Public License.
 * Your use of that executable is in no way restricted on account of
@@ -25,15 +25,15 @@
 * This exception does not however invalidate any other reasons why
 * the executable file might be covered by the GNU General Public License.
 * This exception applies only to the code released by the Harbour
-* Project under the name Harbour.  If you copy code from other
+* Project under the name Harbour.  IF you copy code from other
 * Harbour Project or Free Software Foundation releases into a copy of
 * Harbour, as the General Public License permits, the exception does
 * not apply to the code that you add in this way.  To avoid misleading
 * anyone as to the status of such modified files, you must delete
 * this exception notice from them.
-* If you write modifications of your own for Harbour, it is your choice
+* IF you write modifications of your own for Harbour, it is your choice
 * whether to permit this exception to apply to your modifications.
-* If you do not wish that, delete this exception notice.
+* IF you do not wish that, delete this exception notice.
 */
 
 #define HB_CLS_NOTOBJECT
@@ -47,7 +47,7 @@
 #include "setcurs.ch"
 #include "tbrowse.ch"
 
-/* HB_BRW_STATICMOUSE controls if mouse position is static
+/* HB_BRW_STATICMOUSE controls IF mouse position is static
 * and set by call to HitTest() method or dynamic calculated
 * by calls to MPOS() / MCol(). CL53 uses dynamic mouse but
 * I guess that some Harbour GUI libraries inherit from TBrowse
@@ -166,26 +166,26 @@ CREATE CLASS TBrowse
 
    METHOD colorSpec( cColorSpec ) SETGET        // get/set string value with color table for the TBrowse display
 
-   ACCESS rowPos    METHOD getRowPos            // get current cursor row position
+   ACCESS rowPos    METHOD getRowPos            // GET current cursor row position
    ASSIGN rowPos    METHOD setRowPos            // set current cursor row position
 
-   ACCESS colPos    METHOD getColPos            // get current cursor column position
+   ACCESS colPos    METHOD getColPos            // GET current cursor column position
    ASSIGN colPos    METHOD setColPos            // set current cursor column position
 
-   ACCESS freeze    METHOD getFrozen            // get number of frozen columns
+   ACCESS freeze    METHOD getFrozen            // GET number of frozen columns
    ASSIGN freeze    METHOD freeze               // set number of columns to freeze
 
-   ACCESS hitTop    METHOD getTopFlag           // get the beginning of available data flag
+   ACCESS hitTop    METHOD getTopFlag           // GET the beginning of available data flag
    ASSIGN hitTop    METHOD setTopFlag           // set the beginning of available data flag
 
-   ACCESS hitBottom METHOD getBottomFlag        // get the end of available data flag
+   ACCESS hitBottom METHOD getBottomFlag        // GET the end of available data flag
    ASSIGN hitBottom METHOD setBottomFlag        // set the end of available data flag
 
-   ACCESS autoLite  METHOD getAutoLite          // get automatic highlighting state
+   ACCESS autoLite  METHOD getAutoLite          // GET automatic highlighting state
    ASSIGN autoLite  METHOD setAutoLite          // set automatic highlighting
 
-   ACCESS stable    METHOD getStableFlag        // get flag indicating if the TBrowse object is stable
-   ASSIGN stable    METHOD setStableFlag        // set flag indicating if the TBrowse object is stable
+   ACCESS stable    METHOD getStableFlag        // GET flag indicating IF the TBrowse object is stable
+   ASSIGN stable    METHOD setStableFlag        // set flag indicating IF the TBrowse object is stable
 
    METHOD addColumn( oCol )                     // adds a TBColumn object to the TBrowse object
    METHOD delColumn( nColumn )                  // delete a column object from a browse
@@ -252,14 +252,14 @@ CREATE CLASS TBrowse
    VAR nLastPos      AS INTEGER INIT 0          // last calculated column position
    VAR lHitTop       AS LOGICAL INIT .F.        // indicates the beginning of available data
    VAR lHitBottom    AS LOGICAL INIT .F.        // indicates the end of available data
-   VAR lHiLited      AS LOGICAL INIT .F.        // indicates if current cell is highlighted
+   VAR lHiLited      AS LOGICAL INIT .F.        // indicates IF current cell is highlighted
    VAR lAutoLite     AS LOGICAL INIT .T.        // logical value to control highlighting
-   VAR lStable       AS LOGICAL INIT .F.        // indicates if the TBrowse object is stable
+   VAR lStable       AS LOGICAL INIT .F.        // indicates IF the TBrowse object is stable
    VAR lInvalid      AS LOGICAL INIT .T.        // indicates that TBrowse object data should be fully redrawn
    VAR lRefresh      AS LOGICAL INIT .F.        // indicates that record buffer should be discarded in next stabilization
    VAR lFrames       AS LOGICAL INIT .F.        // indicates that headings and footings should be redrawn
-   VAR lHeadSep      AS LOGICAL INIT .F.        // indicates if heading separator exists
-   VAR lFootSep      AS LOGICAL INIT .F.        // indicates if footing separator exists
+   VAR lHeadSep      AS LOGICAL INIT .F.        // indicates IF heading separator exists
+   VAR lFootSep      AS LOGICAL INIT .F.        // indicates IF footing separator exists
    VAR aColData      AS ARRAY   INIT {}         // column information, see _TBCI_*
    VAR aColors       AS ARRAY   INIT {}         // array with TBrowse colors, see _TBC_CLR_*
    VAR aDispStatus   AS ARRAY   INIT {}         // record buffer status
@@ -282,7 +282,7 @@ CREATE CLASS TBrowse
    METHOD dispRow( nRow )                       // display TBrowse data
 
 #ifndef HB_BRW_STATICMOUSE
-   FRIEND FUNCTION _mBrwPos                     // helper function for MRow() and MCol() methods
+   FRIEND FUNCTION _mBrwPos                     // helper FUNCTION for MRow() and MCol() methods
 #endif
 
    ENDCLASS
@@ -541,7 +541,7 @@ METHOD colorRect( aRect, aColors ) CLASS TBrowse
          ;
          HB_ISARRAY( aColors ) .AND. Len( aColors ) >= 2 .AND. ;
          HB_ISNUMERIC( aColors[ 1 ] ) .AND. HB_ISNUMERIC( aColors[ 2 ] ) .AND. ;
-         ; /* in colorRect() index 0 is not supported */
+         ; /* in colorRect() INDEX 0 is not supported */
          aColors[ 1 ] >= 1 .AND. aColors[ 1 ] <= Len( ::aColors ) .AND. ;
          aColors[ 2 ] >= 1 .AND. aColors[ 2 ] <= Len( ::aColors )
 
@@ -838,7 +838,7 @@ METHOD stabilize() CLASS TBrowse
 
 METHOD forceStable() CLASS TBrowse
 
-   /* TODO: CA-Cl*pper does not call ::stabilize() if TBrowse object
+   /* TODO: CA-Cl*pper does not call ::stabilize() IF TBrowse object
    *       is stable and does not need screen update. It may be important
    *       for applications which do not expect that cursor position may
    *       be changed. I'll change it in the future but first I will have
@@ -865,7 +865,7 @@ METHOD colorValue( nColorIndex ) CLASS TBrowse
    IF HB_ISNUMERIC( nColorIndex )
       IF nColorIndex >= 1 .AND. nColorIndex <= Len( ::aColors )
          RETURN ::aColors[ nColorIndex ]
-         /* In CA-Cl*pper index 0 has special meaning - it's always N/N color */
+         /* In CA-Cl*pper INDEX 0 has special meaning - it's always N/N color */
       ELSEIF nColorIndex == 0
          RETURN "N/N"
       ENDIF
@@ -904,12 +904,12 @@ STATIC FUNCTION _DECODECOLORS( cColorSpec )
 
    FOR nPos := 1 TO nColors
       cColor := hb_tokenGet( cColorSpec, nPos, "," )
-      /* For 1-st two colors CA-Cl*pper checks if given color
+      /* For 1-st two colors CA-Cl*pper checks IF given color
       * definition has at least one of the following characters:
       * "*+/bBgGrRwWnNiIxXuU0123456789"
-      * If not then it takes default color value.
+      * IF not then it takes default color value.
       * In Harbour this validation is redirected to GT system which
-      * decides if passed string is valid color definition. The default
+      * decides IF passed string is valid color definition. The default
       * GT implementation accepts exactly the same color definitions
       * as CA-Cl*pper but some new GTs may accept extended color
       * definitions and use a little bit different rules. [druzus]
@@ -933,8 +933,8 @@ STATIC FUNCTION _DECODECOLORS( cColorSpec )
 
    /* Color indexes returned by oCol:defColor are adopted to existing
    * TBrowse colors and buffered during configuration.
-   * When index is greater then size of colorspec the default index is used
-   * Index 0 has special meaning - it's color "N/N"
+   * When INDEX is greater then size of colorspec the default INDEX is used
+   * INDEX 0 has special meaning - it's color "N/N"
    * In CL5.3 headings and footings can have separated indexes (3 and 4)
    * but only when browser shows head/foot separator(s). [druzus]
    */
@@ -962,7 +962,7 @@ STATIC FUNCTION _COLDEFCOLORS( aDefColorsIdx, nMaxColorIndex )
 
    RETURN aColorsIdx
 
-   /* If oCol:colorBlock does not return array length enough then colors
+   /* IF oCol:colorBlock does not return array length enough then colors
    * are taken from preprocessed during configuration oCol:defColor array.
    * oCol:colorBlock is used only for cells so only 1-st two color indexes
    * are significant. [druzus]
@@ -1613,13 +1613,13 @@ STATIC PROCEDURE _SETVISIBLE( aColData, nWidth, nFrozen, nLeft, nRight )
    LOCAL lLeft, lRight, lFirst
    LOCAL nColCount := Len( aColData )
 
-   /* Check if frozen columns are still valid, if not reset it to 0
+   /* Check IF frozen columns are still valid, IF not reset it to 0
    * It also calculates the size left for unfrozen columns [druzus]
    */
    nFrozen := _MAXFREEZE( nFrozen, aColData, @nWidth )
 
    /* CA-Cl*pper checks here only for columns number and does not check
-   * if at least one column is visible (oCol:width > 0) and if not then
+   * IF at least one column is visible (oCol:width > 0) and IF not then
    * wrongly calculates visible columns and some internal indexes.
    * Using linkers like EXOSPACE with memory protection it causes
    * application crash with GPF. [druzus]
@@ -1849,7 +1849,7 @@ METHOD colWidth( nColumn ) CLASS TBrowse
 
    RETURN 0
 
-   /* get number of frozen columns */
+   /* GET number of frozen columns */
 
 METHOD getFrozen() CLASS TBrowse
 

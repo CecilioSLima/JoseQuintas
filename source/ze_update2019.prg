@@ -10,6 +10,7 @@ FUNCTION ze_Update2019()
 
    IF AppVersaoDbfAnt() < 20190202.2; Conv0202(); ENDIF
    IF AppVersaoDBFAnt() < 20190510.1; Fixa6Digitos(); ENDIF // Executar mais vezes por precaução
+   IF AppVersaoDbfAnt() < 20190902; Apagajpdecret(); ENDIF
    IF .F. .AND. AppVersaoDbfAnt() < 20190511; RenumNota(); ENDIF // Demorado, invalida relatórios/controles
    IF .F. .AND. AppVersaoDbfAnt() < 20190512; RenumEstoq(); ENDIF // Demorado, invalida relatórios/controles
    IF .F. .AND. AppVersaoDbfAnt() < 20190513; RenumFinan(); ENDIF // Demorado, invalida relatórios/controles
@@ -326,5 +327,12 @@ STATIC FUNCTION RenumPedido()
       GravaCnf( "JPPEDI", cNumNovo )
    ENDIF
    CLOSE DATABASES
+
+   RETURN NIL
+
+STATIC FUNCTION ApagaJpdecret()
+
+   fErase( "jpdecret.dbf" )
+   fErase( "jpdecret.cdx" )
 
    RETURN NIL

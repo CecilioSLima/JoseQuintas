@@ -19,8 +19,8 @@ PROCEDURE pFiscRel0070
    ordSetFocus( "jplfisc4" )
 
    nOpcData = 1
-   m_datai = CToD( "" )
-   m_dataf = CToD( "" )
+   m_datai = Ctod( "" )
+   m_dataf = Ctod( "" )
    acTxtData := { "Todas", "Intervalo" }
 
    nOpcPrinterType := AppPrinterType()
@@ -35,7 +35,7 @@ PROCEDURE pFiscRel0070
       acTxtGeral := { ;
          TxtImprime(), ;
          "Datas.....: " + iif( nOpcData == 1, acTxtData[ 1 ], ;
-         DToC( m_datai ) + " A " + DToC( m_dataf ) ), ;
+         Dtoc( m_datai ) + " A " + Dtoc( m_dataf ) ), ;
          "Saída.....: " + TxtSaida()[ nOpcPrinterType ] }
 
       FazAchoice( 7, 5, 6 + Len( acTxtGeral ), 44, acTxtGeral, @nOpcGeral )
@@ -80,7 +80,7 @@ STATIC FUNCTION imprime()
    IF nOpcData == 1
       oPDF:acHeader[ 2 ] = ""
    ELSE
-      oPDF:acHeader[ 2 ] = "Periodo: " + DToC( m_datai ) + " a " + DToC( m_dataf )
+      oPDF:acHeader[ 2 ] = "Periodo: " + Dtoc( m_datai ) + " a " + Dtoc( m_dataf )
    ENDIF
    oPDF:acHeader[ 2 ] += " - VALORES SEM CENTAVOS"
    oPDF:acHeader[ 3 ] = jpempre->emNome + " - CNPJ: " + jpempre->emCnpj + ;

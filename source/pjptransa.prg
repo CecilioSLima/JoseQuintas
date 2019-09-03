@@ -42,7 +42,7 @@ METHOD GridSelection() CLASS JPTRANSAClass
    SELECT jptransa
    cOrdSetFocus := OrdSetFocus( "descricao" )
    FazBrowse()
-   IF Lastkey() != K_ESC .AND. ! Eof()
+   IF LastKey() != K_ESC .AND. ! Eof()
       KEYBOARD jptransa->trTransa + Chr( K_ENTER )
    ENDIF
    OrdSetFocus( cOrdSetFocus )

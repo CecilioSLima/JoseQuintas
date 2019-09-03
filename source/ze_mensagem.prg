@@ -83,9 +83,9 @@ STATIC FUNCTION MensagemCentral( cTexto, mAceita, mBeep )
    Scroll( nRow - 1, nCol, nRow + 8, nCol + 44, 0 )
    @ nRow - 1, nCol SAY " - " COLOR SetColorTituloBox()
    @ nRow - 1, nCol + 3 SAY Pad( " Atencao", 42 ) COLOR SetColorTituloBox()
-   @ nRow + 2, nCol + 1 SAY PadC( aTextList[ 1 ], 42 )
-   @ nRow + 3, nCol + 1 SAY PadC( aTextList[ 2 ], 42 )
-   @ nRow + 4, nCol + 1 SAY PadC( aTextList[ 3 ], 42 )
+   @ nRow + 2, nCol + 1 SAY Padc( aTextList[ 1 ], 42 )
+   @ nRow + 3, nCol + 1 SAY Padc( aTextList[ 2 ], 42 )
+   @ nRow + 4, nCol + 1 SAY Padc( aTextList[ 3 ], 42 )
    IF mBeep == 1
       wapi_MessageBeep()
    ENDIF
