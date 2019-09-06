@@ -198,9 +198,7 @@ PROCEDURE Pesquisa
       cKeyboard := SoNumeros( ctplano->a_Codigo )
 
    CASE cVarName $ "mlei1,mlei2,mlei3,mlei4,mlei5"
-      SELECT jpdecret
-      FazBrowse()
-      cKeyboard := jpdecret->deNumLan
+      jpdecretClass():GridSelection()
 
    CASE cVarName $ "memtriemp" .OR. ( cVarName == "maxcodigo" .AND. m_Prog == "PLEISTRIEMP" )
       EscolheTab( AUX_TRIEMP, mRow, mCol )

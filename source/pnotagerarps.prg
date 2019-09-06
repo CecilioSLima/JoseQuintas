@@ -10,7 +10,7 @@ PROCEDURE pNotaGeraRps
    LOCAL mnfNotFisi, mnfNotFisf, mTxtFile, nVlTotal, GetList := {}, mDatEmi, nQtTotal
 
    IF AppcnMySqlLocal() == NIL
-      IF ! AbreArquivos( "jpreguso", "jpdecret" )
+      IF ! AbreArquivos( "jpreguso" )
          RETURN
       ENDIF
    ENDIF

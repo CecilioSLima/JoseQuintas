@@ -10,6 +10,7 @@ PROCEDURE pLeisIbpt
 
    LOCAL oFrm := LeisIbptClass():New()
 
+   MsgExclamation( "Opcao pra DBF não disponível" )
    IF ! AbreArquivos( "jpibpt" )
       RETURN
    ENDIF

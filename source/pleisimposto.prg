@@ -13,7 +13,7 @@ PROCEDURE pLeisImposto
    LOCAL mimTransa := "X", mimTriUf := "X", mimTriCad := "X", mimTriPro := "X", mimNumLan
 
    IF AppcnMySqlLocal() == NIL
-      IF ! AbreArquivos( "jpreguso", "jpdecret" )
+      IF ! AbreArquivos( "jpreguso" )
          RETURN
       ENDIF
    ENDIF
@@ -244,43 +244,28 @@ METHOD TelaDados( lEdit ) CLASS JPIMPOSClass
       @ Row() + 1, 1     SAY "Simples Créd.ICMS:" GET mimIcsAli PICTURE "999.99999" VALID mimIcsAli >= 0 WHEN TemCredSimples( mimIcmCst, @mimIcsAli )
       @ Row() + 1, 1     SAY "Lei/Decreto 1....:" GET mimLei[1] PICTURE "@K 999999" VALID JPDECRETClass():Valida( @mimLei[ 1 ] )
       //::AddF9( lEdit )
-      IF AppcnMySqlLocal() == NIL
-         Encontra( mimLei[ 1 ], "jpdecret", "numlan" )
-         @ Row(), 32      SAY jpdecret->deNome
-      ELSE
-         cnJPDECRET:cSql := "SELECT * FROM JPDECRET WHERE DENUMLAN=" + StringSql( mimLei[ 1 ] )
-         cnJPDECRET:Execute()
-         IF ! cnJPDECRET:Eof()
-            @ Row(), 32 SAY cnJPDECRET:StringSql( "DENOME" )
-         ENDIF
-         cnJPDECRET:CloseRecordset()
+      cnJPDECRET:cSql := "SELECT * FROM JPDECRET WHERE DENUMLAN=" + StringSql( mimLei[ 1 ] )
+      cnJPDECRET:Execute()
+      IF ! cnJPDECRET:Eof()
+         @ Row(), 32 SAY cnJPDECRET:StringSql( "DENOME" )
       ENDIF
+      cnJPDECRET:CloseRecordset()
       @ Row() + 1, 1     SAY "Lei/Decreto 2....:" GET mimLei[2] PICTURE "@K 999999" VALID JPDECRETClass():Valida(  @mimLei[ 2 ] )
       //::AddF9( lEdit )
-      IF AppcnMySqlLocal() == NIL
-         Encontra( mimLei[ 2 ], "jpdecret", "numlan" )
-         @ Row(), 32      SAY jpdecret->deNome
-      ELSE
-         cnJPDECRET:cSql := "SELECT * FROM JPDECRET WHERE DENUMLAN=" + StringSql( mimLei[ 2 ] )
-         cnJPDECRET:Execute()
-         IF ! cnJPDECRET:Eof()
-            @ Row(), 32 SAY cnJPDECRET:StringSql( "DENOME" )
-         ENDIF
-         cnJPDECRET:CloseRecordset()
+      cnJPDECRET:cSql := "SELECT * FROM JPDECRET WHERE DENUMLAN=" + StringSql( mimLei[ 2 ] )
+      cnJPDECRET:Execute()
+      IF ! cnJPDECRET:Eof()
+         @ Row(), 32 SAY cnJPDECRET:StringSql( "DENOME" )
       ENDIF
+      cnJPDECRET:CloseRecordset()
       @ Row() + 1, 1     SAY "Lei/Decreto 3....:" GET mimLei[3] PICTURE "@K 999999" VALID JPDECRETClass():Valida(  @mimLei[ 3 ] )
       //::AddF9( lEdit )
-      IF AppcnMySqlLocal() == NIL
-         Encontra( mimLei[ 3 ], "jpdecret", "numlan" )
-         @ Row(), 32      SAY jpdecret->deNome
-      ELSE
-         cnJPDECRET:cSql := "SELECT * FROM JPDECRET WHERE DENUMLAN=" + StringSql( mimLei[ 3 ] )
-         cnJPDECRET:Execute()
-         IF ! cnJPDECRET:Eof()
-            @ Row(), 32 SAY cnJPDECRET:StringSql( "DENOME" )
-         ENDIF
-         cnJPDECRET:CloseRecordset()
+      cnJPDECRET:cSql := "SELECT * FROM JPDECRET WHERE DENUMLAN=" + StringSql( mimLei[ 3 ] )
+      cnJPDECRET:Execute()
+      IF ! cnJPDECRET:Eof()
+         @ Row(), 32 SAY cnJPDECRET:StringSql( "DENOME" )
       ENDIF
+      cnJPDECRET:CloseRecordset()
       @ Row() + 1, 1     SAY "Lei/Decreto 4....:" GET mimLei[4] PICTURE "@K 999999" VALID JPDECRETClass():Valida(  @mimLei[ 4 ] )
       //::AddF9( lEdit )
       IF AppcnMySqlLocal() == NIL
@@ -296,17 +281,12 @@ METHOD TelaDados( lEdit ) CLASS JPIMPOSClass
       ENDIF
       @ Row() + 1, 1     SAY "Lei/Decreto 5....:" GET mimLei[5] PICTURE "@K 999999" VALID JPDECRETClass():Valida(  @mimLei[ 5 ] )
       //::AddF9( lEdit )
-      IF AppcnMySqlLocal() == NIL
-         Encontra( mimLei[ 5 ], "jpdecret", "numlan" )
-         @ Row(), 32      SAY jpdecret->deNome
-      ELSE
-         cnJPDECRET:cSql := "SELECT * FROM JPDECRET WHERE DENUMLAN=" + StringSql( mimLei[ 5 ] )
-         cnJPDECRET:Execute()
-         IF ! cnJPDECRET:Eof()
-            @ Row(), 32 SAY cnJPDECRET:StringSql( "DENOME" )
-         ENDIF
-         cnJPDECRET:CloseRecordset()
+      cnJPDECRET:cSql := "SELECT * FROM JPDECRET WHERE DENUMLAN=" + StringSql( mimLei[ 5 ] )
+      cnJPDECRET:Execute()
+      IF ! cnJPDECRET:Eof()
+         @ Row(), 32 SAY cnJPDECRET:StringSql( "DENOME" )
       ENDIF
+      cnJPDECRET:CloseRecordset()
       @ Row() + 1, 1     SAY "Obs..............:" GET mimObs    PICTURE "@!"
       @ Row() + 1, 1     SAY "Inf. Inclusão....:" GET mimInfInc WHEN .F.
       @ Row() + 1, 1     SAY "Inf. Alteração...:" GET mimInfAlt WHEN .F.

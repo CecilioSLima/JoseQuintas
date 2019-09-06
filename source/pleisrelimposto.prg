@@ -11,7 +11,7 @@ PROCEDURE pLeisRelImposto
    MEMVAR nOpcPrinterType
 
    IF AppcnMySqlLocal() == NIL
-      IF ! AbreArquivos( "jpreguso", "jpdecret" )
+      IF ! AbreArquivos( "jpreguso" )
          RETURN
       ENDIF
    ENDIF
@@ -137,24 +137,15 @@ STATIC FUNCTION Imprime()
          FOR nCont = 1 TO Len( mimLeis ) Step 7
             mDecret := Substr( mimLeis, nCont, 6 )
             IF Val( mDecret ) != 0
-               IF AppcnMySqlLocal() == NIL
-                  IF Encontra( mDecret, "jpdecret", "numlan" )
-                     mTexto := "(" + mDecret + ") " + Trim( jpdecret->deDescr1 ) + " " + Trim( jpdecret->deDescr2 ) + Trim( jpdecret->deDescr3 ) + " " + ;
-                        Trim( jpdecret->deDescr4 ) + " " + Trim( jpdecret->deDescr5 )
-                  ELSE
-                     mTexto := ""
-                  ENDIF
+               cnJPDECRET:cSql := "SELECT * FROM JPDECRET WHERE DENUMLAN=" + StringSql( mDecret )
+               cnJPDECRET:Execute()
+               IF cnJPDECRET:Eof()
+                  mTexto := ""
                ELSE
-                  cnJPDECRET:cSql := "SELECT * FROM JPDECRET WHERE DENUMLAN=" + StringSql( mDecret )
-                  cnJPDECRET:Execute()
-                  IF cnJPDECRET:Eof()
-                     mTexto := ""
-                  ELSE
-                     mTexto := "(" + mDecret + ") " + cnJPDECRET:StringSql( "DEDESCR1" ) + " " + cnJPDECRET:StringSql( "DEDESCR2" ) + " " + ;
-                        cnJPDECRET:StringSql( "DEDESCR3" ) + " " + cnJPDECRET:StringSql( "DEDESCR4" ) + " " + cnJPDECRET:StringSql( "DEDESCR5" )
-                  ENDIF
-                  cnJPDECRET:CloseRecordset()
+                  mTexto := "(" + mDecret + ") " + cnJPDECRET:StringSql( "DEDESCR1" ) + " " + cnJPDECRET:StringSql( "DEDESCR2" ) + " " + ;
+                     cnJPDECRET:StringSql( "DEDESCR3" ) + " " + cnJPDECRET:StringSql( "DEDESCR4" ) + " " + cnJPDECRET:StringSql( "DEDESCR5" )
                ENDIF
+               cnJPDECRET:CloseRecordset()
                mTexto := Trim( mTexto )
                DO WHILE Len( mTexto ) > 0
                   oPDF:MaxRowTest()

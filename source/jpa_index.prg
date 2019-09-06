@@ -58,16 +58,16 @@ FUNCTION CnfDbfInd()
       //IndexInd( "pedven",  "brPedVen+brItem+brCodBar+brNumLan" )
       //IndexInd( "pedcom",  "brPedCom+brItem+brCodBar+brNumLan" )
 
-      IF File( "jpibpt.dbf" )
-         IndexDbf( "jpibpt", "Tabela IBPT" )
-         IndexInd( "numlan", "ibCodigo+ibNcmNbs" )
-      ENDIF
+      //IF File( "jpibpt.dbf" )
+         //IndexDbf( "jpibpt", "Tabela IBPT" )
+         //IndexInd( "numlan", "ibCodigo+ibNcmNbs" )
+      //ENDIF
 
-      IF File( "jppromix.dbf" )
-         IndexDbf( "jppromix", "Produtos (Composicao)" )
-         IndexInd( "jppromix1", "ptProduto+ptItem" )
-         IndexInd( "jppromix2", "ptItem+ptProduto" )
-      ENDIF
+      //IF File( "jppromix.dbf" )
+         //IndexDbf( "jppromix", "Produtos (Composicao)" )
+         //IndexInd( "jppromix1", "ptProduto+ptItem" )
+         //IndexInd( "jppromix2", "ptItem+ptProduto" )
+      //ENDIF
 
    ENDIF
 
@@ -181,11 +181,6 @@ FUNCTION CnfDbfInd()
    IndexDbf( "jpitped", "Pedidos (Produtos)" )
    IndexInd( "pedido",   "ipPedido+ipItem" )
    IndexInd( "jpitped2", "ipItem+ipPedido" )
-
-   IF File( "jplicmov.dbf" )
-      IndexDbf( "jplicmov", "Licenças" )
-      IndexInd( "numlan", "lcNumLan" )
-   ENDIF
 
    //IndexDbf( "jpfisica", "Contagem Fisica" )
    //   IndexInd( "data",    "Dtos(fsData)+fsItem+fsDescri" )

@@ -18,8 +18,7 @@ STATIC FUNCTION Update20160101()
 
    IF AppcnMySqlLocal() == NIL
       JPREGUSOCreateDbf()
-      JPDECRETCreateDbf()
-      JPIBPTCreateDbf()
+      //JPIBPTCreateDbf()
       RETURN NIL
    ENDIF
    IF File( "jpreguso.cdx" )
@@ -32,51 +31,21 @@ STATIC FUNCTION Update20160101()
       fErase( "jpibpt.cdx" )
    ENDIF
    IF File( "jpreguso.dbf" )
-      CopyDbfToMySql( "JPREGUSO", .T. )
+//      CopyDbfToMySql( "JPREGUSO", .T. )
       fErase( "jpreguso.dbf" )
    ENDIF
-   IF File( "jpdecret.dbf" )
-      JPDECRETCreateDbf()
-      CopyDbfToMySql( "JPDECRET", .T. )
-      fErase( "jpdecret.dbf" )
-   ENDIF
+/*
    IF File( "jpibpt.dbf" )
       JPIBPTCreateDbf()
       CopyDbfToMySql( "JPIBPT", .T. )
       fErase( "jpibpt.dbf" )
    ENDIF
+*/
    CLOSE DATABASES
 
    RETURN NIL
 
-STATIC FUNCTION JPDECRETCreateDbf()
-
-   LOCAL mStruOk
-
-   IF ! ( File( "jpdecret.dbf" ) .OR. AppVersaoDbfAnt() < 20160101 )
-      RETURN NIL
-   ENDIF
-   SayScroll( "JPDECRET, verificando atualizações" )
-   mStruOk := { ;
-      { "DENUMLAN",  "C", 6 }, ;
-      { "DENOME",    "C", 30 }, ;
-      { "DEDESCR1",  "C", 250 }, ;
-      { "DEDESCR2",  "C", 250 }, ;
-      { "DEDESCR3",  "C", 250 }, ;
-      { "DEDESCR4",  "C", 250 }, ;
-      { "DEDESCR5",  "C", 250 }, ;
-      { "DEINFINC",  "C", 80 }, ;
-      { "DEINFALT",  "C", 80 } }
-   IF ! ValidaStru( "jpdecret", mStruOk )
-      MsgStop( "JPDECRET não disponível!" )
-      QUIT
-   ENDIF
-   IF AppVersaoDbfAnt() < 20150101
-      JPDECRETDefault()
-   ENDIF
-
-   RETURN NIL
-
+/*
 STATIC FUNCTION JPIBPTCreateDbf()
 
    LOCAL mStruOk
@@ -104,6 +73,7 @@ STATIC FUNCTION JPIBPTCreateDbf()
    ENDIF
 
    RETURN NIL
+*/
 
 STATIC FUNCTION Update20160901()
 
