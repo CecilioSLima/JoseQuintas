@@ -10,10 +10,6 @@ PROCEDURE PJPFISICAD
 
    LOCAL cTmpFile, oTBrowse, cnMySql := ADOClass():New( AppcnMySqlLocal() )
 
-   IF AppcnMySqlLocal() == NIL
-      MsgExclamation( "MySQL não disponível" )
-      RETURN
-   ENDIF
    WITH OBJECT cnMySql
       :cSql := "SELECT * FROM JPFISICA WHERE FSQTDDIG1 <> FSQTDJPA1 OR FSQTDDIG2 <> FSQTDJPA2 OR FSQTDDIG3 <> FSQTDJPA3"
       cTmpFile := :SqlToDbf()

@@ -9,11 +9,6 @@ PROCEDURE pPreHtmlTabPre
 
    LOCAL mTmpFile
 
-   IF AppcnMySqlLocal() == NIL
-      IF ! AbreArquivos( "jpreguso" )
-         RETURN
-      ENDIF
-   ENDIF
    IF ! AbreArquivos( "jpcadas", "jpcidade", "jpclista", "jpcomiss", "jpconfi", "jpempre", ;
          "jpestoq", "jpfinan", "jpforpag", "jpimpos", "jpitem", "jpitped", "jplfisc", "jpnota", "jpnumero", "jppedi", ;
          "jppreco", "jpsenha", "jptabel", "jptransa", "jpuf", "jpveicul", "jpvended" )

@@ -356,9 +356,6 @@ STATIC FUNCTION ApagaMySqlAntigo()
    LOCAL cnMySql := ADOClass():New( AppcnMySqlLocal() )
    LOCAL cnInternet := ADOClass():New( AppcnInternet() )
 
-   IF AppcnMySqlLocal() == NIL
-      RETURN NIL
-   ENDIF
    cnMySql:ExecuteCmd( "DELETE FROM JPREGUSO WHERE RUINFINC < '2015/01/01'" )
    cnMySql:ExecuteCmd( "DELETE FROM JPFISICA WHERE FSDATA < '2014-01-01'" )
 

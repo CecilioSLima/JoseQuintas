@@ -160,11 +160,7 @@ METHOD TelaDados( lEdit ) CLASS JPDECRETClass
          IF ::cOpc == "I"
             mdeNumLan := ::axKeyValue[1]
             IF mdeNumLan == "*NOVO*"
-               IF AppcnMySqlLocal() == NIL
-                  mdeNumLan := NovoCodigo( "jpdecret->deNumLan" )
-               ELSE
-                  mdeNumLan := NovoCodigoMySql( "JPDECRET", "DENUMLAN", 6 )
-               ENDIF
+               mdeNumLan := NovoCodigoMySql( "JPDECRET", "DENUMLAN", 6 )
             ENDIF
             WITH OBJECT cnJPDECRET
                :QueryCreate()

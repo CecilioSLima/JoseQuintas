@@ -11,11 +11,6 @@ PROCEDURE PJPTRANSA
    LOCAL oFrm := JPTRANSAClass():New()
    MEMVAR m_Prog
 
-   IF AppcnMySqlLocal() == NIL
-      IF ! AbreArquivos( "jpreguso" )
-         RETURN
-      ENDIF
-   ENDIF
    IF ! AbreArquivos( "jpconfi", "jpempre", "jpestoq", "jpimpos", "jpnota", "jpnumero", "jppedi", "jpsenha", "jptabel", "jptransa" )
       RETURN
    ENDIF

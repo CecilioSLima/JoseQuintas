@@ -10,11 +10,6 @@ PROCEDURE pLeisRelImposto
    LOCAL nOpcGeral, acTxtGeral, nOpcTemp
    MEMVAR nOpcPrinterType
 
-   IF AppcnMySqlLocal() == NIL
-      IF ! AbreArquivos( "jpreguso" )
-         RETURN
-      ENDIF
-   ENDIF
    IF ! AbreArquivos( "jpcadas", "jpcidade", "jpconfi", "jpempre", "jpimpos", "jpsenha", "jptabel", "jptransa", "jpuf" )
       RETURN
    ENDIF

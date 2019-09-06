@@ -8,7 +8,6 @@ ZE_UPDATE2016 - conversões 2016
 FUNCTION ze_Update2016()
 
    Update20160101() // DBFs opcionais com default
-   IF AppVersaoDbfAnt() < 20160829; Update20160901();   ENDIF // MYSQL.JPREGUSO - aumento de campo
    IF AppVersaoDbfAnt() < 20160908; Update20160908();   ENDIF // MYSQL.JPEDICFG
    IF AppVersaoDbfAnt() < 20161209; Update20161209();   ENDIF // Campo CDCONTRIB em MYSQL.JPCADAS
 
@@ -18,7 +17,6 @@ STATIC FUNCTION Update20160101()
 
    IF AppcnMySqlLocal() == NIL
       JPREGUSOCreateDbf()
-      //JPIBPTCreateDbf()
       RETURN NIL
    ENDIF
    IF File( "jpreguso.cdx" )
@@ -27,74 +25,13 @@ STATIC FUNCTION Update20160101()
    IF File( "jpdecret.cdx" )
       fErase( "jpdecret.cdx" )
    ENDIF
-   IF File( "jpibpt.cdx" )
-      fErase( "jpibpt.cdx" )
-   ENDIF
    IF File( "jpreguso.dbf" )
 //      CopyDbfToMySql( "JPREGUSO", .T. )
       fErase( "jpreguso.dbf" )
    ENDIF
-/*
-   IF File( "jpibpt.dbf" )
-      JPIBPTCreateDbf()
-      CopyDbfToMySql( "JPIBPT", .T. )
-      fErase( "jpibpt.dbf" )
-   ENDIF
-*/
    CLOSE DATABASES
 
    RETURN NIL
-
-/*
-STATIC FUNCTION JPIBPTCreateDbf()
-
-   LOCAL mStruOk
-
-   IF AppcnMySqlLocal() != NIL .AND. ! File( "JPIBPT.DBF" )
-      RETURN NIL
-   ENDIF
-   SayScroll( "JPIBPT, verificando atualizações" )
-   mStruOk := { ;
-      { "IBCODIGO",  "C", 8 }, ;
-      { "IBEXCECAO", "C", 2 }, ;
-      { "IBNCMNBS",  "C", 1 }, ; // 0 NCM
-      { "IBUF",      "C", 2 }, ;
-      { "IBNACALI",  "N", 7, 2 }, ;
-      { "IBIMPALI",  "N", 7, 2 }, ;
-      { "IBALIFEDN", "N", 7, 2 }, ;
-      { "IBALIFEDI", "N", 7, 2 }, ;
-      { "IBALIEST",  "N", 7, 2 }, ;
-      { "IBALIMUN",  "N", 7, 2 }, ;
-      { "IBINFINC",  "C", 80 }, ;
-      { "IBINFALT",  "C", 80 } }
-   IF ! ValidaStru( "jpibpt", mStruOk )
-      MsgStop( "JPIBPT nao disponível!" )
-      QUIT
-   ENDIF
-
-   RETURN NIL
-*/
-
-STATIC FUNCTION Update20160901()
-
-   LOCAL cnMySql := ADOClass():New( AppcnMySqlLocal() )
-
-   IF AppcnMySqlLocal() == NIL
-      RETURN NIL
-   ENDIF
-   cnMySql:ExecuteCmd( "ALTER TABLE JPREGUSO MODIFY RUARQUIVO VARCHAR(15) NOT NULL DEFAULT ''" )
-
-   RETURN NIL
-
-   /*
-   RDBEDICFG - TESTA ESTRUTURA JPEDICFG
-   2016.08.29.1900 - José Quintas
-
-   2016.09.08.1330 - Oficial
-
-   */
-
-   // bloqueado até ajuste geral
 
 STATIC FUNCTION Update20160908()
 
@@ -140,11 +77,6 @@ STATIC FUNCTION JPEDICFGCreateDbf()
    ENDIF
 
    RETURN NIL
-
-   /*
-   RC20161209 - Campo CDCONTRIB em JPCADAS
-   2016.12.09.1936 - José Quintas
-   */
 
 STATIC FUNCTION Update20161209()
 

@@ -11,11 +11,6 @@ FUNCTION SqlFromDbf()
 
    LOCAL oFiles, nCont, acAchoice := {}, cFileDbf, nOpc := 1, cConfirma := "NAO", GetList := {}
 
-   IF AppcnMySqlLocal() == NIL
-      MsgExclamation( "Não tem conexão MySql pra esta empresa" )
-      RETURN NIL
-   ENDIF
-
    @ 2, 1 SAY "ATENÇÃO"
    @ Row() + 1, 1 SAY "Os dados dos DBFs são salvos no MySql."
    @ Row() + 1, 1 SAY "Se quiser eliminar dados anteriores do MySql, precisa fazer manualmente"
