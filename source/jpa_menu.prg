@@ -118,8 +118,6 @@ FUNCTION MenuCria( lInterno )
       MenuOption( "Estoque - Entradas",              "PESTOLANCA2" )
       MenuOption( "Estoque - Saidas",                "PESTOLANCA1" )
       MenuOption( "Consulta entradas de fornecedor", "PESTOENTFOR" )
-      MenuOption( "Cod.Barras Manutenção",           "PBAR0010" )
-      MenuOption( "Cod.Barras Consulta/Ocorrência",  "PBAR0040" )
       MenuOption( "Digitação da Contagem Física",    "PJPFISICAA" )
       MenuOption( "Ver Erros de contagem Física",    "PJPFISICAD" )
       MenuOption( "Valor do Estoque",                "PESTOVALEST" )
@@ -394,7 +392,6 @@ FUNCTION MenuCria( lInterno )
          MenuOption( "Checagem/Análise Geral",       "PNOTACHECAGEM" )
          MenuOption( "Recálculo de Estoque",         "PESTORECALCULO" )
          MenuUnDrop()
-      MenuOption( "Estatística de Uso",              "PADMESTATISTICA" )
       MenuOption( "Log de Utilização do Sistema",    "PADMINLOG" )
       MenuOption( "(I)Ocorrências Alterar/Excluir",  "ADMOCOALT" )
       MenuOption( "Usuários/Senhas/Acessos",         "PADMINACESSO" )
@@ -1046,8 +1043,6 @@ REQUEST pGeralRecibo
 REQUEST pEstoLanca2
 REQUEST pEstoLanca1
 REQUEST pEstoEntFor
-REQUEST pBar0010
-REQUEST pBar0040
 REQUEST pjpfisicaa
 REQUEST pjpfisicad
 REQUEST pEstoValEst
@@ -1236,7 +1231,6 @@ REQUEST pContImpSped
 REQUEST pNotaConsProd
 REQUEST pNotaChecagem
 REQUEST pEstoRecalculo
-REQUEST pAdmEstatistica
 REQUEST pAdminLog
 REQUEST pAdminAcesso
 REQUEST EtcMaio

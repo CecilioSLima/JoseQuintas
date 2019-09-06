@@ -50,25 +50,6 @@ FUNCTION CnfDbfInd()
    IF AppcnMySqlLocal() == NIL
       IndexDbf( "jpreguso", "Ocorrencias" )
       IndexInd( "numlan", "ruArquivo+ruCodigo+Str(RecNo(),10)" )
-
-      //IndexDbf( "jpbarra", "Codigos de Barra" )
-      //IndexInd( "numlan",  "brNumLan" )
-      //IndexInd( "codbar1", "brCodBar+brNumLan" )
-      //IndexInd( "codbar2", "brCodBar2+brNumLan" )
-      //IndexInd( "pedven",  "brPedVen+brItem+brCodBar+brNumLan" )
-      //IndexInd( "pedcom",  "brPedCom+brItem+brCodBar+brNumLan" )
-
-      //IF File( "jpibpt.dbf" )
-         //IndexDbf( "jpibpt", "Tabela IBPT" )
-         //IndexInd( "numlan", "ibCodigo+ibNcmNbs" )
-      //ENDIF
-
-      //IF File( "jppromix.dbf" )
-         //IndexDbf( "jppromix", "Produtos (Composicao)" )
-         //IndexInd( "jppromix1", "ptProduto+ptItem" )
-         //IndexInd( "jppromix2", "ptItem+ptProduto" )
-      //ENDIF
-
    ENDIF
 
    IndexDbf( "jpbaauto", "(Banco) Lanc.Automaticos" )

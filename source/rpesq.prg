@@ -230,13 +230,6 @@ PROCEDURE Pesquisa
    CASE cVarName $ "mftfilial,mnffilial,mfifilial,mnffilial,mobs2filial"
       AUXFILIALClass():GridSelection()
 
-   CASE cVarName == "mbrnumlan"
-      //IF AppcnMySqlLocal() == NIL
-      //   SELECT jpbarra
-      //   FazBrowse()
-      //   cKeyboard := jpbarra->brNumLan
-      //ENDIF
-
    CASE cVarName $ "mieprosec,mprosec" .OR. ( cVarName == "maxcodigo" .AND. m_Prog == "PESTOSECAO" )
       AUXPROSECClass():GridSelection()
 

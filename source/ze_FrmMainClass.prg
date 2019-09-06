@@ -376,7 +376,6 @@ FUNCTION IconFromCaption( cCaption, cTooltip )
    CASE cCaption == "<A>Altera" ;                cSource := "icoEdit" ;         cTooltip := "A Alterar existente"
    CASE cCaption == "<B>Baixa" ;                 cSource := "icoMoney" ;        cTooltip := "B Baixa documento" // financeiro
    CASE cCaption == "<B>Base" ;                  cSource := "icoBuilding" ;     cTooltip := "B Base"
-   CASE cCaption == "<B>CodBarras" ;             cSource := "icoBarcode" ;      cTooltip := "B Codigo de Barras" // Pedidos
    CASE cCaption == "<B>Recibos" ;               cSource := "icoDuplicata" ;    cToolTip := "B Recibos" // Haroldo Recibos
    CASE cCaption == "<B>Boleto" ;                cSource := "icoBoleto" ;       cTooltip := "B Boleto" // Haroldo Recibos
    CASE cCaption == "<C>Consulta" ;              cSource := "icoSearch" ;       cTooltip := "C Consultar um código específico"
@@ -439,7 +438,6 @@ FUNCTION IconFromCaption( cCaption, cTooltip )
    CASE cCaption == "<X>Mais" ;                  cSource := "icoPlus" ;         cTooltip := "X Mais comandos além dos atuais"
    CASE cCaption == "<Y>Chave" ;                 cSource := "icoKey" ;          cTooltip := "Y Copia chave pra Clipboard Windows"
    CASE cCaption == "<Z>Analisa" ;               cSource := "icoBarGraph";      cTooltip := "Z Análise das informações"
-   CASE cCaption == "<Z>Limpar" ;                cSource := "icoEmpty" ;        cTooltip := "Z Limpar informações" // cod.barras
    CASE cCaption == "<Alt-L>Pesq.Frente" ;       cSource := "icoSearchAhead" ;  cTooltip := "Alt-L Pesquisa da posição atual pra frente"
    CASE cCaption == "<Alt-T>Pesq.Tras" ;         cSource := "icoSearchBack" ;   cTooltip := "Alt-T Pesquisa da posição atual pra trás"
    CASE cCaption == "<Alt-F>Filtro" ;            cSource := "icoFilter" ;       cTooltip := "Alt-F Aplica um filtro na pesquisa"
@@ -459,9 +457,7 @@ FUNCTION IconFromCaption( cCaption, cTooltip )
    CASE cCaption == "F9" ;                       cSource := "icoSearch" ;       cTooltip := "Pesquisa no cadastro"
    CASE cCaption == /*F11*/ "Cancela";           cSource := "icoCancel";        cTooltip := "Cancela Pedido"
    CASE cCaption == /*F12*/ "ReemiteC" ;         cSource := "icoCupom" ;        cTooltip := "ReemiteCupom"
-   CASE cCaption == /*F13*/ "I.Gar" ;            cSource := "icoGarantia" ;     cTooltip := "Imprime Garantia"
    CASE cCaption == /*F14*/ "Juntar";            cSource := "icoInBox" ;        cTooltip := "Juntar Dois Pedidos"
-   CASE cCaption == /*F15*/ "Limpar";            cSource := "icoEmpty";         cTooltip := "Limpa Códigos de barra"
    CASE cCaption == /*F16*/ "Config" ;           cSource := "icoSetup" ;        cTooltip := "Modifica Configuração"
    CASE cCaption == /*F17*/ "CancelaDFe" ;       cSource := "icoSefazCancela" ; cTooltip := "Cancela Documento na Sefaz"
    CASE cCaption == "loginjpa" ;                 cSource := "icoUserID"
