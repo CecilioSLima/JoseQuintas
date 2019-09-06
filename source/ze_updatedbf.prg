@@ -576,7 +576,7 @@ STATIC FUNCTION JPESTOQCreateDbf()
 
 STATIC FUNCTION JPFINANCreateDbf()
 
-   LOCAL mStruOk, nAtual, nTotal
+   LOCAL mStruOk
 
    SayScroll("JPFINAN, verificando atualizações")
    mStruOk := { ;
@@ -609,24 +609,6 @@ STATIC FUNCTION JPFINANCreateDbf()
       MsgStop( "jpfinan não disponível!" )
       QUIT
    ENDIF
-   IF AppVersaoDbfAnt() >= 20150930
-      RETURN NIL
-   ENDIF
-   IF ! UseSoDbf( "jpfinan" )
-      QUIT
-   ENDIF
-   GOTO TOP
-   GrafTempo( "Ajustando jpfinan" )
-   nAtual := 0
-   nTotal := LastRec()
-   DO WHILE ! Eof()
-      GrafTempo( nAtual++, nTotal )
-      IF " " $ jpfinan->fiParcela
-         RecLock()
-         REPLACE jpfinan->fiParcela WITH StrZero( Val( jpfinan->fiParcela ), 3 )
-      ENDIF
-      SKIP
-   ENDDO
    CLOSE DATABASES
 
    RETURN NIL
@@ -787,6 +769,7 @@ STATIC FUNCTION JPIMPOSCreateDbf()
       { "IMCOFALI",  "N", 6, 2 }, ;  // Percentual de Cofins
       { "IMCOFENQ",  "C", 3 }, ;     // Enquadramento Cofins
       { "IMLEIS",    "C", 70}, ;     // ate 10 decretos cada - com virgula pra funcionar At()
+      { "IMCBENEF",  "C", 10 }, ;     // Codigo Beneficiamento
       { "IMOBS",     "C", 100 }, ;
       { "IMINFINC",  "C", 80 }, ;
       { "IMINFALT",  "C", 80 } }
@@ -794,25 +777,6 @@ STATIC FUNCTION JPIMPOSCreateDbf()
       MsgStop( "JPIMPOS não disponível!" )
       QUIT
    ENDIF
-   IF AppVersaoDbfAnt() >= 20160715
-      RETURN NIL
-   ENDIF
-   IF ! AbreArquivos( "jpimpos" )
-      QUIT
-   ENDIF
-   GOTO TOP
-   DO WHILE ! Eof()
-      RecLock()
-      IF ! jpimpos->imDifCal $ "SNZ"
-         IF jpimpos->imDifAlii == 0 .AND. jpimpos->imDifAliU == 0 .AND. jpimpos->imDifAlif == 0
-            REPLACE jpimpos->imDifCal WITH "N"
-         ELSE
-            REPLACE jpimpos->imDifCal WITH "S"
-         ENDIF
-      ENDIF
-      RecUnlock()
-      SKIP
-   ENDDO
    CLOSE DATABASES
 
    RETURN NIL
@@ -1354,9 +1318,6 @@ STATIC FUNCTION JPTABELCreateDbf()
    IF AppVersaoDbfAnt() < 20130101
       JPTABELDefault()
    ENDIF
-   IF AppVersaoDbfAnt() > 20140101
-      RETURN NIL
-   ENDIF
 
    CLOSE DATABASES
 
@@ -1411,17 +1372,6 @@ STATIC FUNCTION JPTRANSACreateDbf()
       ChecaTransacao( "514013", "RETORNO DE ENTRADA P/ BENEFIC/INDUSTRIALIZACAO", "XX" )
       ChecaTransacao( "499000", "X OUTRO TIPO DE ENTRADA", "C+1" )
       ChecaTransacao( "998000", "X OUTRO TIPO DE SAIDA", "C+R,N-1" )
-   ENDIF
-
-   IF AppVersaoDbfAnt() < 20160706
-      GOTO TOP
-      DO WHILE ! Eof()
-         IF "IMPOSTO" $ jptransa->trReacao
-            RecLock()
-            REPLACE jptransa->trReacao WITH StrTran( jptransa->trReacao, "IMPOSTO", "CONSUMIDOR" )
-         ENDIF
-         SKIP
-      ENDDO
    ENDIF
    CLOSE DATABASES
 
