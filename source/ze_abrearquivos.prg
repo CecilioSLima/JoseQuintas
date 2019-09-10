@@ -102,7 +102,9 @@ FUNCTION AbreInd( cDbf )
       //UNLOCK
       //USE ( PathAndFile( cDbf ) ) // Reabre arquivo se reindexou
    ENDIF
-   dbSetIndex( PathAndFile( cDbf ) + ".CDX" )
+   IF ! dbSetIndex( PathAndFile( cDbf ) + ".CDX" )
+      RETURN .F.
+   ENDIF
    SET ORDER TO 1
 
    RETURN .T.

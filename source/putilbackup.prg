@@ -189,7 +189,7 @@ STATIC FUNCTION ApagaZipAntigos()
    dDate := Ctod("")
    FOR EACH oFile IN oDirZip
       DO CASE
-      CASE Len( Directory( "*.zip" ) ) < 15
+      CASE Len( Directory( "*.zip" ) ) < 10
       CASE ! AppEmpresaApelido() $ oFile[ F_NAME ]
          SayScroll( "Excluindo " + oFile[ F_NAME ]  )
          fErase( oFile[ F_NAME ] )
@@ -197,7 +197,7 @@ STATIC FUNCTION ApagaZipAntigos()
          dDate := oFile[ F_DATE ]
       CASE Month( oFile[ F_DATE ] ) != Month( dDate ) .AND. Date() - oFile[ F_DATE ] < 200
          dDate := oFile[ F_DATE ]
-      CASE Date() - oFile[ F_DATE ] > 10
+      CASE Date() - oFile[ F_DATE ] > 7
          SayScroll( "Excluindo " + oFile[ F_NAME ]  )
          fErase( oFile[ F_NAME ] )
       ENDCASE
@@ -207,36 +207,18 @@ STATIC FUNCTION ApagaZipAntigos()
 
 STATIC FUNCTION IsFileToBackup( cFileName )
 
-   LOCAL lReturn := .F.
+   LOCAL lIsBackup := .T., cMask
+   LOCAL aList := { ".CDX", ".IDX", ".NTX", ".EXE", ".ZIP", ".RAR", ".DLL", ".OCX", ;
+      ".CPL", ".SYS", ".DRV", ".SCR", "RMCHART", ".MGR", ".NLS", ".COM", ".LEX", ;
+      ".DAT", ".AX", ".MSI", "JPANPMOV", "AGUARDE.TXT" }
 
    cFileName := Upper( cFileName )
-   // porque tem gente salvando demo em pasta errada
-   DO CASE
-   CASE ".CDX" $ cFileName
-   CASE ".IDX" $ cFileName
-   CASE ".NTX" $ cFileName
-   CASE ".EXE" $ cFileName
-   CASE ".ZIP" $ cFileName
-   CASE ".RAR" $ cFileName
-   CASE ".BAT" $ cFileName
-   CASE ".DLL" $ cFileName
-   CASE ".OCX" $ cFileName
-   CASE ".CPL" $ cFileName
-   CASE ".SYS" $ cFileName
-   CASE ".DRV" $ cFileName
-   CASE ".SCR" $ cFileName
-   CASE "RMCHART" $ cFileName
-   CASE ".MGR" $ cFileName
-   CASE ".NLS" $ cFileName
-   CASE ".COM" $ cFileName
-   CASE ".LEX" $ cFileName
-   CASE ".DAT" $ cFileName
-   CASE ".AX" $ cFileName
-   CASE ".MSI" $ cFileName
-   CASE "JPANPMOV" $ cFileName
-   CASE cFileName == "AGUARDE.TXT"
-   OTHERWISE
-      lReturn := .T.
-   ENDCASE
 
-   RETURN lReturn
+   FOR EACH cMask IN aList
+      IF cMask $ cFileName
+         lIsBackup := .F.
+         EXIT
+      ENDIF
+   NEXT
+
+   RETURN lIsBackup

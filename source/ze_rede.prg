@@ -13,7 +13,6 @@ FUNCTION RecLock( lForever )
    wSave( MaxRow() - 1, 0, MaxRow(), MaxCol() )
    DO WHILE .T.
       IF rLock()
-         SKIP 0
          EXIT
       ENDIF
       Mensagem( "Aguardando liberação do registro em " + Alias() + "... Tentativa " + lTrim( Str( nCont ) ) + iif( lForever, "", ". ESC cancela" ) )
@@ -23,6 +22,7 @@ FUNCTION RecLock( lForever )
       nCont += 1
    ENDDO
    WRestore()
+   SKIP 0
 
    RETURN ( rLock() )
 
@@ -37,7 +37,6 @@ FUNCTION RecAppend( lForever )
       IF ! NetErr()
          lOk := .T.
          RecLock()
-         SKIP 0
          EXIT
       ENDIF
       Mensagem( "Aguardando liberação do arquivo: " + Alias() + "... Tentativa " + LTrim( Str( nCont ) ) + iif( lForever, "", ". ESC cancela" ) )
@@ -47,6 +46,7 @@ FUNCTION RecAppend( lForever )
       nCont += 1
    ENDDO
    WRestore()
+   SKIP 0
 
    RETURN lOk
 
